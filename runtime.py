@@ -154,14 +154,19 @@ def invoke(args, extra):
         except ValueError:
             result = {"status": "error", "error": "client did not return a JSON object",
                       "stderr": proc.stderr[-1000:]}
-        if proc.stderr.strip():
-            result['client_stderr'] = proc.stderr.strip()[-2000:]
+        # Keep exact process output, including malformed/multiple JSON lines.
+        # Redaction below is the only alteration to these diagnostic artifacts.
+        result['client_stdout'] = proc.stdout
+        result['client_stderr'] = proc.stderr
         code = proc.returncode
         if code == 0 and result.get("status") not in {"history", "answered", "reply"}:
             code = 2
         return redact(result), code, time.monotonic() - start
-    except subprocess.TimeoutExpired:
-        return {"status": "timeout", "error": "client process exceeded timeout"}, 3, time.monotonic() - start
+    except subprocess.TimeoutExpired as exc:
+        def decoded(value):
+            return value.decode("utf-8", errors="replace") if isinstance(value, bytes) else value or ""
+        return redact({"status": "timeout", "error": "client process exceeded timeout",
+                       "client_stdout": decoded(exc.stdout), "client_stderr": decoded(exc.stderr)}), 3, time.monotonic() - start
 
 
 def prediction(result, question, history):
@@ -175,6 +180,14 @@ def prediction(result, question, history):
         raise ValueError("client abstention field disagrees with its actual final answer")
     if result.get("unknown_citations"):
         raise ValueError("client answer contains evidence labels that were never supplied")
+    for field in ("citations", "unknown_citations"):
+        if field in result and not isinstance(result[field], list):
+            raise ValueError(f"client {field} must be a list")
+    ref, reply = result.get("ref"), result.get("reply")
+    if (not isinstance(ref, str) or not re.fullmatch(r"[0-9a-f]{8}", ref)
+            or not isinstance(reply, str)
+            or official_client.final_answers(reply).get(ref) != result["answer"]):
+        raise ValueError("client answer is missing or disagrees with its raw marked final reply")
     valid = {s["session_id"] for s in history["sessions"]}
     preds, skipped, notes = adapter.convert([result], {"agent"}, valid)
     if skipped or notes or len(preds) != 1:
@@ -188,6 +201,9 @@ def prediction(result, question, history):
 def validate_evidence_citations(result, evidence):
     """Reject citations not supplied in this request, even if in its history."""
     labels = {f"E{i}": e["id"] for i, e in enumerate(evidence, 1)}
+    for field in ("citations", "unknown_citations"):
+        if field in result and not isinstance(result[field], list):
+            raise ValueError(f"client {field} must be a list")
     for citation in result.get("citations") or []:
         if not isinstance(citation, dict) or labels.get(citation.get("label")) != citation.get("id"):
             raise ValueError("client citation does not match the evidence sent")
@@ -223,10 +239,15 @@ def write_predictions(out, results, questions, histories, complete=False, eviden
 
 def prepare(args):
     from retrieval import retrieve
+    wrapper = args.client.resolve() == (ROOT / 'reactor_client.py').resolve()
+    args.citation_mode = getattr(args, "citation_mode", None) or ("strict" if wrapper else "official")
     message_builder = official_client.build_message
-    if args.client.resolve() == (ROOT / 'reactor_client.py').resolve():
+    if wrapper:
         from reactor_client import build_message
-        message_builder = build_message
+        def message_builder(*positional):
+            return build_message(*positional, citation_mode=getattr(args, "citation_mode", "strict"))
+    elif args.citation_mode != "official":
+        raise ValueError("strict citation instructions require reactor_client.py")
 
     questions = read_jsonl(args.questions)
     if len({q["question_id"] for q in questions}) != len(questions):
@@ -248,17 +269,28 @@ def prepare(args):
             if line.strip():
                 history = json.loads(line)
                 if history["history_id"] in selected_histories:
+                    if history["history_id"] in histories:
+                        raise ValueError("duplicate selected history_id")
                     histories[history["history_id"]] = history
     if set(histories) != selected_histories:
         raise ValueError("selected questions reference missing histories")
     passages, sizes = {}, {}
     for q in questions:
         h = histories[q["history_id"]]
-        evidence = retrieve(q, h, k=args.k, method=args.method, budget=args.budget)
+        evidence = (retrieve(q, h, k=args.k, method=args.method, budget=args.budget)
+                    if getattr(args, "evidence_mode", "retrieved") == "retrieved" else [])
         valid = {s["session_id"]: s["date"] for s in h["sessions"]}
+        if len(valid) != len(h["sessions"]):
+            raise ValueError("duplicate session_id in dataset history")
         for e in evidence:
             if e["id"] not in valid or e.get("date") != valid[e["id"]]:
                 raise ValueError("retrieval returned invalid citation or date")
+            if not isinstance(e["id"], str) or not e["id"] or not isinstance(e.get("text"), str) or not e["text"].strip():
+                raise ValueError("evidence needs a nonempty source ID and text")
+        # Preflight the exact official deserialization used by the subprocess.
+        # Its documented whitespace normalization must not change our manifest.
+        if evidence:
+            evidence = official_client.load_evidence(json.dumps(evidence, ensure_ascii=False))
         date = official_client.parse_question_date(q["question_date"])
         message = message_builder(q["question"], evidence, "00000000", date)
         if len(message) > args.max_chars:
@@ -268,7 +300,9 @@ def prepare(args):
     manifest = {
         "base_url": args.base_url, "agent_id": args.agent_id,
         "method": args.method, "k": args.k, "budget": args.budget, "max_chars": args.max_chars,
-        "timeout_s": getattr(args, "timeout", 300.0),
+        "evidence_mode": getattr(args, "evidence_mode", "retrieved"),
+        "citation_mode": getattr(args, "citation_mode", "strict"),
+        "timeout_s": getattr(args, "timeout", 600.0),
         "client_sha256": file_sha256(args.client),
         "source_sha256": {name: file_sha256(ROOT / name) for name in (
             "runtime.py", "official/reactor/client.py", "official/reactor/predictions.py",
@@ -297,6 +331,78 @@ def prepare(args):
     # artifacts and verbatim --text requests, never benchmark predictions.
     args.prepared_memory = memory
     return questions, histories, passages, manifest
+
+
+def recover_pending_failure(args, out, state, done, questions):
+    """Opt-in, bounded recovery; never trust a server's replacement history ID."""
+    pending = state["pending"]
+    if not args.execute or not pending or pending.get("operation") not in {"question", "preload"}:
+        return
+    path = out / "attempts.jsonl"
+    attempts = read_jsonl(path) if path.exists() else []
+    candidates = [a for a in attempts if pending.get("request_id")
+                  and a.get("request_id") == pending["request_id"]
+                  and a.get("operation") == pending["operation"]
+                  and a.get("dataset_history") == pending["dataset_history"]
+                  and a.get("question_id") == pending.get("question_id")
+                  and a.get("part") == pending.get("part")
+                  and a.get("sha256") == pending.get("sha256")]
+    if not candidates:
+        return  # Process may have reached Reactor without a durable response.
+    attempt = candidates[-1]
+    result = attempt.get("result", {})
+    if result.get("history_id", state["reactor_history"]) != state["reactor_history"]:
+        return
+    recovery_path = out / "recovery.jsonl"
+    prior = read_jsonl(recovery_path) if recovery_path.exists() else []
+    identity = {"dataset_history": pending["dataset_history"], "history_id": state["reactor_history"],
+                "pending_operation": pending["operation"], "question_id": pending.get("question_id"),
+                "part": pending.get("part")}
+    # Journal first, checkpoint second. If interrupted between them, apply that
+    # exact recorded local transition rather than consuming another retry/reset.
+    decisions = [r for r in prior if r.get("request_id") == pending["request_id"]
+                 and all(r.get(k) == v for k, v in identity.items())
+                 and r.get("operation") in {"retry_closed", "retry_timeout", "retry_not_forwarded", "restart_history"}]
+    if decisions:
+        if decisions[-1]["operation"] == "restart_history":
+            state.update(active_dataset_history=None, reactor_history=None, pending=None, memory_completed=0)
+        else:
+            state["pending"] = None
+        atomic_json(out / "checkpoint.json", state)
+        return
+    closed = (getattr(args, "retry_closed", False) and attempt.get("exit_code") == 5
+              and result.get("status") == "closed" and pending["operation"] == "question")
+    timed_out = (getattr(args, "retry_timeout", False) and attempt.get("exit_code") == 3
+                 and result.get("status") == "timeout" and pending["operation"] == "question")
+    # Unmarked --text replies have no ref to disambiguate an old preload reply.
+    # Never replay a closed preload, even on explicit question-retry opt-in.
+    not_forwarded = (getattr(args, "retry_not_forwarded", False) and attempt.get("exit_code") == 4
+                     and result.get("status") == "refused" and result.get("code") in official_client.RETRYABLE
+                     and result.get("forwarded") is False)
+    if closed or timed_out or not_forwarded:
+        if any(all(r.get(k) == v for k, v in identity.items()) and
+               r.get("operation") in {"retry_closed", "retry_timeout", "retry_not_forwarded"} for r in prior):
+            raise ValueError("refusing repeated retry of this pending operation")
+        operation = "retry_closed" if closed else "retry_timeout" if timed_out else "retry_not_forwarded"
+        # A retry is a fresh marked request in the SAME history. We cannot poll
+        # the previous request: the official protocol's forwarded=false
+        # busy/previous_pending responses keep backing off within the deadline
+        # until this request can be accepted, without assuming a clear time.
+        append_jsonl(recovery_path, {**identity, "operation": operation,
+                                    "request_id": pending["request_id"]})
+        state["pending"] = None
+    elif (getattr(args, "restart_interrupted_history", False) and attempt.get("exit_code") == 4
+          and result.get("status") == "refused" and result.get("code") == "history_changed"):
+        hid = pending["dataset_history"]
+        qids = {q["question_id"] for q in questions if q["history_id"] == hid}
+        if done & qids or any(r.get("operation") == "restart_history" and r.get("dataset_history") == hid for r in prior):
+            raise ValueError("refusing repeated restart or loss of answered history context")
+        append_jsonl(recovery_path, {**identity, "operation": "restart_history",
+                                    "request_id": pending["request_id"], "reason": "history_changed"})
+        state.update(active_dataset_history=None, reactor_history=None, pending=None, memory_completed=0)
+    else:
+        return
+    atomic_json(out / "checkpoint.json", state)
 
 
 def run(args):
@@ -373,7 +479,8 @@ def run(args):
             attempts = read_jsonl(attempts_path) if attempts_path.exists() else []
             candidates = [a for a in attempts if pending.get('request_id') and a.get('request_id') == pending['request_id']
                           and a.get('operation') == 'question'
-                          and a.get('question_id') == pending['question_id']]
+                          and a.get('question_id') == pending['question_id']
+                          and a.get('dataset_history') == pending['dataset_history']]
             if candidates:
                 attempt = candidates[-1]
                 result = attempt.get('result', {})
@@ -386,24 +493,7 @@ def run(args):
                     append_jsonl(result_path, result)
                     results.append(result)
                     done = write_predictions(out, results, questions, histories, evidence=evidence)
-                elif args.execute and getattr(args, 'retry_closed', False) and attempt.get('exit_code') == 5 and result.get('status') == 'closed' and len([a for a in attempts if a.get('operation') == 'question' and a.get('question_id') == pending['question_id'] and a.get('result', {}).get('history_id', state['reactor_history']) == state['reactor_history']]) == 1:
-                    # Organizer guide: closed may be asked again. Explicit opt-in,
-                    # one retry, same history; old refs remain isolated by client.
-                    append_jsonl(out / 'recovery.jsonl', {'operation': 'retry_closed',
-                                 'question_id': pending['question_id'], 'history_id': state['reactor_history']})
-                    state['pending'] = None
-                    atomic_json(state_path, state)
-                elif args.execute and getattr(args, 'restart_interrupted_history', False) and result.get('code') == 'history_changed':
-                    hid = pending['dataset_history']
-                    qids_in_history = {q['question_id'] for q in questions if q['history_id'] == hid}
-                    recovery_path = out / 'recovery.jsonl'
-                    prior = read_jsonl(recovery_path) if recovery_path.exists() else []
-                    if done & qids_in_history or any(r.get('operation') == 'restart_history' and r.get('dataset_history') == hid for r in prior):
-                        raise ValueError('refusing repeated restart or loss of answered history context')
-                    append_jsonl(recovery_path, {'operation': 'restart_history', 'dataset_history': hid,
-                                 'reason': 'server changed history before any successful question'})
-                    state.update(active_dataset_history=None, reactor_history=None, pending=None)
-                    atomic_json(state_path, state)
+        recover_pending_failure(args, out, state, done, questions)
         if state["pending"] and state["pending"].get("question_id") in done:
             state["pending"] = None  # crash after result fsync but before checkpoint
             atomic_json(state_path, state)
@@ -469,6 +559,8 @@ def run(args):
             extra = ["--history", state["reactor_history"], "--question", q["question"],
                      "--question-date", q["question_date"], "--question-id", qid,
                      "--max-chars", str(args.max_chars)]
+            if args.client.resolve() == (ROOT / "reactor_client.py").resolve():
+                extra += ["--citation-mode", getattr(args, "citation_mode", "strict")]
             if evidence[qid]:
                 extra += ["--evidence", str(evidence_path)]
             access_window(args)
@@ -480,6 +572,8 @@ def run(args):
                 "request_id": state["pending"]["request_id"],
                 "dataset_history": hid, "exit_code": exit_code, "wall_s": latency, "result": result})
             if exit_code:
+                if result.get("status") == "refused" and result.get("code") in official_client.RETRYABLE:
+                    raise ValueError(f"{qid}: server reports {result['code']}; checkpoint retained for explicit same-history recovery")
                 raise ValueError(f"{qid}: client failed ({result.get('status')}); execution stopped")
             if result.get("history_id") != state["reactor_history"]:
                 raise ValueError("client returned an unexpected Reactor history")
@@ -508,17 +602,21 @@ def main(argv=None):
     ap.add_argument("--question-ids", type=Path, help="JSON array or whitespace-separated IDs")
     ap.add_argument("--limit", type=int, default=5, help="0 selects all (large batches require human approval)")
     ap.add_argument("--stop-after", type=int, default=0, help="pause after this many completed questions without changing the run manifest")
-    ap.add_argument("--method", choices=ALL_METHODS, default="bm25")
+    ap.add_argument("--method", choices=ALL_METHODS, default="calibrated")
     ap.add_argument("--k", type=int, default=4)
     ap.add_argument("--budget", type=int, default=12000)
     ap.add_argument("--max-chars", type=int, default=16000)
-    ap.add_argument("--timeout", type=float, default=300)
+    ap.add_argument("--timeout", type=float, default=600)
     ap.add_argument("--base-url", default="https://t07.api.reactor-hackathon.rxai.dev")
     ap.add_argument("--agent-id", default="agt_0c172edd3340495a")
     ap.add_argument("--client", type=Path, default=ROOT / "reactor_client.py")
     ap.add_argument("--execute", action="store_true", help="make the planned API calls")
     ap.add_argument("--exclusive-access", action="store_true", help="confirm an explicitly coordinated exclusive Reactor window")
     ap.add_argument("--access-window", type=Path, help="JSON operator attestation: owner, agreed_with, starts_at, ends_at, base_url, agent_id")
+    ap.add_argument("--citation-mode", choices=("strict", "official"), help="prompt instructions (default: strict for wrapper, official for other clients); mapping and parsing always use official rules")
+    ap.add_argument("--evidence-mode", choices=("retrieved", "none"), default="retrieved", help="question evidence independently of optional memory preload; none has no mappable labels")
+    ap.add_argument("--retry-not-forwarded", action="store_true", help="retry once after busy/previous_pending only when the server explicitly reported forwarded=false")
+    ap.add_argument("--retry-timeout", action="store_true", help="explicitly retry one timed-out question in the same history with a fresh ref; safe pending refusals wait within the total deadline, never reset")
     ap.add_argument("--memory-mode", choices=("none", "targeted"), default="none", help="optional source-linked shared-context preload before questions")
     ap.add_argument("--memory-budget", type=int, default=12000, help="total serialized preload characters per dataset history")
     ap.add_argument("--retry-closed", action="store_true", help="explicitly retry one previously closed request in the same history")

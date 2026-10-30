@@ -47,6 +47,22 @@ class MemoryTests(unittest.TestCase):
         with patch.object(memory, "retrieve", return_value=[dict(self.early, text="x" * 5000)]):
             self.assertEqual(memory.prepare_memory(self.history, self.questions, max_chars=1000), [])
 
+    def test_excerpts_in_one_part_do_not_reserve_extra_headers(self):
+        blocks = [f"[session {e['id']}, {e['date']}]\n{e['text']}\n\n"
+                  for e in (self.early, self.late)]
+        exact = len(memory.PREFIX) + sum(map(len, blocks))
+        with patch.object(memory, "retrieve", return_value=[self.late, self.early]):
+            parts = memory.prepare_memory(self.history, self.questions[:1], budget=exact, max_chars=exact)
+        self.assertEqual(parts, [memory.PREFIX + "".join(blocks)])
+
+    def test_chronological_repacking_stays_bounded_at_boundary(self):
+        with patch.object(memory, "retrieve", return_value=[self.late, self.early]):
+            parts = memory.prepare_memory(self.history, self.questions[:1],
+                                          budget=len(memory.PREFIX) + 100, max_chars=len(memory.PREFIX) + 100)
+        self.assertLessEqual(sum(map(len, parts)), len(memory.PREFIX) + 100)
+        self.assertEqual(parts, [memory.PREFIX +
+                         f"[session {self.late['id']}, {self.late['date']}]\n{self.late['text']}\n\n"])
+
 
 if __name__ == "__main__":
     unittest.main()

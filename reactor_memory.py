@@ -35,11 +35,22 @@ def prepare_memory(history, questions, method="calibrated", k=4,
     if any(q["history_id"] != history["history_id"] for q in questions):
         raise ValueError("memory questions must belong to exactly this dataset history")
     sources = {s["session_id"]: s["date"] for s in history["sessions"]}
+    if len(sources) != len(history["sessions"]):
+        raise ValueError("duplicate session_id in memory history")
     pools = [retrieve(q, history, method=method, k=k, budget=12000) for q in questions]
     seen, selected = set(), []
-    # This draft accounting is exact after chronological packing below. Leave
-    # room for each additional header as a part boundary is crossed.
-    remaining = budget - len(PREFIX)
+
+    def pack(entries):
+        parts, current = [], PREFIX
+        for _, _, block in sorted(entries, key=lambda item: (item[0], item[1])):
+            if len(current) + len(block) > max_chars:
+                parts.append(current)
+                current = PREFIX
+            current += block
+        if current != PREFIX:
+            parts.append(current)
+        return parts
+
     for rank in range(max(map(len, pools), default=0)):
         for pool in pools:
             if rank >= len(pool):
@@ -47,6 +58,8 @@ def prepare_memory(history, questions, method="calibrated", k=4,
             e = pool[rank]
             if e["id"] not in sources or e.get("date") != sources[e["id"]]:
                 raise ValueError("memory evidence must use history-local source IDs and dates")
+            if not isinstance(e["id"], str) or not e["id"] or not isinstance(e.get("text"), str) or not e["text"].strip():
+                raise ValueError("memory evidence needs a nonempty source ID and text")
             key = (e["id"], e["date"], e["text"])
             if key in seen:
                 continue
@@ -54,21 +67,13 @@ def prepare_memory(history, questions, method="calibrated", k=4,
             block = f"[session {e['id']}, {e['date']}]\n{e['text']}\n\n"
             if len(block) > max_chars - len(PREFIX):
                 continue
-            # Conservatively reserve a header for every excerpt after the first.
-            # The final exact pack may use fewer parts, never more budget.
-            cost = len(block) + (len(PREFIX) if selected else 0)
-            if cost > remaining:
+            entry = (parse_question_date(e["date"]), e["id"], block)
+            # Count headers only at real chronological part boundaries. Reserving
+            # one per excerpt used to omit evidence that fit in the same part.
+            if sum(map(len, pack([*selected, entry]))) > budget:
                 continue
-            remaining -= cost
-            selected.append((parse_question_date(e["date"]), e["id"], block))
-    parts, current = [], PREFIX
-    for _, _, block in sorted(selected, key=lambda item: (item[0], item[1])):
-        if len(current) + len(block) > max_chars:
-            parts.append(current)
-            current = PREFIX
-        current += block
-    if current != PREFIX:
-        parts.append(current)
+            selected.append(entry)
+    parts = pack(selected)
     if sum(map(len, parts)) > budget or any(len(p) > max_chars for p in parts):
         raise ValueError("internal memory packing exceeded serialized budget")
     return parts

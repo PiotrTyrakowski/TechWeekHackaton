@@ -3,6 +3,7 @@ import json
 from argparse import Namespace
 from datetime import datetime, timezone
 import os
+import subprocess
 from pathlib import Path
 import tempfile
 import unittest
@@ -45,6 +46,7 @@ class RuntimeTests(unittest.TestCase):
         hid = extra[extra.index("--history") + 1]
         return {"status": "answered", "question_id": qid, "history_id": hid,
                 "answer": "Blue [E1].", "abstained": False,
+                "ref": "1234abcd", "reply": "# FINAL ANSWER [ref:1234abcd]: Blue [E1].",
                 "citations": [{"label": "E1", "id": "s2" if qid == "q3" else "s1"}]}, 0, .01
 
     def memory_client(self, args, extra):
@@ -117,6 +119,7 @@ class RuntimeTests(unittest.TestCase):
             self.assertEqual(runtime.main(self.argv), 0)
         plan = json.loads((self.root / "run/plan.json").read_text())
         self.assertEqual(len(plan["question_ids"]), 3)
+        self.assertEqual((plan["method"], plan["k"], plan["timeout_s"]), ("calibrated", 4, 600))
 
     def test_live_execution_requires_exclusive_window_confirmation(self):
         args = [x for x in self.argv if x != '--exclusive-access']
@@ -210,12 +213,14 @@ class RuntimeTests(unittest.TestCase):
 
     def test_rejects_citation_from_another_history(self):
         r = {"status": "answered", "question_id": "q1", "answer": "Blue [E1]",
+             "ref": "1234abcd", "reply": "# FINAL ANSWER [ref:1234abcd]: Blue [E1]",
              "citations": [{"label": "E1", "id": "s2"}], "abstained": False}
         with self.assertRaises(ValueError):
             runtime.prediction(r, self.questions[0], self.histories[0])
 
     def test_preserves_uncited_reactor_answer_for_official_scoring(self):
         r = {"status": "answered", "question_id": "q1", "answer": "Blue",
+             "ref": "1234abcd", "reply": "# FINAL ANSWER [ref:1234abcd]: Blue",
              "citations": [], "abstained": False}
         pred = runtime.prediction(r, self.questions[0], self.histories[0])
         self.assertEqual(pred['answer'], 'Blue')
@@ -405,6 +410,220 @@ class RuntimeTests(unittest.TestCase):
                         self.fail("second execution lock acquired")
                 with runtime.execution_lock("https://example.test", "other-agent"):
                     pass
+
+    def test_evidence_and_citation_modes_are_frozen_and_independent_of_preload(self):
+        args = self.argv + ["--evidence-mode", "none", "--memory-mode", "targeted", "--citation-mode", "official"]
+        self.assertEqual(runtime.main(args), 0)
+        plan = json.loads((self.root / "run/plan.json").read_text())
+        self.assertEqual(plan["evidence_mode"], "none")
+        self.assertEqual(plan["citation_mode"], "official")
+        self.assertEqual(len(plan["memory_parts"]), 2)
+        files = [p for p in (self.root / "run/evidence").glob("*.json") if not p.name.endswith(".memory.json")]
+        self.assertEqual(len(files), 3)
+        self.assertTrue(all(json.loads(p.read_text()) == [] for p in files))
+        self.assertEqual(runtime.main(self.argv), 2)
+
+    def test_preload_only_answers_have_no_invented_evidence(self):
+        def uncited(args, extra):
+            result, code, latency = self.memory_client(args, extra)
+            if "--question-id" in extra:
+                self.assertNotIn("--evidence", extra)
+                result.update(answer="Blue.", citations=[])
+                result["reply"] = "# FINAL ANSWER [ref:1234abcd]: Blue."
+            return result, code, latency
+        with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(runtime, "invoke", side_effect=uncited):
+            self.assertEqual(runtime.main(self.argv + ["--execute", "--evidence-mode", "none", "--memory-mode", "targeted"]), 0)
+        self.assertTrue(all(p["citations"] == [] for p in runtime.read_jsonl(self.root / "run/predictions.jsonl")))
+        self.assertEqual(len(self.calls), 7)
+
+    def test_history_change_during_preload_restarts_with_new_local_history(self):
+        def changed(args, extra):
+            if len(self.calls) == 1:
+                self.calls.append(extra)
+                return {"status": "refused", "code": "history_changed", "history_id": "reactor1",
+                        "current_history_id": "foreign"}, 4, .01
+            return self.memory_client(args, extra)
+        argv = self.argv + ["--execute", "--memory-mode", "targeted"]
+        with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(runtime, "invoke", side_effect=changed):
+            self.assertEqual(runtime.main(argv), 2)
+            self.assertEqual(runtime.main(argv + ["--restart-interrupted-history"]), 0)
+        self.assertEqual(len(self.calls), 9)
+        self.assertNotEqual(self.calls[1][1], self.calls[3][1])
+        self.assertTrue(all("foreign" not in call for call in self.calls))
+
+    def test_closed_preload_is_not_replayed_by_question_retry_flag(self):
+        def closed(args, extra):
+            if "--text" in extra:
+                self.calls.append(extra)
+                return {"status": "closed", "history_id": "reactor1"}, 5, .01
+            return self.client(args, extra)
+        argv = self.argv + ["--execute", "--memory-mode", "targeted", "--retry-closed"]
+        with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(runtime, "invoke", side_effect=closed):
+            self.assertEqual(runtime.main(argv), 2)
+            self.assertEqual(runtime.main(argv), 2)
+        self.assertEqual(len(self.calls), 2)
+
+    def test_previous_pending_recovery_requires_explicit_false_and_is_bounded(self):
+        for forwarded in (False, True, None):
+            with self.subTest(forwarded=forwarded):
+                out = self.root / str(forwarded)
+                argv = [*self.argv, "--out-dir", str(out), "--execute", "--retry-not-forwarded"]
+                self.calls = []
+                def refused(args, extra):
+                    if "--new-history" in extra:
+                        return self.client(args, extra)
+                    self.calls.append(extra)
+                    return {"status": "refused", "code": "previous_pending", "forwarded": forwarded,
+                            "question_id": "q1", "history_id": "reactor1"}, 4, .01
+                with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(runtime, "invoke", side_effect=refused):
+                    self.assertEqual(runtime.main(argv), 2)
+                    self.assertEqual(runtime.main(argv), 2)
+                    self.assertEqual(runtime.main(argv), 2)
+                self.assertEqual(len(self.calls), 3 if forwarded is False else 2)
+
+    def test_timeout_retry_is_explicit_once_same_history_and_never_resets(self):
+        def timed_out(args, extra):
+            if "--new-history" in extra:
+                return self.client(args, extra)
+            self.calls.append(extra)
+            return {"status": "timeout", "question_id": "q1", "history_id": "reactor1"}, 3, .01
+        argv = self.argv + ["--execute"]
+        with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(runtime, "invoke", side_effect=timed_out):
+            self.assertEqual(runtime.main(argv), 2)
+            self.assertEqual(runtime.main(argv), 2)
+            self.assertEqual(len(self.calls), 2)
+            self.assertEqual(runtime.main(argv + ["--retry-timeout"]), 2)
+            self.assertEqual(runtime.main(argv + ["--retry-timeout"]), 2)
+        self.assertEqual(len(self.calls), 3)
+        self.assertEqual(self.calls[1][1], self.calls[2][1])
+        self.assertEqual(len([c for c in self.calls if "--new-history" in c]), 1)
+        attempts = runtime.read_jsonl(self.root / "run/attempts.jsonl")
+        self.assertEqual([a["result"]["status"] for a in attempts], ["history", "timeout", "timeout"])
+        self.assertEqual(runtime.read_jsonl(self.root / "run/recovery.jsonl")[0]["operation"], "retry_timeout")
+        self.assertEqual(runtime.read_jsonl(self.root / "run/predictions.jsonl"), [])
+
+    def test_unforwarded_preload_can_resume_without_reset(self):
+        def pending_once(args, extra):
+            if len(self.calls) == 1:
+                self.calls.append(extra)
+                return {"status": "refused", "code": "previous_pending", "forwarded": False,
+                        "history_id": "reactor1"}, 4, .01
+            return self.memory_client(args, extra)
+        argv = self.argv + ["--execute", "--memory-mode", "targeted"]
+        with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(runtime, "invoke", side_effect=pending_once):
+            self.assertEqual(runtime.main(argv), 2)
+            self.assertEqual(runtime.main(argv + ["--retry-not-forwarded"]), 0)
+        self.assertEqual(len(self.calls), 8)
+        self.assertEqual(self.calls[1][1], self.calls[2][1])
+
+    def test_invalid_answers_never_enter_predictions_and_raw_attempts_survive(self):
+        for answer, citations, unknown in (("", [], []), ("[E1]", [{"label": "E1", "id": "s1"}], []),
+                                            ("Blue [E99]", [], ["E99"])):
+            with self.subTest(answer=answer):
+                out = self.root / ("invalid-" + str(len(answer)))
+                def invalid(args, extra):
+                    result, code, latency = self.client(args, extra)
+                    if "--question-id" in extra:
+                        result.update(answer=answer, citations=citations, unknown_citations=unknown)
+                        result["reply"] = "# FINAL ANSWER [ref:1234abcd]: " + answer
+                    return result, code, latency
+                argv = [*self.argv, "--out-dir", str(out), "--execute"]
+                with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(runtime, "invoke", side_effect=invalid):
+                    self.assertEqual(runtime.main(argv), 2)
+                    self.assertEqual(runtime.main(argv), 2)
+                self.assertEqual(runtime.read_jsonl(out / "predictions.jsonl"), [])
+                self.assertEqual(runtime.read_jsonl(out / "attempts.jsonl")[-1]["result"]["answer"], answer)
+
+    def test_raw_reply_must_agree_with_marked_final_answer(self):
+        result = {"status": "answered", "question_id": "q1", "answer": "Blue [E1]", "abstained": False,
+                  "citations": [{"label": "E1", "id": "s1"}], "ref": "1234abcd",
+                  "reply": "Blue [E1]\n# FINAL ANSWER [ref:1234abcd]: Red [E1]"}
+        with self.assertRaisesRegex(ValueError, "raw marked final"):
+            runtime.prediction(result, self.questions[0], self.histories[0])
+        result.pop("ref")
+        result.pop("reply")
+        with self.assertRaisesRegex(ValueError, "raw marked final"):
+            runtime.prediction(result, self.questions[0], self.histories[0])
+
+    def test_malformed_citation_containers_are_rejected(self):
+        for field in ("citations", "unknown_citations"):
+            for value in (None, {}, "E1"):
+                with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                    runtime.validate_evidence_citations({"answer": "Blue", field: value}, [])
+
+    def test_recovery_journal_transition_survives_checkpoint_interruption(self):
+        def closed_once(args, extra):
+            if len(self.calls) == 1:
+                self.calls.append(extra)
+                return {"status": "closed", "question_id": "q1", "history_id": "reactor1"}, 5, .01
+            return self.client(args, extra)
+        original = runtime.atomic_json
+        def interrupt_transition(path, value):
+            if Path(path).name == "checkpoint.json" and value.get("pending") is None:
+                raise OSError("interrupted after durable recovery decision")
+            return original(path, value)
+        argv = self.argv + ["--execute", "--retry-closed"]
+        with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(runtime, "invoke", side_effect=closed_once):
+            self.assertEqual(runtime.main(argv), 2)
+            with patch.object(runtime, "atomic_json", side_effect=interrupt_transition):
+                self.assertEqual(runtime.main(argv), 2)
+            self.assertEqual(len(self.calls), 2)
+            self.assertEqual(runtime.main(argv), 0)
+        self.assertEqual(len(self.calls), 6)
+        self.assertEqual(len(runtime.read_jsonl(self.root / "run/recovery.jsonl")), 1)
+
+    def test_dry_run_cannot_consume_recovery_opt_in(self):
+        def closed(args, extra):
+            if "--new-history" in extra:
+                return self.client(args, extra)
+            self.calls.append(extra)
+            return {"status": "closed", "question_id": "q1", "history_id": "reactor1"}, 5, .01
+        with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(runtime, "invoke", side_effect=closed):
+            self.assertEqual(runtime.main(self.argv + ["--execute"]), 2)
+            before = (self.root / "run/checkpoint.json").read_bytes()
+            self.assertEqual(runtime.main(self.argv + ["--retry-closed", "--retry-not-forwarded", "--restart-interrupted-history"]), 0)
+            self.assertEqual((self.root / "run/checkpoint.json").read_bytes(), before)
+            self.assertEqual(len(self.calls), 2)
+            self.assertFalse((self.root / "run/recovery.jsonl").exists())
+
+    def test_restart_cannot_discard_successful_question_context(self):
+        def changed(args, extra):
+            if "--question-id" in extra and extra[extra.index("--question-id") + 1] == "q2":
+                self.calls.append(extra)
+                return {"status": "refused", "code": "history_changed", "history_id": "reactor1",
+                        "question_id": "q2", "current_history_id": "foreign"}, 4, .01
+            return self.client(args, extra)
+        argv = self.argv + ["--execute", "--restart-interrupted-history"]
+        with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(runtime, "invoke", side_effect=changed):
+            self.assertEqual(runtime.main(argv), 2)
+            self.assertEqual(runtime.main(argv), 2)
+        self.assertEqual(len(self.calls), 3)
+        self.assertEqual(len(runtime.read_jsonl(self.root / "run/results.jsonl")), 1)
+
+    def test_duplicate_source_and_history_ids_stop_during_preflight(self):
+        path = self.root / "histories.jsonl"
+        rows = [*self.histories, self.histories[0]]
+        path.write_text("".join(json.dumps(row) + "\n" for row in rows))
+        self.assertEqual(runtime.main(self.argv), 2)
+        rows = json.loads(json.dumps(self.histories))
+        rows[0]["sessions"].append(rows[0]["sessions"][0])
+        path.write_text("".join(json.dumps(row) + "\n" for row in rows))
+        self.assertEqual(runtime.main(self.argv), 2)
+
+    def test_full_process_outputs_and_partial_timeout_outputs_are_retained(self):
+        args = Namespace(client=Path("client.py"), base_url=self.window["base_url"],
+                         agent_id=self.window["agent_id"], timeout=300, exclusive_access=True,
+                         access_window=self.root / "window.json")
+        stdout, stderr = "malformed " + "x" * 3000, "trace " + "y" * 3000
+        with patch.object(runtime.subprocess, "run", return_value=Namespace(stdout=stdout, stderr=stderr, returncode=0)):
+            result, code, _ = runtime.invoke(args, ["--new-history"])
+        self.assertEqual(code, 2)
+        self.assertEqual((result["client_stdout"], result["client_stderr"]), (stdout, stderr))
+        error = subprocess.TimeoutExpired("client", 315, output=b"partial rxk_secret", stderr=b"trace")
+        with patch.object(runtime.subprocess, "run", side_effect=error):
+            result, code, _ = runtime.invoke(args, ["--new-history"])
+        self.assertEqual(code, 3)
+        self.assertEqual((result["client_stdout"], result["client_stderr"]), ("partial [REDACTED]", "trace"))
 
 
 if __name__ == "__main__":
