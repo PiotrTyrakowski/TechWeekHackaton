@@ -85,6 +85,54 @@ class RuntimeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             runtime.prediction(r, self.questions[0], self.histories[0])
 
+    def test_preserves_uncited_reactor_answer_for_official_scoring(self):
+        r = {"status": "answered", "question_id": "q1", "answer": "Blue",
+             "citations": [], "abstained": False}
+        pred = runtime.prediction(r, self.questions[0], self.histories[0])
+        self.assertEqual(pred['answer'], 'Blue')
+        self.assertEqual(pred['citations'], [])
+
+    def test_recovers_durable_answer_without_reasking_after_local_failure(self):
+        with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(
+                runtime, "invoke", side_effect=self.client), patch.object(
+                runtime.official_client, "environment_problem", return_value=None):
+            with patch.object(runtime, 'prediction', side_effect=ValueError('local validation failed')):
+                self.assertEqual(runtime.main(self.argv + ['--execute']), 2)
+            self.assertEqual(len(self.calls), 2)
+            self.assertEqual(runtime.main(self.argv + ['--execute']), 0)
+            self.assertEqual(len(self.calls), 5)  # original reset+answer, no repeated q1
+            self.assertEqual(len(runtime.read_jsonl(self.root / 'run/results.jsonl')), 3)
+
+    def test_closed_retry_requires_opt_in_and_preserves_history(self):
+        def closed_once(args, extra):
+            if len(self.calls) == 1:
+                self.calls.append(extra)
+                return {'status': 'closed', 'question_id': 'q1'}, 5, .01
+            return self.client(args, extra)
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=closed_once), patch.object(
+                runtime.official_client, 'environment_problem', return_value=None):
+            self.assertEqual(runtime.main(self.argv + ['--execute']), 2)
+            self.assertEqual(runtime.main(self.argv + ['--execute']), 2)
+            self.assertEqual(len(self.calls), 2)
+            self.assertEqual(runtime.main(self.argv + ['--execute', '--retry-closed']), 0)
+            self.assertEqual(self.calls[1][1], self.calls[2][1])
+            self.assertEqual(len(self.calls), 6)
+
+    def test_restarts_changed_history_once_before_any_answer_succeeded(self):
+        def changed_once(args, extra):
+            if len(self.calls) == 1:
+                self.calls.append(extra)
+                return {'status': 'refused', 'code': 'history_changed', 'question_id': 'q1'}, 4, .01
+            return self.client(args, extra)
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=changed_once), patch.object(
+                runtime.official_client, 'environment_problem', return_value=None):
+            self.assertEqual(runtime.main(self.argv + ['--execute']), 2)
+            self.assertEqual(runtime.main(self.argv + ['--execute', '--restart-interrupted-history']), 0)
+            self.assertEqual(len(self.calls), 7)
+            self.assertNotEqual(self.calls[1][1], self.calls[3][1])
+
     def test_redacts_secret_recursively(self):
         with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}):
             self.assertEqual(runtime.redact({"x": ["error test-key"]}), {"x": ["error [REDACTED]"]})

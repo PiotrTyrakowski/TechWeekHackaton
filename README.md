@@ -77,9 +77,18 @@ starting a different history invalidates the current one. Failed or uncertain
 calls stop execution; timeouts are never silently converted to abstentions.
 Inspect raw attempts and checkpoint before recovering an uncertain call. Preserve
 the artifacts; do not manually edit answer predictions. Unexpected citations,
-citations outside the corresponding history, missing/duplicate IDs, and uncited
-non-abstained answers are rejected. Only actual Reactor abstentions become
+citations outside the corresponding history and missing/duplicate IDs are rejected.
+Uncited Reactor answers are preserved with their actual zero evidence score; labels
+in explanatory text are never moved into a final answer. Only actual Reactor abstentions become
 submitted abstentions.
+
+A successful response durably recorded in `attempts.jsonl` can be recovered after
+a local validation/write failure without sending the question again. Uncertain
+timeouts remain blocked. After inspecting a server `closed` response,
+`--retry-closed` explicitly permits one retry in the same history. If the server
+replaced a history before any question in it succeeded,
+`--restart-interrupted-history` permits one logged recovery reset. Repeated
+history replacement needs investigation for competing runners or server faults.
 
 Local `score.py` automatically matches some answers; other answers remain
 **unjudged**, not proven wrong or correct. Official scoring uses an LLM judge.

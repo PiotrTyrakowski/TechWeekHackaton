@@ -3,6 +3,8 @@
 ``official`` reproduces the organizer's keyword baseline. ``bm25`` ranks
 individual turns. ``bm25-context`` ranks distinct sessions by their best turn
 and packs relevant turns plus their immediate neighbors, preserving chronology.
+``hybrid`` uses equal-weight reciprocal rank fusion (constant 60) of BM25
+and the organizer's keyword-overlap turn rankings, with no learned parameters.
 Budgets count passage text; the official client checks the final message limit.
 """
 from __future__ import annotations
@@ -13,7 +15,7 @@ from collections import Counter
 
 from official.reactor.examples.run_benchmark import retrieve as official_retrieve
 
-METHODS = ("official", "bm25", "bm25-context")
+METHODS = ("official", "bm25", "bm25-context", "hybrid")
 STOPWORDS = set("a an the i me my mine we us our you your it its this that these those "
                 "is am are was were be been being do does did have has had can could "
                 "would should will shall may might must to of in on at by for with "
@@ -61,11 +63,30 @@ def _excerpt(turn: dict) -> str:
     return f"{turn['role']}: {turn['content']}"
 
 
+def _hybrid_rank(question: dict, history: dict, bm25: list[tuple[float, int, int]]
+                 ) -> list[tuple[float, int, int]]:
+    """Fuse ranks, with history order as deterministic tie-breaker."""
+    words = set(re.findall(r"\w{4,}", question["question"].lower()))
+    keyword = []
+    for si, session in enumerate(history["sessions"]):
+        for ti, turn in enumerate(session["turns"]):
+            overlap = len(words & set(re.findall(r"\w{4,}", turn["content"].lower())))
+            if overlap:
+                keyword.append((overlap, si, ti))
+    keyword.sort(key=lambda row: (-row[0], row[1], row[2]))
+    fused = Counter()
+    for ranking in (bm25, keyword):
+        for rank, (_, si, ti) in enumerate(ranking, 1):
+            fused[si, ti] += 1 / (60 + rank)
+    return sorted(((value, si, ti) for (si, ti), value in fused.items()),
+                  key=lambda row: (-row[0], row[1], row[2]))
+
+
 def retrieve(question: dict, history: dict, k: int = 4, method: str = "bm25",
              budget: int = 12000) -> list[dict]:
     """Return client evidence dictionaries with history-local dates/session IDs.
 
-    k means turns for official/bm25 and distinct sessions for bm25-context.
+    k means turns for official/bm25/hybrid and distinct sessions for bm25-context.
     Official uses the organizer's exact fixed 12,000-character implementation;
     it rejects a smaller budget to avoid silently changing the baseline.
     """
@@ -78,8 +99,10 @@ def retrieve(question: dict, history: dict, k: int = 4, method: str = "bm25",
             raise ValueError("official baseline requires budget=12000")
         return official_retrieve(question, history, k)
     ranked = _rank(question, history)
+    if method == "hybrid":
+        ranked = _hybrid_rank(question, history, ranked)
     sessions = history["sessions"]
-    if method == "bm25":
+    if method in ("bm25", "hybrid"):
         selected = [(si, _excerpt(sessions[si]["turns"][ti]))
                     for _, si, ti in ranked[:k]]
     else:

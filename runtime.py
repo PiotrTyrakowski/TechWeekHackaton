@@ -94,6 +94,8 @@ def invoke(args, extra):
         except ValueError:
             result = {"status": "error", "error": "client did not return a JSON object",
                       "stderr": proc.stderr[-1000:]}
+        if proc.returncode and proc.stderr.strip():
+            result['client_stderr'] = proc.stderr.strip()[-2000:]
         return redact(result), proc.returncode, time.monotonic() - start
     except subprocess.TimeoutExpired:
         return {"status": "timeout", "error": "client process exceeded timeout"}, 3, time.monotonic() - start
@@ -109,8 +111,8 @@ def prediction(result, question, history):
     if skipped or notes or len(preds) != 1:
         raise ValueError("invalid client citations or answer: " + "; ".join(skipped + notes))
     pred = preds[0]
-    if not pred["abstain"] and not pred["citations"]:
-        raise ValueError("answer has no valid citations")
+    # Empty citations are valid official output and must receive their actual
+    # evidence score. Never borrow labels from the explanatory reply.
     return pred
 
 
@@ -217,6 +219,44 @@ def run(args):
         result_path = out / "results.jsonl"
         results = read_jsonl(result_path) if result_path.exists() else []
         done = write_predictions(out, results, questions, histories)
+        pending = state["pending"]
+        if pending and pending.get('operation') == 'question' and pending.get('question_id') not in done:
+            # A completed client response may be durable before local validation
+            # or results writing. Recover only that exact successful raw attempt.
+            attempts_path = out / 'attempts.jsonl'
+            attempts = read_jsonl(attempts_path) if attempts_path.exists() else []
+            candidates = [a for a in attempts if a.get('operation') == 'question'
+                          and a.get('question_id') == pending['question_id']]
+            if candidates:
+                attempt = candidates[-1]
+                result = attempt.get('result', {})
+                if attempt.get('exit_code') == 0 and result.get('status') == 'answered':
+                    q = next(q for q in questions if q['question_id'] == pending['question_id'])
+                    if result.get('history_id') != state['reactor_history'] or q['history_id'] != pending['dataset_history']:
+                        raise ValueError('durable attempt history mismatch')
+                    validate_evidence_citations(result, evidence[q['question_id']])
+                    prediction(result, q, histories[q['history_id']])
+                    append_jsonl(result_path, result)
+                    results.append(result)
+                    done = write_predictions(out, results, questions, histories)
+                elif getattr(args, 'retry_closed', False) and attempt.get('exit_code') == 5 and result.get('status') == 'closed' and len(candidates) == 1:
+                    # Organizer guide: closed may be asked again. Explicit opt-in,
+                    # one retry, same history; old refs remain isolated by client.
+                    append_jsonl(out / 'recovery.jsonl', {'operation': 'retry_closed',
+                                 'question_id': pending['question_id'], 'history_id': state['reactor_history']})
+                    state['pending'] = None
+                    atomic_json(state_path, state)
+                elif getattr(args, 'restart_interrupted_history', False) and result.get('code') == 'history_changed':
+                    hid = pending['dataset_history']
+                    qids_in_history = {q['question_id'] for q in questions if q['history_id'] == hid}
+                    recovery_path = out / 'recovery.jsonl'
+                    prior = read_jsonl(recovery_path) if recovery_path.exists() else []
+                    if done & qids_in_history or any(r.get('operation') == 'restart_history' and r.get('dataset_history') == hid for r in prior):
+                        raise ValueError('refusing repeated restart or loss of answered history context')
+                    append_jsonl(recovery_path, {'operation': 'restart_history', 'dataset_history': hid,
+                                 'reason': 'server changed history before any successful question'})
+                    state.update(active_dataset_history=None, reactor_history=None, pending=None)
+                    atomic_json(state_path, state)
         if state["pending"] and state["pending"].get("question_id") in done:
             state["pending"] = None  # crash after result fsync but before checkpoint
             atomic_json(state_path, state)
@@ -298,6 +338,8 @@ def main(argv=None):
     ap.add_argument("--agent-id", default="agt_0c172edd3340495a")
     ap.add_argument("--client", type=Path, default=ROOT / "official/reactor/client.py")
     ap.add_argument("--execute", action="store_true", help="make the planned API calls")
+    ap.add_argument("--retry-closed", action="store_true", help="explicitly retry one previously closed request in the same history")
+    ap.add_argument("--restart-interrupted-history", action="store_true", help="restart once after server history_changed, only if no question in that history succeeded")
     args = ap.parse_args(argv)
     try:
         if args.execute:

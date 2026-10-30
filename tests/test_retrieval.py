@@ -2,7 +2,7 @@
 import unittest
 
 from official.reactor.examples.run_benchmark import retrieve as organizer_retrieve
-from retrieval import METHODS, retrieve
+from retrieval import METHODS, _hybrid_rank, retrieve
 
 
 class RetrievalContract(unittest.TestCase):
@@ -37,9 +37,20 @@ class RetrievalContract(unittest.TestCase):
 
     def test_empty_match_and_budget(self):
         self.assertEqual(retrieve({"question": "quasar"}, self.history), [])
-        for method in ("bm25", "bm25-context"):
+        for method in ("bm25", "bm25-context", "hybrid"):
             passages = retrieve(self.question, self.history, method=method, budget=35)
             self.assertLessEqual(sum(len(p["text"]) for p in passages), 35)
+
+    def test_hybrid_fuses_rankings_and_keeps_history_ties_stable(self):
+        history = {"sessions": [{"session_id": "s_1", "date": "date", "turns": [
+            {"role": "user", "content": "orange cats"},
+            {"role": "assistant", "content": "orange"},
+            {"role": "user", "content": "cats"}]}]}
+        # Keyword order is turns 0,1,2; BM25 order is 1,0,2.
+        fused = _hybrid_rank({"question": "orange cats"}, history,
+                             [(10, 0, 1), (5, 0, 0), (1, 0, 2)])
+        self.assertEqual([(si, ti) for _, si, ti in fused], [(0, 0), (0, 1), (0, 2)])
+        self.assertAlmostEqual(fused[0][0], 1/61 + 1/62)
 
 
 if __name__ == "__main__":

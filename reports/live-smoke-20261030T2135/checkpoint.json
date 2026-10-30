@@ -1,0 +1,12 @@
+{
+  "active_dataset_history": "h_888675116505",
+  "reactor_history": "e8cbdc59dfa94d9099b7adfb3532fc94",
+  "pending": {
+    "operation": "question",
+    "question_id": "q_e2cc79359e15",
+    "dataset_history": "h_888675116505"
+  },
+  "completed_histories": [
+    "h_12968e55565d"
+  ]
+}

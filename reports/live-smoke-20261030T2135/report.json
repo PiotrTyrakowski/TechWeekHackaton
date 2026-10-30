@@ -1,0 +1,212 @@
+{
+  "created_at": "2026-10-30T21:36:15.961741+00:00",
+  "scope": {
+    "questions": 5,
+    "completed": 1,
+    "missing": 4,
+    "complete": false
+  },
+  "completed_only_metrics": {
+    "single-session-user": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "all": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    }
+  },
+  "full_scope_note": "Metrics cover completed predictions only. Missing/pending questions are reported as incomplete, not final wrong answers.",
+  "scoring_note": "Official score.py functions provide local automatic matching and evidence F1. Unmatched answers remain unjudged; this report does not run an official LLM judge.",
+  "operations": {
+    "history_reset_attempts": 3,
+    "question_attempts": 4,
+    "client_invocations": 7,
+    "internal_retries": 0,
+    "total_api_operations_observed": 7,
+    "count_note": "Observed completed client invocations plus reported internal retries; an in-flight/unlogged call cannot be counted from this snapshot.",
+    "total_attempt_latency_s": 56.4463969169592,
+    "errors": [
+      {
+        "operation": "question",
+        "question_id": "q_e2cc79359e15",
+        "status": "closed",
+        "code": null,
+        "exit_code": 5
+      },
+      {
+        "operation": "question",
+        "question_id": "q_e2cc79359e15",
+        "status": "refused",
+        "code": "history_changed",
+        "exit_code": 4
+      },
+      {
+        "operation": "question",
+        "question_id": "q_e2cc79359e15",
+        "status": "closed",
+        "code": null,
+        "exit_code": 5
+      }
+    ]
+  },
+  "per_question": [
+    {
+      "question_id": "q_d4ead82e5cad",
+      "question": "What is the name of my cat?",
+      "question_type": "single-session-user",
+      "status": "completed",
+      "pending_in_checkpoint": false,
+      "prediction": {
+        "question_id": "q_d4ead82e5cad",
+        "abstain": false,
+        "answer": "Luna",
+        "citations": []
+      },
+      "gold_answer": "Luna",
+      "gold_abstain": false,
+      "citations": [],
+      "gold_sessions": [
+        "s_8a377a1e6a80"
+      ],
+      "official_local_result": {
+        "question_id": "q_d4ead82e5cad",
+        "question_type": "single-session-user",
+        "gold_abstain": false,
+        "answer": "correct",
+        "abstain_ok": true,
+        "evidence_f1": 0.0
+      },
+      "evidence_f1": 0.0,
+      "question_attempts": 1,
+      "total_attempt_latency_s": 46.91629283298971,
+      "successful_answer_latency_s": 46.63,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_e2cc79359e15",
+      "question": "What refining processes run at CITGO's Lake Charles Refinery?",
+      "question_type": "single-session-assistant",
+      "status": "closed",
+      "pending_in_checkpoint": true,
+      "prediction": null,
+      "gold_answer": "Atmospheric distillation, fluid catalytic cracking (FCC), alkylation, and hydrotreating.",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_4ce9668e7224"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "question_attempts": 3,
+      "total_attempt_latency_s": 7.209944959002314,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_6eaf85dde884",
+      "question": "How many online courses have I completed in total?",
+      "question_type": "multi-session",
+      "status": "not_attempted",
+      "pending_in_checkpoint": false,
+      "prediction": null,
+      "gold_answer": "5",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_8adc485146ac",
+        "s_1a6769d03923"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "question_attempts": 0,
+      "total_attempt_latency_s": 0,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_61a19ce280f4",
+      "question": "Is my mom using the same grocery list method as me?",
+      "question_type": "knowledge-update",
+      "status": "not_attempted",
+      "pending_in_checkpoint": false,
+      "prediction": null,
+      "gold_answer": "Yes.",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_e983d0ba00e7",
+        "s_24a6fcdbdab6"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "question_attempts": 0,
+      "total_attempt_latency_s": 0,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_53ebfc7819cf",
+      "question": "How many weeks had passed since I recovered from the flu when I went on my 10th jog outdoors?",
+      "question_type": "temporal-reasoning",
+      "status": "not_attempted",
+      "pending_in_checkpoint": false,
+      "prediction": null,
+      "gold_answer": "15",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_4135de74602d",
+        "s_87c7da57fc7b"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "question_attempts": 0,
+      "total_attempt_latency_s": 0,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    }
+  ],
+  "source_run": "runs/live-bm25-4-answerable",
+  "archive_sha256": {
+    "results.jsonl": "d382555a7a099b50688c75c845a521b02ec44b068333c2014b8fd0a869c0d3fc",
+    "predictions.jsonl": "9be3577339d6e128692d15b8a9fb47bef497e893a01188ad89f5a63a90ecf8cd",
+    "attempts.jsonl": "6a3e20a11d6f0c0c29fee8d30c3ef55c912f7dfa472b0a248e2c212783598079",
+    "plan.json": "dea6ba383b6be1f4dfe64135ac8d1a5942838b939a56bf65d12ab0405e16c2f0",
+    "recovery.jsonl": "95e8ea59c84299ccc9a74a8722ee06902aa71e4a2a8e28cb4482637c5a1195f9",
+    "checkpoint.json": "798a15f02609ea1e3eb9b5d2bf965739684c979965ba96041da83546a3440e94",
+    "questions.jsonl": "6227f98d99cf4c63c995c7635064c8734decc7d576805d033b8e98d8496e5b63",
+    "gold.jsonl": "c27b8f092af8fbc4f5c01db6ac418bbe77b396eef3f60d2c600cf7824ad46328"
+  },
+  "report_script_sha256": "ce88ac0ba133292e234c360b4edcd5f375c7bd8eb3a373045895e8ce4575febc"
+}

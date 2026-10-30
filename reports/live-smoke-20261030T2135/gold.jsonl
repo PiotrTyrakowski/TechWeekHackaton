@@ -1,0 +1,5 @@
+{"question_id": "q_d4ead82e5cad", "question_type": "single-session-user", "abstain": false, "answer": "Luna", "aliases": [], "evidence": ["s_8a377a1e6a80"]}
+{"question_id": "q_e2cc79359e15", "question_type": "single-session-assistant", "abstain": false, "answer": "Atmospheric distillation, fluid catalytic cracking (FCC), alkylation, and hydrotreating.", "aliases": [], "evidence": ["s_4ce9668e7224"]}
+{"question_id": "q_6eaf85dde884", "question_type": "multi-session", "abstain": false, "answer": "5", "aliases": [], "evidence": ["s_8adc485146ac", "s_1a6769d03923"]}
+{"question_id": "q_61a19ce280f4", "question_type": "knowledge-update", "abstain": false, "answer": "Yes.", "aliases": [], "evidence": ["s_e983d0ba00e7", "s_24a6fcdbdab6"]}
+{"question_id": "q_53ebfc7819cf", "question_type": "temporal-reasoning", "abstain": false, "answer": "15", "aliases": [], "evidence": ["s_4135de74602d", "s_87c7da57fc7b"]}

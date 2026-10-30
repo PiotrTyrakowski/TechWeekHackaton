@@ -1,0 +1,2 @@
+{"operation": "retry_closed", "question_id": "q_e2cc79359e15", "history_id": "9100e696e9b740549e587a5a25427f2d"}
+{"operation": "restart_history", "dataset_history": "h_888675116505", "reason": "server changed history before any successful question"}
