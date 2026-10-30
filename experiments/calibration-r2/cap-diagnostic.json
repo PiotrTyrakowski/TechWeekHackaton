@@ -1,0 +1,191 @@
+{
+  "scope": "IN-SAMPLE exploratory development diagnostic; original model fitted on dev433; dev-large uses the same question IDs and labels with augmented distractors",
+  "warning": "No validation, new ranking, fitting, tuning, answer calls, or promotion. Metrics cannot establish held-out performance.",
+  "feature_contract": "Cached top64 rows; original exact thirty-feature prefix; original artifact and mass multiplier unchanged",
+  "artifact_sha256": "a6ad9390c75b8703641995125ccc7b1226811ab9a53447d73576f274c72dd718",
+  "cache_sha256": "8872227d4e8a87750daaa1edfc1d156ff250f1d5392980feece950912da4b779",
+  "by_variant": {
+    "dev": {
+      "questions_n": 433,
+      "answerable_n": 408,
+      "gold_session_count_distribution": {
+        "1": 165,
+        "2": 183,
+        "3": 34,
+        "4": 15,
+        "5": 8,
+        "6": 3
+      },
+      "gold_exceeds_four_n": 11,
+      "gold_exceeds_four_all_gold_in_candidate_pool_n": 9,
+      "all_gold_in_candidate_pool_n": 398,
+      "caps": {
+        "4": {
+          "precision": 0.8676470588235294,
+          "recall": 0.8973039215686275,
+          "evidence_f1": 0.8660383597883597,
+          "all_hit": 0.8112745098039216,
+          "any_hit": 0.9681372549019608,
+          "all_gold_recovered_n": 331,
+          "mean_selected_sessions_all_questions": 1.9399538106235565,
+          "selected_more_than_four_all_questions_n": 0,
+          "selected_more_than_four_answerable_n": 0,
+          "f1_changes_vs_cap4": {
+            "equal": 408
+          },
+          "added_sessions_vs_cap4": {
+            "scope": "answerable questions only",
+            "true": 0,
+            "false": 0,
+            "precision": null
+          },
+          "gold_exceeds_four_all_recovered_n": 0,
+          "gold_exceeds_four_recovered_question_ids": []
+        },
+        "6": {
+          "precision": 0.8649918300653595,
+          "recall": 0.8982843137254902,
+          "evidence_f1": 0.8648809523809524,
+          "all_hit": 0.8137254901960784,
+          "any_hit": 0.9681372549019608,
+          "all_gold_recovered_n": 332,
+          "mean_selected_sessions_all_questions": 1.976905311778291,
+          "selected_more_than_four_all_questions_n": 13,
+          "selected_more_than_four_answerable_n": 11,
+          "f1_changes_vs_cap4": {
+            "equal": 398,
+            "worse": 8,
+            "better": 2
+          },
+          "added_sessions_vs_cap4": {
+            "scope": "answerable questions only",
+            "true": 2,
+            "false": 11,
+            "precision": 0.15384615384615385
+          },
+          "gold_exceeds_four_all_recovered_n": 1,
+          "gold_exceeds_four_recovered_question_ids": [
+            "q_b3c82d8d663f"
+          ]
+        },
+        "8": {
+          "precision": 0.8649918300653595,
+          "recall": 0.8982843137254902,
+          "evidence_f1": 0.8648809523809524,
+          "all_hit": 0.8137254901960784,
+          "any_hit": 0.9681372549019608,
+          "all_gold_recovered_n": 332,
+          "mean_selected_sessions_all_questions": 1.976905311778291,
+          "selected_more_than_four_all_questions_n": 13,
+          "selected_more_than_four_answerable_n": 11,
+          "f1_changes_vs_cap4": {
+            "equal": 398,
+            "worse": 8,
+            "better": 2
+          },
+          "added_sessions_vs_cap4": {
+            "scope": "answerable questions only",
+            "true": 2,
+            "false": 11,
+            "precision": 0.15384615384615385
+          },
+          "gold_exceeds_four_all_recovered_n": 1,
+          "gold_exceeds_four_recovered_question_ids": [
+            "q_b3c82d8d663f"
+          ]
+        }
+      }
+    },
+    "dev-large": {
+      "questions_n": 433,
+      "answerable_n": 408,
+      "gold_session_count_distribution": {
+        "1": 165,
+        "2": 183,
+        "3": 34,
+        "4": 15,
+        "5": 8,
+        "6": 3
+      },
+      "gold_exceeds_four_n": 11,
+      "gold_exceeds_four_all_gold_in_candidate_pool_n": 6,
+      "all_gold_in_candidate_pool_n": 368,
+      "caps": {
+        "4": {
+          "precision": 0.6854575163398693,
+          "recall": 0.8229575163398692,
+          "evidence_f1": 0.7195417055711173,
+          "all_hit": 0.7254901960784313,
+          "any_hit": 0.9240196078431373,
+          "all_gold_recovered_n": 296,
+          "mean_selected_sessions_all_questions": 2.371824480369515,
+          "selected_more_than_four_all_questions_n": 0,
+          "selected_more_than_four_answerable_n": 0,
+          "f1_changes_vs_cap4": {
+            "equal": 408
+          },
+          "added_sessions_vs_cap4": {
+            "scope": "answerable questions only",
+            "true": 0,
+            "false": 0,
+            "precision": null
+          },
+          "gold_exceeds_four_all_recovered_n": 0,
+          "gold_exceeds_four_recovered_question_ids": []
+        },
+        "6": {
+          "precision": 0.6769199346405229,
+          "recall": 0.8270833333333333,
+          "evidence_f1": 0.7136910067057126,
+          "all_hit": 0.7328431372549019,
+          "any_hit": 0.9240196078431373,
+          "all_gold_recovered_n": 299,
+          "mean_selected_sessions_all_questions": 2.551963048498845,
+          "selected_more_than_four_all_questions_n": 53,
+          "selected_more_than_four_answerable_n": 47,
+          "f1_changes_vs_cap4": {
+            "equal": 366,
+            "worse": 36,
+            "better": 6
+          },
+          "added_sessions_vs_cap4": {
+            "scope": "answerable questions only",
+            "true": 7,
+            "false": 62,
+            "precision": 0.10144927536231885
+          },
+          "gold_exceeds_four_all_recovered_n": 1,
+          "gold_exceeds_four_recovered_question_ids": [
+            "q_b3c82d8d663f"
+          ]
+        },
+        "8": {
+          "precision": 0.6761758870214752,
+          "recall": 0.8270833333333333,
+          "evidence_f1": 0.712913625045978,
+          "all_hit": 0.7328431372549019,
+          "any_hit": 0.9240196078431373,
+          "all_gold_recovered_n": 299,
+          "mean_selected_sessions_all_questions": 2.5773672055427252,
+          "selected_more_than_four_all_questions_n": 53,
+          "selected_more_than_four_answerable_n": 47,
+          "f1_changes_vs_cap4": {
+            "equal": 366,
+            "worse": 36,
+            "better": 6
+          },
+          "added_sessions_vs_cap4": {
+            "scope": "answerable questions only",
+            "true": 7,
+            "false": 72,
+            "precision": 0.08860759493670886
+          },
+          "gold_exceeds_four_all_recovered_n": 1,
+          "gold_exceeds_four_recovered_question_ids": [
+            "q_b3c82d8d663f"
+          ]
+        }
+      }
+    }
+  }
+}
