@@ -1,0 +1,42 @@
+{
+  "development_fit_only": {
+    "candidate_pool_misses_questions": 10,
+    "selection_misses_questions": 77,
+    "answerable_n": 408,
+    "candidate_brier": 0.021008653520772445,
+    "absence_auroc_answerable_max_probability": 0.7352941176470589,
+    "mean_max_probability_answerable": 0.9012884811010853,
+    "mean_max_probability_unanswerable": 0.8039981432450196,
+    "unanswerable_n": 25,
+    "warning": "Optimistic fitted-development discrimination/calibration only; no answer abstention override."
+  },
+  "full_failure_by_type": {
+    "multi-session": 50,
+    "temporal-reasoning": 37,
+    "knowledge-update": 5
+  },
+  "existing_baseline_comparison": {
+    "bm25-k4": {
+      "validation_n": 88,
+      "validation_f1_delta": 0.07905844155844156,
+      "paired_bootstrap95_percentile": [
+        0.043046536796536805,
+        0.11596320346320346
+      ],
+      "validation_better": 30,
+      "validation_worse": 8,
+      "validation_equal": 50
+    },
+    "dense-hybrid-k4": {
+      "validation_n": 88,
+      "validation_f1_delta": 0.016278860028860035,
+      "paired_bootstrap95_percentile": [
+        -0.017812049062049053,
+        0.050685425685425695
+      ],
+      "validation_better": 18,
+      "validation_worse": 16,
+      "validation_equal": 54
+    }
+  }
+}
