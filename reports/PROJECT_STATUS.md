@@ -3,6 +3,14 @@
 Updated 2026-10-31. Organizer clarifications supplied by the user override older
 policy assumptions in the historical reports.
 
+Live execution is now the sole next milestone. Fresh prepared manifest/commands:
+`runs/live-reactor-gates-20261031-v2/ready.json`. The eight-question smoke adds
+temporal question `q_53ebfc7819cf` and covers all six requested categories plus
+a natural sequential pair. Gate 1 remains two initial operations; Gate 2 adds
+13, for 15 total. No request has been made. Exact blockers: cross-machine
+exclusivity unconfirmed and `REACTOR_ACCESS_KEY` absent in the lead environment.
+Both have been requested from the user; other agents are offline only.
+
 **OFFLINE ONLY until explicit cross-machine exclusivity.** No live runner is
 appointed. Zero new Reactor calls; no full-test execution is scheduled.
 Lead is the single integration owner; four Herdr workstreams have distinct files.
@@ -99,8 +107,8 @@ sequential reliability, and judging points remain unverified.
 Gate 0: local attribution/protocol/recovery tests and immutable-history scoring.
 Gate 1: one correct real answer with correct supporting attribution, supplied or
 verified fallback, preserving raw provenance. **2 initial operations**.
-Gate 2: continue the same frozen seven-question/six-history manifest, including
-abstention and a natural pair: **11 additional operations**.
+Gate 2: continue the new frozen eight-question/seven-history manifest, including
+temporal reasoning, abstention and a natural pair: **13 additional operations**.
 Gate 3: BM25/calibrated pair, **6**; Gate 4: bounded preload, **4** with eligible
 exact archived control, otherwise a separately proposed **7**. No automatic chain.
 Dollar/token cost is unknown. Record all refusals/retries and unresolved work.
