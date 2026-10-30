@@ -3,6 +3,22 @@
 Benchmark-first Python retrieval and sequential Reactor execution. Final answers
 are produced only by the organizer's Reactor client. No external model calls.
 
+## Porządek frontend MVP
+
+The standalone Polish product demo lives in [`frontend/`](frontend/README.md).
+It includes 208 synthetic message deliveries, 20 jobs, and an interactive graph
+with 65 nodes and 60 relationships in its initial state. Run it locally:
+
+```sh
+cd frontend
+python3 -m http.server 4173 --directory dist
+```
+
+Open http://localhost:4173/#jobs and choose **Graf powiązań**. Frontend checks:
+`cd frontend && npm test` (Node 20+). No package installation is required.
+This frontend uses a deterministic local demo parser; it is not connected to
+Reactor or to the benchmark runtime below. All frontend demo data are synthetic.
+
 ## Setup
 
 Python 3.11+; run from this directory:
