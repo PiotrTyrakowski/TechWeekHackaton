@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from unittest.mock import patch
 
 from official.reactor import client as official
+from official.reactor import predictions
 import reactor_client
 
 
@@ -31,6 +32,106 @@ class ReactorClientTests(unittest.TestCase):
         self.assertIn("date: 2023/05/20 (Sat) 02:21", prompt)
         self.assertIn("Question date: 2023-05-30 (Tue) 12:18", prompt)
         self.assertIn("INSUFFICIENT_EVIDENCE", prompt)
+
+    def test_final_answer_is_a_segment_not_just_one_physical_line(self):
+        # The participant guide says "line", but the source parser continues
+        # through the end of the reply or the next final-answer marker.
+        reply = ("# FINAL ANSWER [ref:1234abcd]: Luna\n[E1]\n"
+                 "# FINAL ANSWER [ref:5678abcd]: A late different answer [E9]")
+        answer = official.final_answers(reply)["1234abcd"]
+        self.assertEqual(answer, "Luna\n[E1]")
+        self.assertEqual(official.citations(answer, self.evidence),
+                         ([{"label": "E1", "id": "s_cat"}], []))
+        self.assertEqual(predictions.strip_labels(answer), "Luna")
+
+    def test_reused_labels_map_only_to_current_question_evidence(self):
+        earlier = [{"id": "s_dog", "text": "user: My dog is called Rover."}]
+        answer = "Luna [E1]"
+        self.assertEqual(official.citations(answer, earlier)[0][0]["id"], "s_dog")
+        self.assertEqual(official.citations(answer, self.evidence)[0][0]["id"], "s_cat")
+        prompt = reactor_client.build_message("What is my cat's name?", self.evidence, "1234abcd")
+        self.assertIn("For ref:1234abcd, evidence labels are local to THIS question", prompt)
+        self.assertIn("Do not reuse citations from prior replies", prompt)
+
+    def test_multiple_passages_deduplicate_sessions_and_reject_unknown_labels(self):
+        evidence = [
+            {"id": "s_a", "text": "user: First hike: 3 miles."},
+            {"id": "s_b", "text": "user: Second hike: 4 miles."},
+            {"id": "s_a", "text": "assistant: You walked 3 miles."},
+        ]
+        answer = "7 miles [E1, E2] [E3] [E99]."
+        cited, unknown = official.citations(answer, evidence)
+        self.assertEqual(unknown, ["E99"])
+        result = {"question_id": "q_hikes", "status": "answered", "answer": answer,
+                  "abstained": False, "citations": cited, "unknown_citations": unknown}
+        converted, skipped, notes = predictions.convert([result], {"agent"}, {"s_a", "s_b"})
+        self.assertEqual(converted, [{"question_id": "q_hikes", "abstain": False,
+                                    "answer": "7 miles.", "citations": ["s_a", "s_b"]}])
+        self.assertEqual(skipped, [])
+        self.assertTrue(any("E99 wasn't among the passages sent" in note for note in notes))
+        # The converter can drop unknown labels, but runtime must reject them;
+        # this test documents the official adapter rather than blessing repair.
+
+    def test_memory_without_current_evidence_has_no_mappable_citations(self):
+        prompt = reactor_client.build_message("What is my cat's name?", [], "1234abcd")
+        self.assertIn("No evidence labels were supplied", prompt)
+        self.assertNotIn("<supporting current evidence labels>", prompt)
+        self.assertEqual(official.citations("Luna [E1]", []), ([], ["E1"]))
+        self.assertEqual(official.citations("Luna, from session s_cat", []), ([], []))
+
+    def test_actual_abstention_is_distinct_from_a_failed_request(self):
+        converted, skipped, _ = predictions.convert([
+            {"question_id": "q_abs", "status": "answered", "answer": "INSUFFICIENT_EVIDENCE",
+             "abstained": True, "citations": []},
+            {"question_id": "q_timeout", "status": "timeout"},
+        ], {"agent"}, {"s_cat"})
+        self.assertEqual(converted, [{"question_id": "q_abs", "abstain": True,
+                                    "answer": "", "citations": []}])
+        self.assertEqual(len(skipped), 1)
+        self.assertIn("q_timeout", skipped[0])
+
+    def test_simulated_frames_keep_current_final_citation_through_official_conversion(self):
+        # No remote service: exercise the real async parser and official result
+        # adapter with an interim citation, stale final, and current final.
+        class FakeSocket:
+            close_code = 1000
+            close_reason = ""
+
+            async def send(self, raw):
+                self.text = json.loads(raw)["text"]
+
+            async def __aiter__(self):
+                yield json.dumps({"type": "ack", "cycle": 2, "text": self.text})
+                yield json.dumps({"type": "reply", "cycle": 3, "text": "Checking Luna [E1]."})
+                yield json.dumps({"type": "reply", "cycle": 4,
+                                  "text": "# FINAL ANSWER [ref:5678abcd]: Rover [E1]"})
+                yield json.dumps({"type": "reply", "cycle": 5,
+                                  "text": "# FINAL ANSWER [ref:1234abcd]: Luna [E1]"})
+
+        @asynccontextmanager
+        async def connect(*args, **kwargs):
+            yield FakeSocket()
+
+        with patch.object(official, "environment_problem", return_value=None), \
+             patch.dict(official.os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), \
+             patch.object(reactor_client, "_connect", connect), \
+             patch.object(official.secrets, "token_hex", return_value="1234abcd"), \
+             patch.object(official, "_read", return_value=json.dumps(self.evidence)), \
+             patch("sys.stdout", new_callable=io.StringIO) as stdout, \
+             patch("sys.stderr", new_callable=io.StringIO):
+            code = reactor_client.main(["--base-url", "https://example.test", "--agent-id", "agt_test",
+                                        "--history", "hist", "--question", "What is my cat's name?",
+                                        "--question-id", "q_cat", "--evidence", "unused.json"])
+        self.assertEqual(code, 0)
+        result = json.loads(stdout.getvalue())
+        self.assertEqual(result["answer"], "Luna [E1]")
+        self.assertEqual(result["citations"], [{"label": "E1", "id": "s_cat"}])
+        self.assertEqual(result["late_replies"][0]["answer"], "Rover [E1]")
+        self.assertFalse(result["uncited"])
+        converted, skipped, notes = predictions.convert([result], {"agent"}, {"s_cat"})
+        self.assertEqual(converted, [{"question_id": "q_cat", "abstain": False,
+                                    "answer": "Luna", "citations": ["s_cat"]}])
+        self.assertEqual((skipped, notes), ([], []))
 
     def test_main_wraps_prompt_only_and_restores_official_function(self):
         original = official.build_message

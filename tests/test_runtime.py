@@ -1,6 +1,7 @@
 """Mock client lifecycle tests; these are not Reactor benchmark predictions."""
 import json
 from argparse import Namespace
+from datetime import datetime, timezone
 import os
 from pathlib import Path
 import tempfile
@@ -27,7 +28,13 @@ class RuntimeTests(unittest.TestCase):
             (self.root / (name + ".jsonl")).write_text("".join(json.dumps(x) + "\n" for x in values))
         self.argv = ["--questions", str(self.root / "questions.jsonl"), "--histories",
                      str(self.root / "histories.jsonl"), "--out-dir", str(self.root / "run"), "--limit", "0",
-                     "--agent-id", "unit-test-" + self.root.name, "--exclusive-access"]
+                     "--agent-id", "unit-test-" + self.root.name, "--exclusive-access",
+                     "--access-window", str(self.root / "window.json")]
+        self.window = {"owner": "unit-test-runner", "agreed_with": ["unit-test-teammate"],
+                       "starts_at": "2000-01-01T00:00:00Z", "ends_at": "2100-01-01T00:00:00Z",
+                       "base_url": "https://t07.api.reactor-hackathon.rxai.dev",
+                       "agent_id": "unit-test-" + self.root.name}
+        (self.root / "window.json").write_text(json.dumps(self.window))
         self.calls = []
 
     def client(self, args, extra):
@@ -40,6 +47,71 @@ class RuntimeTests(unittest.TestCase):
                 "answer": "Blue [E1].", "abstained": False,
                 "citations": [{"label": "E1", "id": "s2" if qid == "q3" else "s1"}]}, 0, .01
 
+    def memory_client(self, args, extra):
+        if '--text' in extra:
+            self.calls.append(extra)
+            return {'status': 'reply', 'reply': 'OK',
+                    'history_id': extra[extra.index('--history') + 1]}, 0, .01
+        return self.client(args, extra)
+
+    def test_memory_preloads_once_per_history_and_never_becomes_prediction(self):
+        args = self.argv + ['--execute', '--memory-mode', 'targeted']
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=self.memory_client):
+            self.assertEqual(runtime.main(args + ['--stop-after', '1']), 0)
+            self.assertEqual(len(self.calls), 3)  # reset, ledger, question
+            self.assertEqual(runtime.main(args), 0)
+        self.assertEqual(len(self.calls), 7)  # two resets, two ledgers, three questions
+        self.assertEqual(len([call for call in self.calls if '--text' in call]), 2)
+        self.assertEqual(len(runtime.read_jsonl(self.root / 'run/results.jsonl')), 3)
+        self.assertEqual(len(runtime.read_jsonl(self.root / 'run/predictions.jsonl')), 3)
+        attempts = runtime.read_jsonl(self.root / 'run/attempts.jsonl')
+        self.assertEqual(len([a for a in attempts if a['operation'] == 'preload']), 2)
+
+    def test_memory_timeout_stops_without_replaying_part(self):
+        args = self.argv + ['--execute', '--memory-mode', 'targeted']
+        def timeout(args, extra):
+            if '--text' in extra:
+                self.calls.append(extra)
+                return {'status': 'timeout'}, 3, .01
+            return self.client(args, extra)
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=timeout):
+            self.assertEqual(runtime.main(args), 2)
+            self.assertEqual(runtime.main(args), 2)
+        self.assertEqual(len(self.calls), 2)
+        self.assertEqual(runtime.read_jsonl(self.root / 'run/predictions.jsonl'), [])
+        state = json.loads((self.root / 'run/checkpoint.json').read_text())
+        self.assertEqual(state['pending']['operation'], 'preload')
+
+    def test_durable_memory_reply_recovers_without_reloading(self):
+        args = self.argv + ['--execute', '--memory-mode', 'targeted']
+        original = runtime.atomic_json
+        def fail_after_preload(path, value):
+            if Path(path).name == 'checkpoint.json' and value.get('memory_completed') == 1 and value.get('pending') is None:
+                raise OSError('crash after memory reply fsync')
+            return original(path, value)
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=self.memory_client):
+            with patch.object(runtime, 'atomic_json', side_effect=fail_after_preload):
+                self.assertEqual(runtime.main(args), 2)
+            self.assertEqual(len(self.calls), 2)
+            self.assertEqual(runtime.main(args), 0)
+        self.assertEqual(len(self.calls), 7)
+
+    def test_wrong_history_memory_reply_is_never_accepted(self):
+        args = self.argv + ['--execute', '--memory-mode', 'targeted']
+        def foreign(args, extra):
+            if '--text' in extra:
+                self.calls.append(extra)
+                return {'status': 'reply', 'reply': 'OK', 'history_id': 'foreign'}, 0, .01
+            return self.client(args, extra)
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=foreign):
+            self.assertEqual(runtime.main(args), 2)
+            self.assertEqual(runtime.main(args), 2)
+        self.assertEqual(len(self.calls), 2)
+
     def test_dry_run_never_invokes_client(self):
         with patch.object(runtime, "invoke", side_effect=AssertionError("API called")):
             self.assertEqual(runtime.main(self.argv), 0)
@@ -51,6 +123,45 @@ class RuntimeTests(unittest.TestCase):
         with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
                 runtime, 'invoke', side_effect=AssertionError('must not call shared agent')):
             self.assertEqual(runtime.main(args + ['--execute']), 2)
+
+    def test_bare_boolean_does_not_authorize_shared_agent(self):
+        args = self.argv[:-2]
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=AssertionError('must not call shared agent')):
+            self.assertEqual(runtime.main(args + ['--execute']), 2)
+
+    def test_window_identity_timezone_start_expiry_and_request_reserve(self):
+        args = Namespace(exclusive_access=True, access_window=self.root / "window.json",
+                         base_url=self.window['base_url'], agent_id=self.window['agent_id'], timeout=300)
+        now = datetime(2026, 10, 30, 22, 0, tzinfo=timezone.utc)
+        variants = [
+            {"agent_id": "another-agent"}, {"agreed_with": []},
+            {"starts_at": "2026-10-30T23:00:00Z"}, {"ends_at": "2026-10-30T21:00:00Z"},
+            {"ends_at": "2026-10-30T22:05:00Z"}, {"starts_at": "2026-10-30T20:00:00"},
+        ]
+        for variant in variants:
+            with self.subTest(variant=variant):
+                args.access_window.write_text(json.dumps({**self.window, **variant}))
+                with self.assertRaises(ValueError):
+                    runtime.access_window(args, now=now)
+        args.access_window.write_text(json.dumps({**self.window, "ends_at": "2026-10-30T22:05:15Z"}))
+        self.assertEqual(runtime.access_window(args, now=now)['owner'], self.window['owner'])
+
+    def test_window_expiring_between_operations_stops_before_next_pending(self):
+        checks = 0
+        original = runtime.access_window
+        def expire(args, now=None):
+            nonlocal checks
+            checks += 1
+            if checks >= 3:
+                raise ValueError('exclusive access window expired')
+            return original(args, now)
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=self.client), patch.object(runtime, 'access_window', side_effect=expire):
+            self.assertEqual(runtime.main(self.argv + ['--execute']), 2)
+        self.assertEqual(len(self.calls), 1)  # reset completed; first question never sent
+        state = json.loads((self.root / 'run/checkpoint.json').read_text())
+        self.assertIsNone(state['pending'])
 
     def test_jsonl_preserves_unicode_line_separators_in_content(self):
         path = self.root / "unicode.jsonl"
@@ -120,6 +231,33 @@ class RuntimeTests(unittest.TestCase):
             self.assertEqual(runtime.main(self.argv + ['--execute']), 0)
             self.assertEqual(len(self.calls), 5)  # original reset+answer, no repeated q1
             self.assertEqual(len(runtime.read_jsonl(self.root / 'run/results.jsonl')), 3)
+
+    def test_recovers_durable_reset_without_resetting_again(self):
+        original = runtime.atomic_json
+        def fail_after_reset(path, value):
+            if Path(path).name == 'checkpoint.json' and value.get('reactor_history') and value.get('pending') is None:
+                raise OSError('crash after reset response fsync')
+            return original(path, value)
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=self.client):
+            with patch.object(runtime, 'atomic_json', side_effect=fail_after_reset):
+                self.assertEqual(runtime.main(self.argv + ['--execute']), 2)
+            self.assertEqual(len(self.calls), 1)
+            self.assertEqual(runtime.main(self.argv + ['--execute']), 0)
+        self.assertEqual(len(self.calls), 5)
+        self.assertEqual(len([call for call in self.calls if '--new-history' in call]), 2)
+
+    def test_stale_successful_reset_cannot_resolve_a_new_uncertain_reset(self):
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=self.client):
+            self.assertEqual(runtime.main(self.argv + ['--execute', '--stop-after', '1']), 0)
+        state_path = self.root / 'run/checkpoint.json'
+        state = json.loads(state_path.read_text())
+        state['pending'] = {'operation': 'new_history', 'dataset_history': 'h1', 'request_id': 'new-uncertain-reset'}
+        state_path.write_text(json.dumps(state))
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=AssertionError('must not retry reset')):
+            self.assertEqual(runtime.main(self.argv + ['--execute']), 2)
 
     def test_closed_retry_requires_opt_in_and_preserves_history(self):
         def closed_once(args, extra):
@@ -195,6 +333,43 @@ class RuntimeTests(unittest.TestCase):
     def test_redacts_secret_recursively(self):
         with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}):
             self.assertEqual(runtime.redact({"x": ["error test-key"]}), {"x": ["error [REDACTED]"]})
+        self.assertEqual(runtime.redact('error rxk_example_not_a_real_key'), 'error [REDACTED]')
+
+    def test_successful_transport_diagnostics_are_preserved_and_redacted(self):
+        args = Namespace(client=Path('client.py'), base_url=self.window['base_url'],
+                         agent_id=self.window['agent_id'], timeout=300, exclusive_access=True,
+                         access_window=self.root / 'window.json')
+        proc = Namespace(stdout=json.dumps({'status': 'history', 'history_id': 'r1'}),
+                         stderr='transport ack=true rxk_example_not_real', returncode=0)
+        with patch.object(runtime.subprocess, 'run', return_value=proc):
+            result, code, _ = runtime.invoke(args, ['--new-history'])
+        self.assertEqual(code, 0)
+        self.assertEqual(result['client_stderr'], 'transport ack=true [REDACTED]')
+
+    def test_malformed_zero_exit_client_is_a_failure(self):
+        args = Namespace(client=Path('client.py'), base_url=self.window['base_url'],
+                         agent_id=self.window['agent_id'], timeout=300, exclusive_access=True,
+                         access_window=self.root / 'window.json')
+        with patch.object(runtime.subprocess, 'run', return_value=Namespace(stdout='bad', stderr='', returncode=0)):
+            result, code, _ = runtime.invoke(args, ['--new-history'])
+        self.assertEqual(code, 2)
+        self.assertEqual(result['status'], 'error')
+
+    def test_revalidates_stored_final_citations_on_resume(self):
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=self.client):
+            self.assertEqual(runtime.main(self.argv + ['--execute', '--stop-after', '1']), 0)
+        results = self.root / 'run/results.jsonl'
+        stored = runtime.read_jsonl(results)[0]
+        stored['answer'] = 'Blue [E2]'
+        results.write_text(json.dumps(stored) + '\n')
+        with patch.object(runtime, 'invoke', side_effect=AssertionError('must not send')):
+            self.assertEqual(runtime.main(self.argv), 2)
+
+    def test_abstention_must_match_actual_reactor_final_answer(self):
+        result = {'status': 'answered', 'question_id': 'q1', 'answer': 'Blue', 'abstained': True}
+        with self.assertRaises(ValueError):
+            runtime.prediction(result, self.questions[0], self.histories[0])
 
     def test_rejects_wrong_evidence_label_mapping(self):
         with self.assertRaises(ValueError):

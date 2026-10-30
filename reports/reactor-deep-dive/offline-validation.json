@@ -1,0 +1,252 @@
+{
+  "scope": "offline audit and simulations only; no new Reactor or paid inference calls",
+  "official_kit_commit": "f0a317dfa13e7797baae61711cef27a9805bedcc",
+  "new_live_reactor_calls": 0,
+  "new_paid_model_calls": 0,
+  "tests": {
+    "command": ".venv/bin/python -m unittest discover -s tests",
+    "passed": 99,
+    "result": "OK"
+  },
+  "plan_path": "runs/reactor-experiment-plan-final/plan.json",
+  "plan_sha256": "d22ce0b353af5e64ba16d005ae92760d77f2fff39c2cfe79528ee1cc0926fc71",
+  "stage3_selection": {
+    "shared_questions": 12,
+    "representative_singletons": 5,
+    "total_questions": 17,
+    "histories": 11,
+    "category_histogram": {
+      "knowledge-update": 1,
+      "multi-session": 1,
+      "single-session-assistant": 12,
+      "single-session-user": 1,
+      "temporal-reasoning": 1,
+      "unanswerable": 1
+    },
+    "partition": "development only; a shared history is excluded if either question is validation",
+    "excluded_diagnostic_question_ids": [
+      "q_1773242b1801",
+      "q_61a19ce280f4",
+      "q_6eaf85dde884",
+      "q_d4ead82e5cad",
+      "q_e2cc79359e15"
+    ],
+    "gold_use": "stratification and evaluation only"
+  },
+  "stages": [
+    {
+      "stage": "stage1",
+      "counts": {
+        "history_resets": 1,
+        "question_requests": 1,
+        "preload_requests": 0,
+        "initial_api_operations": 2
+      }
+    },
+    {
+      "stage": "stage2",
+      "counts": {
+        "history_resets": 5,
+        "question_requests": 5,
+        "preload_requests": 0,
+        "initial_api_operations": 10
+      }
+    },
+    {
+      "stage": "stage3",
+      "counts": {
+        "history_resets": 33,
+        "question_requests": 51,
+        "preload_requests": 11,
+        "initial_api_operations": 95
+      }
+    }
+  ],
+  "total_initial_counts": {
+    "history_resets": 39,
+    "question_requests": 57,
+    "preload_requests": 11,
+    "initial_api_operations": 107
+  },
+  "stage3_schedule": [
+    {
+      "history_id": "h_324b229bd7e0",
+      "question_ids": [
+        "q_d0e4bb09c4ef",
+        "q_231ab5b81711"
+      ],
+      "cohort": "shared-memory",
+      "arm_order": [
+        "bm25-4",
+        "calibrated-4",
+        "calibrated-memory"
+      ]
+    },
+    {
+      "history_id": "h_d9c4d3316a8c",
+      "question_ids": [
+        "q_4e61f6554795",
+        "q_8a42fbe85acc"
+      ],
+      "cohort": "shared-memory",
+      "arm_order": [
+        "bm25-4",
+        "calibrated-memory",
+        "calibrated-4"
+      ]
+    },
+    {
+      "history_id": "h_afcbf21a5b4d",
+      "question_ids": [
+        "q_bb2ec802ba6c",
+        "q_ba8d4101f084"
+      ],
+      "cohort": "shared-memory",
+      "arm_order": [
+        "calibrated-4",
+        "bm25-4",
+        "calibrated-memory"
+      ]
+    },
+    {
+      "history_id": "h_e626ab8825e3",
+      "question_ids": [
+        "q_0521ad05cc21",
+        "q_74474275300c"
+      ],
+      "cohort": "shared-memory",
+      "arm_order": [
+        "calibrated-4",
+        "calibrated-memory",
+        "bm25-4"
+      ]
+    },
+    {
+      "history_id": "h_1e254db0d065",
+      "question_ids": [
+        "q_8ca848f6fb81",
+        "q_82b31e46e68f"
+      ],
+      "cohort": "shared-memory",
+      "arm_order": [
+        "calibrated-memory",
+        "bm25-4",
+        "calibrated-4"
+      ]
+    },
+    {
+      "history_id": "h_3128db040935",
+      "question_ids": [
+        "q_6f709e73f130",
+        "q_d15c898a4ed4"
+      ],
+      "cohort": "shared-memory",
+      "arm_order": [
+        "calibrated-memory",
+        "calibrated-4",
+        "bm25-4"
+      ]
+    },
+    {
+      "history_id": "h_d4c29b4ab2ed",
+      "question_ids": [
+        "q_6f54c0fe6d9d"
+      ],
+      "cohort": "representative-singleton",
+      "arm_order": [
+        "bm25-4",
+        "calibrated-4",
+        "calibrated-memory"
+      ]
+    },
+    {
+      "history_id": "h_e9f239dde3cc",
+      "question_ids": [
+        "q_d31093dc0d95"
+      ],
+      "cohort": "representative-singleton",
+      "arm_order": [
+        "bm25-4",
+        "calibrated-memory",
+        "calibrated-4"
+      ]
+    },
+    {
+      "history_id": "h_a2a4e1746218",
+      "question_ids": [
+        "q_f63fdc3caf82"
+      ],
+      "cohort": "representative-singleton",
+      "arm_order": [
+        "calibrated-4",
+        "bm25-4",
+        "calibrated-memory"
+      ]
+    },
+    {
+      "history_id": "h_ba6af127e299",
+      "question_ids": [
+        "q_0c5ba501d58c"
+      ],
+      "cohort": "representative-singleton",
+      "arm_order": [
+        "calibrated-4",
+        "calibrated-memory",
+        "bm25-4"
+      ]
+    },
+    {
+      "history_id": "h_3615d2b7e3df",
+      "question_ids": [
+        "q_7d9672c558b5"
+      ],
+      "cohort": "representative-singleton",
+      "arm_order": [
+        "calibrated-memory",
+        "bm25-4",
+        "calibrated-4"
+      ]
+    }
+  ],
+  "preflight": {
+    "max_final_question_chars": 13656,
+    "max_memory_part_chars": 10649,
+    "client_limit_chars": 16000
+  },
+  "calibrated_smoke_memory": {
+    "questions": 5,
+    "histories": 5,
+    "preload_parts": 5,
+    "maximum_final_question_chars": 13315
+  },
+  "historical_live_recheck": {
+    "note": "Unchanged old predictions, rescored locally; no new live trial.",
+    "completed": 1,
+    "planned": 5,
+    "local_completed_only": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "final_answer_citation_coverage": 0.0,
+    "predictions_sha256": "9be3577339d6e128692d15b8a9fb47bef497e893a01188ad89f5a63a90ecf8cd"
+  },
+  "source_sha256": {
+    "runtime.py": "b1ececbd036be89ac067b44108bdb51f4baaa599acf466ff613f979776bd417d",
+    "reactor_client.py": "919a913ebda08877e07bb002eff4f277b01227d0693e31d7e2a055ffd89ddcc8",
+    "reactor_memory.py": "68c758aae1afc8afde09af1163f56279f54720aa008aab95b05bd12814cf23f5",
+    "experimental_plan.py": "7b4b35fdc3eeb43872f9eafb1ef661cefeff92f0e02e2c74af4ea535183235f2",
+    "smoke_report.py": "7052bfccc11fd72542b487906fa779f750f01404a60a7443cacaf8acf5bed2f9",
+    "compare_reactor.py": "a80beb6fd22db1020c7461ec7d1c723bf418bfd36ca1334b7efd622446f8d64c"
+  },
+  "limitations": [
+    "Simulated responses test plumbing, not model ability.",
+    "Stage3 is development-only and has twelve assistant-fact questions.",
+    "Memory benefit, new prompt compliance, real latency and live reliability remain unverified.",
+    "Exclusive access agreement has not been supplied."
+  ]
+}

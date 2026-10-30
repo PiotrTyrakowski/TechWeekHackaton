@@ -9,14 +9,16 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import re
+import statistics
 from datetime import datetime, timezone
 from pathlib import Path
 
 from official import score
 
-ARCHIVE_FILES = ("results.jsonl", "predictions.jsonl", "attempts.jsonl", "plan.json", "recovery.jsonl", "checkpoint.json", "client-upgrades.jsonl")
+ARCHIVE_FILES = ("results.jsonl", "predictions.jsonl", "attempts.jsonl", "plan.json", "recovery.jsonl", "checkpoint.json", "client-upgrades.jsonl", "access-windows.jsonl")
 
 
 def parse_lines(raw):
@@ -52,6 +54,9 @@ def build_report(questions, gold, predictions, attempts, results, checkpoint):
         g, prediction = gold[qid], by_id.get(qid)
         qa = [a for a in attempts if a.get("operation") == "question" and a.get("question_id") == qid]
         measured = score.score_question(prediction, g) if prediction is not None else None
+        support = set(prediction["citations"]) if prediction is not None else set()
+        expected = set(g["evidence"])
+        hits = len(support & expected)
         if measured:
             completed_scores.append(measured)
         status = "completed" if prediction is not None else qa[-1].get("result", {}).get("status", "unknown") if qa else "not_attempted"
@@ -63,6 +68,9 @@ def build_report(questions, gold, predictions, attempts, results, checkpoint):
             "citations": prediction["citations"] if prediction is not None else None,
             "gold_sessions": g["evidence"], "official_local_result": measured,
             "evidence_f1": measured["evidence_f1"] if measured else None,
+            "evidence_precision": (hits / len(support) if support else 0.0) if measured and not g["abstain"] else None,
+            "evidence_recall": (hits / len(expected) if expected else 0.0) if measured and not g["abstain"] else None,
+            "unknown_labels": raw.get(qid, {}).get("unknown_citations", []),
             "question_attempts": len(qa), "total_attempt_latency_s": sum(a.get("wall_s", 0) for a in qa),
             "successful_answer_latency_s": raw.get(qid, {}).get("latency_s"),
             "manual_review": {"required": bool(measured and measured["answer"] == "unjudged"),
@@ -72,15 +80,31 @@ def build_report(questions, gold, predictions, attempts, results, checkpoint):
     errors = [{"operation": a.get("operation"), "question_id": a.get("question_id"),
                "status": a.get("result", {}).get("status"), "code": a.get("result", {}).get("code"),
                "exit_code": a.get("exit_code")} for a in attempts if a.get("exit_code") != 0]
+    cited_eligible = [r for r in per_question if r["prediction"] is not None
+                     and not r["gold_abstain"] and not r["prediction"]["abstain"]]
+    latencies = sorted(r["successful_answer_latency_s"] for r in per_question
+                       if isinstance(r["successful_answer_latency_s"], (int, float)))
     return {"created_at": datetime.now(timezone.utc).isoformat(),
         "scope": {"questions": len(questions), "completed": len(predictions),
                   "missing": len(questions) - len(predictions),
                   "complete": len(questions) == len(predictions)},
         "completed_only_metrics": score.summarize(completed_scores) if completed_scores else {},
+        "citation_diagnostics": {
+            "nonabstained_answerable_completed": len(cited_eligible),
+            "final_answer_citation_coverage": sum(bool(r["citations"]) for r in cited_eligible) / len(cited_eligible) if cited_eligible else None,
+            "results_with_unknown_labels": sum(bool(r.get("unknown_citations")) for r in results),
+            "note": "Coverage is presence of actual submitted citations, not proof of support; official Evidence F1 includes false abstentions."},
+        "successful_answer_latency_s": {"n": len(latencies),
+            "p50": statistics.median(latencies) if latencies else None,
+            "p95": latencies[math.ceil(.95 * len(latencies)) - 1] if latencies else None,
+            "note": "Client answer latency, excluding retrieval, resets and preload. p95 uses nearest rank; small samples are descriptive."},
         "full_scope_note": "Metrics cover completed predictions only. Missing/pending questions are reported as incomplete, not final wrong answers.",
         "scoring_note": "Official score.py functions provide local automatic matching and evidence F1. Unmatched answers remain unjudged; this report does not run an official LLM judge.",
         "operations": {"history_reset_attempts": sum(a.get("operation") == "new_history" for a in attempts),
             "question_attempts": sum(a.get("operation") == "question" for a in attempts),
+            "preload_attempts": sum(a.get("operation") == "preload" for a in attempts),
+            "failed_client_invocations": len(errors),
+            "client_invocation_failure_rate": len(errors) / len(attempts) if attempts else None,
             "client_invocations": len(attempts), "internal_retries": retries,
             "total_api_operations_observed": len(attempts) + retries,
             "count_note": "Observed completed client invocations plus reported internal retries; an in-flight/unlogged call cannot be counted from this snapshot.",

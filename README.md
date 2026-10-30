@@ -70,6 +70,15 @@ without repeating inference:
 coordinated.** The earlier history invalidations likely came from simultaneous
 use of the shared agent by a teammate.
 
+The Reactor audit and engineering work is described in
+[REACTOR_DEEP_DIVE.md](reports/REACTOR_DEEP_DIVE.md),
+[REACTOR_STRATEGIES.md](reports/REACTOR_STRATEGIES.md),
+[REACTOR_RELIABILITY.md](reports/REACTOR_RELIABILITY.md), and
+[REACTOR_EVALUATION.md](reports/REACTOR_EVALUATION.md).
+The default is evidence-first RAG with persistent per-user conversation state.
+An optional bounded preload pilot uses Reactor's documented memory ingestion;
+neither memory benefit nor improved citation quality has yet been established live.
+
 Round two adds a frozen, supervised session selector (`--method calibrated`) with
 standard-library inference. Its weights were fitted only on the 433 development
 question IDs; validation and dev-large scale results are kept separate in
@@ -103,8 +112,10 @@ only whether it is available. The supplied team URL/agent are the CLI defaults.
 This dry run prepares evidence and reports the call plan. Five selected questions
 use five histories: **5 history resets + 5 question requests**, before the official
 client's safe retries of refused, unforwarded messages. To execute the authorized
-small smoke test, coordinate exclusive access and repeat that command with
-`--execute --exclusive-access`. The manifest locks data,
+small smoke test, coordinate exclusive access, record its named participants and
+start/end times using the [access-window schema](reports/REACTOR_RELIABILITY.md),
+and repeat that command with
+`--execute --exclusive-access --access-window runs/agreed-window.json`. The manifest locks data,
 question selection, client version, retrieval configuration, and evidence.
 
 ```sh
@@ -143,11 +154,38 @@ without changing the five-question manifest, allowing a citation check before
 continuation. The 2026-10-30 investigation remains blocked on remote history
 invalidation; see [the reliability report](reports/REACTOR_RELIABILITY.md).
 
-Live execution also requires `--exclusive-access`, a confirmation that the team
-has actually coordinated a window. The local lock is shared across worktrees and
+Live execution requires `--exclusive-access` and a bounded `--access-window`
+attestation that the team has actually coordinated access. Every operation must
+fit its timeout plus a 15-second reserve inside the window. This records agreement;
+it cannot independently verify another teammate is idle. The local lock is shared across worktrees and
 clones belonging to this machine user, but cannot control another machine or an
 uncooperative client. Dry runs never invoke Reactor. Adopting an unexpected
 server-reported history is disabled because it may contain another user's memory.
+
+`--memory-mode targeted --memory-budget 12000` opts into a query-aware shared
+source ledger loaded with `--text` before answering. It pools verbatim retrieved
+excerpts across that user's selected public questions, uses stable session IDs
+and dates, and assigns no E labels. Each final question still supplies original
+evidence for citations. This is a bounded hybrid pilot, not full native-history
+ingestion. It adds at most one preload per history with the default limits;
+the dry-run count is authoritative. Auxiliary loading replies never become
+predictions, and uncertain loading operations stop rather than replay.
+
+Generate the frozen offline plan (no Reactor requests), then archive and compare
+actual live arms only after their acceptance gates and coordinated windows:
+
+```sh
+.venv/bin/python experimental_plan.py --out-dir runs/reactor-deep-dive-plan
+.venv/bin/python smoke_report.py --run runs/arm-a --questions selected/questions.jsonl --gold selected/gold.jsonl --out reports/arm-a
+.venv/bin/python compare_reactor.py --arm bm25=reports/arm-a/report.json --arm calibrated=reports/arm-b/report.json --out reports/paired.json
+```
+
+The planner produces exact per-history commands with all three arms and a rotated
+arm order. It has no execution option. Its default 17-question comparison needs
+95 initial operations, before retries; this is a proposal, not batch approval.
+Reports distinguish incomplete requests, local unjudged answers, actual final
+citations, preload cost, and latency. Completed answers with missing citations
+are retained with their actual zero Evidence F1.
 
 A successful response durably recorded in `attempts.jsonl` can be recovered after
 a local validation/write failure without sending the question again. Uncertain
@@ -171,7 +209,8 @@ python3 bootstrap.py --split test
 Choose a configuration from measured dev results before execution. The public
 test description reports 146 questions across 15 histories: approximately 161
 initial API operations; the actual dry run is authoritative. Review the plan,
-obtain approval and exclusive access, then use `--execute --exclusive-access`. Completion checks exact selected question
+obtain approval and exclusive access, then use
+`--execute --exclusive-access --access-window runs/agreed-window.json`. Completion checks exact selected question
 coverage and per-history citations. Keep the raw results, manifest, checkpoint,
 code revision, and final predictions together for reproducibility.
 
