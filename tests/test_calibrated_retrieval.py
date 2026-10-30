@@ -44,6 +44,19 @@ class CalibratedRetrievalTests(unittest.TestCase):
         self.assertEqual(len(calibrated.select(rows, [.95, .9, .01])), 2)
         self.assertEqual(len(calibrated.select(rows, [.95, .9, .01], limit=1)), 1)
 
+    def test_robust_feature_prefix_preserves_original_inference(self):
+        original = calibrated.candidates(self.question, self.history)
+        robust = calibrated.candidates(self.question, self.history, robust=True)
+        self.assertEqual(len(robust[0]["features"]), 31)
+        self.assertEqual(original[0]["features"], robust[0]["features"][:30])
+        self.assertEqual(calibrated.probabilities(original, self.artifact),
+                         calibrated.probabilities(robust, self.artifact))
+
+    def test_reusing_ranking_preserves_candidate_statistics(self):
+        ranking = calibrated._rank(self.question, self.history)
+        self.assertEqual(calibrated.candidates(self.question, self.history, 32),
+                         calibrated.candidates(self.question, self.history, 32, ranked=ranking))
+
     def test_empty_and_invalid_arguments(self):
         with patch.object(calibrated, "model", return_value=self.artifact):
             self.assertEqual(calibrated.retrieve(self.question, {"sessions": []}), [])

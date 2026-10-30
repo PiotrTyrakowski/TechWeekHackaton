@@ -4,6 +4,8 @@ The model consumes only query and candidate text/statistics. Question, history,
 and session identifiers are used only to return the original evidence identity.
 ``k`` bounds the maximum selected sessions (default four); model probabilities
 choose the subset size by the development-calibrated expected-F1 surrogate.
+``calibrated-robust`` loads a separate dev/dev-large augmented model and adds
+history size after the original thirty features; ``calibrated`` is unchanged.
 """
 from __future__ import annotations
 
@@ -24,11 +26,12 @@ FEATURES = [
     "multi_relative", "time_relative", "count_relative", "assistant_role_match",
     "exact_phrase", "number_overlap", "top_score", "top_gap",
 ]
+ROBUST_FEATURES = FEATURES + ["history_sessions"]
 
 
-def candidates(question, history, pool=64):
+def candidates(question, history, pool=64, *, ranked=None, robust=False):
     """At most pool BM25 turns, grouped into sessions without label filtering."""
-    ranked = _rank(question, history)[:pool]
+    ranked = (_rank(question, history) if ranked is None else ranked)[:pool]
     if not ranked:
         return []
     query = set(tokenize(question["question"]))
@@ -74,14 +77,18 @@ def candidates(question, history, pool=64):
             len(numbers & set(re.findall(r"\d+", turn["content"]))) / max(len(numbers), 1),
             math.log1p(maximum), (maximum-session_scores[1])/maximum if len(session_scores)>1 else 1,
         ]
+        if robust:
+            features.append(math.log1p(len(history["sessions"])))
         result.append({"si": si, "hits": [t for _, _, t in hits], "features": features})
     return result
 
 
-@lru_cache(maxsize=1)
-def model():
-    artifact = json.loads((Path(__file__).parent / "models/session_selection.json").read_text())
-    if artifact["features"] != FEATURES:
+@lru_cache(maxsize=2)
+def model(method="calibrated"):
+    filename = "session_selection_robust.json" if method == "calibrated-robust" else "session_selection.json"
+    artifact = json.loads((Path(__file__).parent / "models" / filename).read_text())
+    expected = ROBUST_FEATURES if method == "calibrated-robust" else FEATURES
+    if artifact["features"] != expected:
         raise ValueError("Model feature schema mismatch")
     return artifact
 
@@ -115,13 +122,13 @@ def select(rows, probs, calibration=1.0, limit=4):
 
 
 def retrieve(question, history, k=4, method="calibrated", budget=12000):
-    if method != "calibrated":
+    if method not in ("calibrated", "calibrated-robust"):
         from retrieval import retrieve as base
         return base(question, history, k=k, method=method, budget=budget)
     if k < 1 or budget < 1:
         raise ValueError("k and budget must be positive")
-    artifact = model()
-    rows = candidates(question, history, artifact["pool"])
+    artifact = model(method)
+    rows = candidates(question, history, artifact["pool"], robust=method == "calibrated-robust")
     chosen = select(rows, probabilities(rows, artifact), artifact["mass_multiplier"], k)
     if not chosen:
         return []

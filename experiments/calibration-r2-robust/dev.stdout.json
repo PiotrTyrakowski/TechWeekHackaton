@@ -1,0 +1,27 @@
+{
+  "artifacts": "experiments/calibration-r2-robust/dev/20261030T223748443496Z",
+  "experiments": [
+    {
+      "experiment_id": "20261030T223748443496Z-0-calibrated-robust-k4",
+      "config": {
+        "method": "calibrated-robust",
+        "k": 4,
+        "budget": 12000
+      },
+      "metrics": {
+        "n": 93,
+        "answerable_n": 88,
+        "recall": 0.8962121212121212,
+        "precision": 0.8513257575757576,
+        "evidence_f1": 0.8586219336219336,
+        "any_hit": 0.9659090909090909,
+        "all_hit": 0.8181818181818182,
+        "latency_ms": 34.83024823556965,
+        "packed_chars": 7370.387096774193,
+        "unique_sessions": 2.010752688172043,
+        "latency_p95_ms": 38.17712498130277
+      },
+      "improvement_vs_baseline": null
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "experiment_id": "20261030T223748443657Z-0-calibrated-robust-k4",
+  "git": {
+    "commit": "3b93ffa5f5f0a9fa50adf10285227b93c43f2cc8",
+    "dirty": true
+  },
+  "config": {
+    "method": "calibrated-robust",
+    "k": 4,
+    "budget": 12000,
+    "retriever_module": "retrieval_calibrated"
+  },
+  "dataset": "data/dev-large",
+  "split": "all",
+  "retrieval_metrics": {
+    "n": 93,
+    "answerable_n": 88,
+    "recall": 0.7768939393939394,
+    "precision": 0.7774621212121212,
+    "evidence_f1": 0.7480970418470418,
+    "any_hit": 0.9204545454545454,
+    "all_hit": 0.6477272727272727,
+    "latency_ms": 315.5788099671769,
+    "packed_chars": 6799.290322580645,
+    "unique_sessions": 1.967741935483871,
+    "latency_p95_ms": 335.51316600642167
+  },
+  "by_type": {
+    "knowledge-update": {
+      "n": 16,
+      "answerable_n": 14,
+      "recall": 0.9285714285714286,
+      "precision": 0.8452380952380952,
+      "evidence_f1": 0.8785714285714286,
+      "any_hit": 1.0,
+      "all_hit": 0.8571428571428571,
+      "latency_ms": 314.3186222496297,
+      "packed_chars": 8847.8125,
+      "unique_sessions": 2.25,
+      "latency_p95_ms": 329.37049999600276
+    },
+    "multi-session": {
+      "n": 24,
+      "answerable_n": 24,
+      "recall": 0.5770833333333333,
+      "precision": 0.71875,
+      "evidence_f1": 0.606712962962963,
+      "any_hit": 0.875,
+      "all_hit": 0.3333333333333333,
+      "latency_ms": 313.83589400017325,
+      "packed_chars": 7468.875,
+      "unique_sessions": 2.1666666666666665,
+      "latency_p95_ms": 325.96966600976884
+    },
+    "single-session-assistant": {
+      "n": 18,
+      "answerable_n": 18,
+      "recall": 1.0,
+      "precision": 1.0,
+      "evidence_f1": 1.0,
+      "any_hit": 1.0,
+      "all_hit": 1.0,
+      "latency_ms": 325.6755022804201,
+      "packed_chars": 2283.8888888888887,
+      "unique_sessions": 1,
+      "latency_p95_ms": 372.38462502136827
+    },
+    "single-session-user": {
+      "n": 10,
+      "answerable_n": 9,
+      "recall": 0.8888888888888888,
+      "precision": 0.5277777777777778,
+      "evidence_f1": 0.6370370370370371,
+      "any_hit": 0.8888888888888888,
+      "all_hit": 0.8888888888888888,
+      "latency_ms": 313.9881497947499,
+      "packed_chars": 7738.3,
+      "unique_sessions": 1.9,
+      "latency_p95_ms": 336.5937919879798
+    },
+    "temporal-reasoning": {
+      "n": 25,
+      "answerable_n": 23,
+      "recall": 0.6746376811594202,
+      "precision": 0.7210144927536232,
+      "evidence_f1": 0.6625258799171843,
+      "any_hit": 0.8695652173913043,
+      "all_hit": 0.4782608695652174,
+      "latency_ms": 311.42517503816634,
+      "packed_chars": 7720.92,
+      "unique_sessions": 2.32,
+      "latency_p95_ms": 326.67654199758545
+    }
+  },
+  "by_partition": {
+    "development": {
+      "n": 0,
+      "answerable_n": 0,
+      "recall": null,
+      "precision": null,
+      "evidence_f1": null,
+      "any_hit": null,
+      "all_hit": null,
+      "latency_ms": null,
+      "packed_chars": null,
+      "unique_sessions": null,
+      "latency_p95_ms": null
+    },
+    "validation": {
+      "n": 93,
+      "answerable_n": 88,
+      "recall": 0.7768939393939394,
+      "precision": 0.7774621212121212,
+      "evidence_f1": 0.7480970418470418,
+      "any_hit": 0.9204545454545454,
+      "all_hit": 0.6477272727272727,
+      "latency_ms": 315.5788099671769,
+      "packed_chars": 6799.290322580645,
+      "unique_sessions": 1.967741935483871,
+      "latency_p95_ms": 335.51316600642167
+    }
+  },
+  "answer_metrics": null,
+  "abstention_metrics": null,
+  "reactor_call_count": 0,
+  "runtime_s": 42.5060537920217,
+  "failures": {
+    "partial_or_missing_evidence": 31,
+    "zero_evidence_hit": 7
+  },
+  "improvement_vs_baseline": null,
+  "source_sha256": {
+    "/private/tmp/rxai-calibration-r2/evaluate.py": "80a58dab661667d7f47173431e2d43f261471f45b9ecbff7e6c79544beddfd1a",
+    "/private/tmp/rxai-calibration-r2/retrieval_calibrated.py": "b5af02220f8fde6905886fe253a3fab085d3668eb154d61065b4fdeb09dd3aa4",
+    "retrieval.py": "c83db063652b921627328e6efb876dbec8f38d0541173d111b039492df9eaabb",
+    "official/score.py": "d5081b7a3412c768d202b0ca693888d3135678c92b55a6321a24691d3e320297",
+    "official/reactor/examples/run_benchmark.py": "4b60f81c41b8bfd0999db59b2d5fb73c39f06fc00274ea1749c782957bdafe1e",
+    "data/dev-large/gold.jsonl": "70a4045f39ed650a0fd2a25ad8a6d5634c4df665d3416fb9f93a4e2221b1b4d8",
+    "data/dev-large/questions.jsonl": "57400a20a7d2046b75dc82b226de0295ace3dabbf735cd1f6e5452cf35ef3e0e",
+    "data/dev-large/histories.jsonl": "11a7b3f673697e9b9a345a3ce1339628bd89107b8b9ca51a364266967b7fb03f",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/experiments/maximum-score-r2/dev-large-validation-questions.jsonl": "48346f048c7b4b1474664e84f328227b201b82a4d45bc00eb71fdaf4f56a47cb"
+  },
+  "notes": "Metrics use unique session IDs in top-k packed passages; F1 treats all retrieved sessions as citations, not Reactor-selected citations. Unanswerable excluded from evidence metrics. Dev-large shares dev questions and is not a holdout."
+}
