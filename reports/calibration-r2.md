@@ -26,7 +26,7 @@ Exactly two candidate variants were declared: top32 and top64 BM25 turns. The in
 
 The selected top64 / L2=10 / multiplier=2 configuration scores internal-heldout F1 **85.80**, precision **84.74**, recall **89.14**. One final coefficient fit then uses all 433 development questions. The frozen configuration receives one completed full526 evaluation, with no tuning after examining validation. An earlier evaluator launch failed at module import because PYTHONPATH was absent; it processed no questions and left an empty timestamp directory.
 
-The fixed validation split is by question, not by history. It therefore evaluates held-out questions and must not be described as evidence of performance on entirely unseen histories. The source/data hashes and split rules make the experiment reproducible without storing IDs as model features.
+The fixed validation split is by question, not by history. **14 validation questions share a history with development**, and all 14 are answerable: calibrated F1/precision/recall are 100%, versus dense-hybrid F1 89.29 and BM25 F1 84.52. On the **79 validation questions with entirely unseen histories (74 answerable)**, calibrated F1 is **84.38**, precision **84.12**, recall **88.67**, versus dense-hybrid F1 **84.47** and BM25 F1 **77.91**. Therefore the apparent overall validation gain over dense is concentrated in the shared-history subgroup; the unseen-history comparison is effectively tied (-0.09 point). IDs are not model features, but the context overlap still warrants this qualification. The source/data hashes and split rules make the experiment reproducible.
 
 ## Remaining failures and uncertainty
 
