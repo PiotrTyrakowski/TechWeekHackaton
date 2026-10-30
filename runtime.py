@@ -16,6 +16,7 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+import tempfile
 
 from official.reactor import client as official_client
 from official.reactor import predictions as adapter
@@ -33,7 +34,9 @@ def file_sha256(path):
 
 @contextmanager
 def execution_lock(base_url, agent_id):
-    lock_dir = ROOT / "runs/.agent-locks"
+    # All local worktrees/clones of the same user share the lock. Coordination
+    # with a teammate on another machine still requires an exclusive window.
+    lock_dir = Path(tempfile.gettempdir()) / f"opentovibe-reactor-locks-{os.getuid()}"
     lock_dir.mkdir(parents=True, exist_ok=True)
     identity = base_url.rstrip("/").lower() + "\n" + agent_id
     path = lock_dir / (hashlib.sha256(identity.encode()).hexdigest() + ".lock")
@@ -200,6 +203,8 @@ def prepare(args):
 
 
 def run(args):
+    if getattr(args, 'adopt_server_history', False):
+        raise ValueError('History adoption is disabled: a server-reported history may belong to a teammate or another dataset user; coordinate access and start a fresh run')
     if args.limit < 0 or args.k <= 0 or args.budget <= 0 or args.timeout <= 0:
         raise ValueError("limit must be nonnegative; k, budget, and timeout must be positive")
     questions, histories, evidence, manifest = prepare(args)
@@ -258,19 +263,6 @@ def run(args):
                                  'question_id': pending['question_id'], 'history_id': state['reactor_history']})
                     state['pending'] = None
                     atomic_json(state_path, state)
-                elif getattr(args, 'adopt_server_history', False) and result.get('code') == 'history_changed':
-                    hid = pending['dataset_history']
-                    qids_in_history = {q['question_id'] for q in questions if q['history_id'] == hid}
-                    recovery_path = out / 'recovery.jsonl'
-                    prior = read_jsonl(recovery_path) if recovery_path.exists() else []
-                    current = result.get('current_history_id')
-                    if not isinstance(current, str) or not current or current == state['reactor_history'] or done & qids_in_history or any(r.get('operation') == 'adopt_server_history' and r.get('dataset_history') == hid for r in prior):
-                        raise ValueError('refusing unsafe or repeated server-history adoption')
-                    append_jsonl(recovery_path, {'operation': 'adopt_server_history', 'dataset_history': hid,
-                                 'old_history_id': state['reactor_history'], 'new_history_id': current,
-                                 'reason': 'explicit documented recovery before any answer; local contention checked'})
-                    state.update(reactor_history=current, pending=None)
-                    atomic_json(state_path, state)
                 elif getattr(args, 'restart_interrupted_history', False) and result.get('code') == 'history_changed':
                     hid = pending['dataset_history']
                     qids_in_history = {q['question_id'] for q in questions if q['history_id'] == hid}
@@ -295,6 +287,8 @@ def run(args):
                           "completed": len(done), "pending": state["pending"] is not None}), flush=True)
         if not args.execute:
             return 0
+        if not getattr(args, 'exclusive_access', False):
+            raise ValueError('Reactor access is shared: coordinate exclusive use, then pass --exclusive-access')
         if state["pending"]:
             raise ValueError("uncertain prior call recorded in checkpoint; inspect attempts.jsonl before recovery")
         if not os.environ.get("REACTOR_ACCESS_KEY"):
@@ -366,12 +360,13 @@ def main(argv=None):
     ap.add_argument("--timeout", type=float, default=300)
     ap.add_argument("--base-url", default="https://t07.api.reactor-hackathon.rxai.dev")
     ap.add_argument("--agent-id", default="agt_0c172edd3340495a")
-    ap.add_argument("--client", type=Path, default=ROOT / "official/reactor/client.py")
+    ap.add_argument("--client", type=Path, default=ROOT / "reactor_client.py")
     ap.add_argument("--execute", action="store_true", help="make the planned API calls")
+    ap.add_argument("--exclusive-access", action="store_true", help="confirm an explicitly coordinated exclusive Reactor window")
     ap.add_argument("--retry-closed", action="store_true", help="explicitly retry one previously closed request in the same history")
     ap.add_argument("--restart-interrupted-history", action="store_true", help="restart once after server history_changed, only if no question in that history succeeded")
     ap.add_argument("--upgrade-client", action="store_true", help="record a client-only upgrade before any successful answer; evidence, prompt size, and data must match")
-    ap.add_argument("--adopt-server-history", action="store_true", help="after checking exclusive use, rebind once to server-reported current history before any answer succeeded")
+    ap.add_argument("--adopt-server-history", action="store_true", help="deprecated and disabled: unknown server histories can contain another user's memory")
     args = ap.parse_args(argv)
     try:
         if args.execute:

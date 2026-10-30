@@ -63,6 +63,12 @@ class CalibratedRetrievalTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 calibrated.retrieve(self.question, self.history, k=0)
 
+    def test_tiny_budget_never_emits_empty_passages(self):
+        with patch.object(calibrated, 'model', return_value=self.artifact):
+            result = calibrated.retrieve(self.question, self.history, k=4, budget=1)
+        self.assertTrue(all(p['text'] for p in result))
+        self.assertLessEqual(sum(len(p['text']) for p in result), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

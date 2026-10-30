@@ -8,6 +8,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import importlib
+import importlib.util
+import sys
 import json
 import statistics
 import subprocess
@@ -67,6 +69,21 @@ def digest(path):
     return h.hexdigest()
 
 
+def load_retriever(module_name, source_file=None):
+    """An explicit file avoids importing an older module from another worktree."""
+    if source_file is None:
+        return importlib.import_module(module_name)
+    source_file = Path(source_file).resolve()
+    name = 'offline_candidate_' + hashlib.sha256(str(source_file).encode()).hexdigest()[:16]
+    spec = importlib.util.spec_from_file_location(name, source_file)
+    if spec is None or spec.loader is None:
+        raise ValueError(f'Cannot load candidate: {source_file}')
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
 def write_json(path, obj):
     Path(path).write_text(json.dumps(obj, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
@@ -105,7 +122,9 @@ def main(argv=None):
     parser.add_argument("--data", type=Path, default=Path("data/dev"))
     parser.add_argument("--questions", type=Path, help="Optional question subset; reports its scope explicitly")
     parser.add_argument("--method", action="append")
-    parser.add_argument("--retriever-module", default="retrieval", help="Offline candidate module exposing retrieve(question,history,k,method,budget)")
+    candidate = parser.add_mutually_exclusive_group()
+    candidate.add_argument("--retriever-module", default="retrieval", help="Offline candidate module exposing retrieve(question,history,k,method,budget)")
+    candidate.add_argument("--retriever-file", type=Path, help="Exact candidate source file, avoiding cross-worktree import shadowing")
     parser.add_argument("--k", type=int, action="append")
     parser.add_argument("--budget", type=int, default=12000)
     parser.add_argument("--out", type=Path, default=Path("experiments"))
@@ -137,7 +156,7 @@ def main(argv=None):
             stream.write(json.dumps(result, ensure_ascii=False) + "\n")
         print(json.dumps(result, indent=2))
         return 0
-    retriever_module = importlib.import_module(args.retriever_module)
+    retriever_module = load_retriever(args.retriever_module, args.retriever_file)
     retrieve = retriever_module.retrieve
     configs = [{"method": method, "k": k, "budget": args.budget}
                for method in args.method or ["official", "bm25"] for k in args.k or [4]]
@@ -181,7 +200,7 @@ def main(argv=None):
         baseline = baselines.get(config["k"])
         experiment_id = f"{timestamp}-{index}-{config['method']}-k{config['k']}"
         summary = summarize(rows)
-        report = {"experiment_id": experiment_id, "git": git_revision, "config": {**config, "retriever_module": args.retriever_module},
+        report = {"experiment_id": experiment_id, "git": git_revision, "config": {**config, "retriever_module": args.retriever_module if args.retriever_file is None else str(args.retriever_file)},
                   "dataset": str(args.data), "split": "all", "retrieval_metrics": summary,
                   "by_type": {t: summarize([r for r in rows if r["question_type"] == t]) for t in sorted({r["question_type"] for r in rows})},
                   "by_partition": {p: summarize([r for r in rows if r["partition"] == p]) for p in ("development", "validation")},

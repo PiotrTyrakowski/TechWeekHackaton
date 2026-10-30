@@ -4,6 +4,9 @@
 stateful agent. Shared-agent contention is now the likely explanation. The
 historical investigation below is preserved as recorded; server-side debugging
 and all Reactor operations are paused until exclusive access is coordinated.
+The experimental history-adoption flag is now disabled to prevent using a
+teammate's or another dataset user's memory. Its failed historical probe below
+is preserved, not a recommended recovery procedure.
 
 Status: local fixes implemented and tested; live validation remains blocked by
 remote history invalidation. No correctly cited live answer has yet been obtained.

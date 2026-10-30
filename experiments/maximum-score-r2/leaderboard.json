@@ -1,0 +1,270 @@
+{
+  "reactor_calls_this_round": 0,
+  "leaderboard": [
+    {
+      "dataset": "dev",
+      "name": "BM25-4",
+      "metrics": {
+        "n": 526,
+        "answerable_n": 496,
+        "recall": 0.8487903225806451,
+        "precision": 0.7552083333333334,
+        "evidence_f1": 0.7646617383512545,
+        "any_hit": 0.9637096774193549,
+        "all_hit": 0.7379032258064516,
+        "latency_ms": 38.65994858717503,
+        "packed_chars": 4078.028517110266,
+        "unique_sessions": 2.140684410646388,
+        "latency_p95_ms": 47.94374998891726
+      },
+      "validation": {
+        "n": 93,
+        "answerable_n": 88,
+        "recall": 0.8464015151515152,
+        "precision": 0.7888257575757576,
+        "evidence_f1": 0.7896013708513708,
+        "any_hit": 0.9772727272727273,
+        "all_hit": 0.7045454545454546,
+        "latency_ms": 38.40073118373121,
+        "packed_chars": 3789.8924731182797,
+        "unique_sessions": 2.053763440860215,
+        "latency_p95_ms": 47.70962501061149
+      },
+      "artifact": "experiments/offline-sprint/unified/20261030T221011228414Z/0-bm25-k4-summary.json",
+      "sha256": "dad44057f20b680ec197b82842b70ef7a8893fd79555de209f3435baa06eac27",
+      "training_note": "No challenge-gold relevance fitting."
+    },
+    {
+      "dataset": "dev",
+      "name": "dense-hybrid-4",
+      "metrics": {
+        "n": 526,
+        "answerable_n": 496,
+        "recall": 0.8573252688172043,
+        "precision": 0.8235887096774194,
+        "evidence_f1": 0.8077220942140297,
+        "any_hit": 0.9758064516129032,
+        "all_hit": 0.7338709677419355,
+        "latency_ms": 32.93677548598587,
+        "packed_chars": 3895.1406844106464,
+        "unique_sessions": 1.9372623574144487,
+        "latency_p95_ms": 39.92587499669753
+      },
+      "validation": {
+        "n": 93,
+        "answerable_n": 88,
+        "recall": 0.881439393939394,
+        "precision": 0.8806818181818182,
+        "evidence_f1": 0.8523809523809524,
+        "any_hit": 1.0,
+        "all_hit": 0.7613636363636364,
+        "latency_ms": 32.856443074784714,
+        "packed_chars": 3600.1182795698924,
+        "unique_sessions": 1.881720430107527,
+        "latency_p95_ms": 41.10254201805219
+      },
+      "artifact": "experiments/dense-full16/summary.json",
+      "sha256": "efb3f9dca467f49dbece3b2bcf1a867443a08561723edf660e7958846566c81b",
+      "training_note": "No challenge-gold relevance fitting."
+    },
+    {
+      "dataset": "dev",
+      "name": "calibrated-4",
+      "metrics": {
+        "n": 526,
+        "answerable_n": 496,
+        "recall": 0.898622311827957,
+        "precision": 0.8674395161290323,
+        "evidence_f1": 0.8665034562211982,
+        "any_hit": 0.969758064516129,
+        "all_hit": 0.8145161290322581,
+        "latency_ms": 40.5037926388028,
+        "packed_chars": 7192.610266159696,
+        "unique_sessions": 1.946768060836502,
+        "latency_p95_ms": 51.809708995278925
+      },
+      "validation": {
+        "n": 93,
+        "answerable_n": 88,
+        "recall": 0.9047348484848485,
+        "precision": 0.8664772727272727,
+        "evidence_f1": 0.8686598124098124,
+        "any_hit": 0.9772727272727273,
+        "all_hit": 0.8295454545454546,
+        "latency_ms": 40.73425314153835,
+        "packed_chars": 7449.1720430107525,
+        "unique_sessions": 1.978494623655914,
+        "latency_p95_ms": 56.98866699822247
+      },
+      "artifact": "experiments/calibration-r2/final/20261030T222832152993Z/0-calibrated-k4-summary.json",
+      "sha256": "9866260376d92cf4170fe77e2c60b722c8f33bb15e28edb9676f9af32ad830e8",
+      "training_note": "Calibrated used433 dev question IDs for fitting; full526 includes these training IDs. Dev-large reuses the same questions."
+    },
+    {
+      "dataset": "dev-large",
+      "name": "BM25-4",
+      "metrics": {
+        "n": 526,
+        "answerable_n": 496,
+        "recall": 0.7747983870967742,
+        "precision": 0.6125672043010753,
+        "evidence_f1": 0.6487151177675371,
+        "any_hit": 0.9112903225806451,
+        "all_hit": 0.6512096774193549,
+        "latency_ms": 329.25647908725205,
+        "packed_chars": 4019.0874524714827,
+        "unique_sessions": 2.494296577946768,
+        "latency_p95_ms": 423.9975829841569
+      },
+      "validation": {
+        "n": 93,
+        "answerable_n": 88,
+        "recall": 0.7556818181818182,
+        "precision": 0.6581439393939393,
+        "evidence_f1": 0.6726911976911977,
+        "any_hit": 0.9090909090909091,
+        "all_hit": 0.6363636363636364,
+        "latency_ms": 327.2161380436662,
+        "packed_chars": 4111.752688172043,
+        "unique_sessions": 2.3333333333333335,
+        "latency_p95_ms": 423.9482919801958
+      },
+      "artifact": "experiments/maximum-score-r2/dev-large-baseline/20261030T222629393708Z/0-bm25-k4-summary.json",
+      "sha256": "1114c176014ffa1f2dd2c7372758c6774be66c737122c934938515f129567a24",
+      "training_note": "No challenge-gold relevance fitting."
+    },
+    {
+      "dataset": "dev-large",
+      "name": "BM25-8",
+      "metrics": {
+        "n": 526,
+        "answerable_n": 496,
+        "recall": 0.8492271505376344,
+        "precision": 0.4124687980030722,
+        "evidence_f1": 0.5177391157229867,
+        "any_hit": 0.9495967741935484,
+        "all_hit": 0.7560483870967742,
+        "latency_ms": 328.1808399834127,
+        "packed_chars": 6743.699619771863,
+        "unique_sessions": 4.395437262357414,
+        "latency_p95_ms": 422.3387090023607
+      },
+      "validation": {
+        "n": 93,
+        "answerable_n": 88,
+        "recall": 0.8375,
+        "precision": 0.4462797619047619,
+        "evidence_f1": 0.5456103240194149,
+        "any_hit": 0.9431818181818182,
+        "all_hit": 0.75,
+        "latency_ms": 330.85262008738624,
+        "packed_chars": 6854.935483870968,
+        "unique_sessions": 4.268817204301075,
+        "latency_p95_ms": 435.4771669895854
+      },
+      "artifact": "experiments/maximum-score-r2/dev-large-baseline/20261030T222629393708Z/1-bm25-k8-summary.json",
+      "sha256": "7c8abd4f93bcd1bd09d329a090bf904e374c09167d3315050527ae9be433df80",
+      "training_note": "No challenge-gold relevance fitting."
+    },
+    {
+      "dataset": "dev-large",
+      "name": "calibrated-4",
+      "metrics": {
+        "n": 526,
+        "answerable_n": 496,
+        "recall": 0.8253024193548387,
+        "precision": 0.6974126344086021,
+        "evidence_f1": 0.7283170122887865,
+        "any_hit": 0.9274193548387096,
+        "all_hit": 0.7278225806451613,
+        "latency_ms": 311.26368686168615,
+        "packed_chars": 7548.321292775666,
+        "unique_sessions": 2.3479087452471483,
+        "latency_p95_ms": 328.65387498168275
+      },
+      "validation": {
+        "n": 93,
+        "answerable_n": 88,
+        "recall": 0.8361742424242424,
+        "precision": 0.7528409090909091,
+        "evidence_f1": 0.7690025252525252,
+        "any_hit": 0.9431818181818182,
+        "all_hit": 0.7386363636363636,
+        "latency_ms": 312.9976944095375,
+        "packed_chars": 7360.94623655914,
+        "unique_sessions": 2.236559139784946,
+        "latency_p95_ms": 331.9564590055961
+      },
+      "artifact": "experiments/maximum-score-r2/dev-large-calibrated-full/20261030T223408144377Z/0-calibrated-k4-summary.json",
+      "sha256": "02a4d1df5e2ca3937579d53307e7034e084155f60e4928b295b30b8c70e55fd4",
+      "training_note": "Calibrated used433 dev question IDs for fitting; full526 includes these training IDs. Dev-large reuses the same questions."
+    },
+    {
+      "dataset": "dev-large",
+      "name": "dense-hybrid-4 validation only",
+      "metrics": {
+        "n": 93,
+        "answerable_n": 88,
+        "recall": 0.7950757575757575,
+        "precision": 0.6837121212121212,
+        "evidence_f1": 0.7058712121212122,
+        "any_hit": 0.9318181818181818,
+        "all_hit": 0.6818181818181818,
+        "latency_ms": 889.4435818596888,
+        "packed_chars": 3845,
+        "unique_sessions": 2.3440860215053765,
+        "latency_p95_ms": 1007.181416003732
+      },
+      "validation": {
+        "n": 93,
+        "answerable_n": 88,
+        "recall": 0.7950757575757575,
+        "precision": 0.6837121212121212,
+        "evidence_f1": 0.7058712121212122,
+        "any_hit": 0.9318181818181818,
+        "all_hit": 0.6818181818181818,
+        "latency_ms": 889.4435818596888,
+        "packed_chars": 3845,
+        "unique_sessions": 2.3440860215053765,
+        "latency_p95_ms": 1007.181416003732
+      },
+      "artifact": "experiments/maximum-score-r2/dev-large-dense-validation/20261030T223005592968Z/0-dense-hybrid-k4-summary.json",
+      "sha256": "fe6a01eba0749aa9db59f566a0ae70ac1441d71e63188c61576cd41203d64e03",
+      "training_note": "No challenge-gold relevance fitting."
+    }
+  ],
+  "dev_large_validation_calibrated_minus_dense": {
+    "answerable_n": 88,
+    "mean_delta": 0.06313131313131314,
+    "wins": 32,
+    "losses": 16,
+    "paired_question_bootstrap95": [
+      0.01614357864357864,
+      0.10977633477633476
+    ],
+    "note": "Exploratory paired question bootstrap; does not adjust for repeated validation use or history clustering."
+  },
+  "dev_large_unseen_history_calibrated_minus_dense": {
+    "answerable_n": 74,
+    "mean_delta": 0.03768768768768769,
+    "wins": 26,
+    "losses": 16,
+    "paired_question_bootstrap95": [
+      -0.009480909480909483,
+      0.08253968253968255
+    ],
+    "note": "Exploratory paired question bootstrap; does not adjust for repeated validation use or history clustering."
+  },
+  "live_total_unchanged": {
+    "completed_unique_questions": 1,
+    "exact_gold_matches": 1,
+    "unjudged": 0,
+    "evidence_f1": 0,
+    "unanswerable_cases_tested": 0,
+    "benchmark_requests": 19,
+    "reset_requests": 5,
+    "question_request_attempts": 14,
+    "unsuccessful_question_attempts": 13
+  },
+  "limits": "Retrieval-set evidence metrics are not Reactor answer accuracy or actual citation F1. Validation is reused exploratory data, dev-large is not independent, and there is no complete citation-validated live configuration."
+}

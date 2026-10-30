@@ -132,6 +132,7 @@ def retrieve(question, history, k=4, method="calibrated", budget=12000):
     chosen = select(rows, probabilities(rows, artifact), artifact["mass_multiplier"], k)
     if not chosen:
         return []
+    chosen = chosen[:budget]  # At least one character per passage for the official client.
     cap = budget // len(chosen)
     result = []
     for row in chosen:

@@ -27,7 +27,7 @@ class RuntimeTests(unittest.TestCase):
             (self.root / (name + ".jsonl")).write_text("".join(json.dumps(x) + "\n" for x in values))
         self.argv = ["--questions", str(self.root / "questions.jsonl"), "--histories",
                      str(self.root / "histories.jsonl"), "--out-dir", str(self.root / "run"), "--limit", "0",
-                     "--agent-id", "unit-test-agent"]
+                     "--agent-id", "unit-test-" + self.root.name, "--exclusive-access"]
         self.calls = []
 
     def client(self, args, extra):
@@ -45,6 +45,12 @@ class RuntimeTests(unittest.TestCase):
             self.assertEqual(runtime.main(self.argv), 0)
         plan = json.loads((self.root / "run/plan.json").read_text())
         self.assertEqual(len(plan["question_ids"]), 3)
+
+    def test_live_execution_requires_exclusive_window_confirmation(self):
+        args = [x for x in self.argv if x != '--exclusive-access']
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=AssertionError('must not call shared agent')):
+            self.assertEqual(runtime.main(args + ['--execute']), 2)
 
     def test_jsonl_preserves_unicode_line_separators_in_content(self):
         path = self.root / "unicode.jsonl"
@@ -145,7 +151,7 @@ class RuntimeTests(unittest.TestCase):
             self.assertEqual(len(self.calls), 7)
             self.assertNotEqual(self.calls[1][1], self.calls[3][1])
 
-    def test_documented_current_history_recovery_never_adds_reset(self):
+    def test_unknown_current_history_is_never_adopted(self):
         def changed_once(args, extra):
             if len(self.calls) == 1:
                 self.calls.append(extra)
@@ -156,10 +162,10 @@ class RuntimeTests(unittest.TestCase):
                 runtime, 'invoke', side_effect=changed_once), patch.object(
                 runtime.official_client, 'environment_problem', return_value=None):
             self.assertEqual(runtime.main(self.argv + ['--execute']), 2)
-            self.assertEqual(runtime.main(self.argv + ['--execute', '--adopt-server-history']), 0)
-            self.assertEqual(len(self.calls), 6)
-            self.assertEqual(self.calls[2][1], 'server-current')
-            self.assertEqual(sum('--new-history' in c for c in self.calls), 2)
+            self.assertEqual(runtime.main(self.argv + ['--execute', '--adopt-server-history']), 2)
+            self.assertEqual(len(self.calls), 2)
+            state = json.loads((self.root / 'run/checkpoint.json').read_text())
+            self.assertEqual(state['reactor_history'], 'reactor1')
 
     def test_server_history_adoption_rejected_after_answer_in_same_history(self):
         def changed_second(args, extra):

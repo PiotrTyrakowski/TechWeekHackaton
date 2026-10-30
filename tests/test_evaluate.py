@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from evaluate import answer_evaluation, partition, retrieval_metrics
+from evaluate import answer_evaluation, partition, retrieval_metrics, load_retriever
 
 
 class EvaluationTests(unittest.TestCase):
@@ -20,6 +20,16 @@ class EvaluationTests(unittest.TestCase):
         values = [partition(f"q{i}") for i in range(100)]
         self.assertEqual(values, [partition(f"q{i}") for i in range(100)])
         self.assertEqual(set(values), {"development", "validation"})
+
+    def test_explicit_worktree_file_beats_same_named_import_and_keeps_relative_assets(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / 'model.txt').write_text('isolated-version')
+            path = root / 'retrieval_calibrated.py'
+            path.write_text("from pathlib import Path\nVERSION = (Path(__file__).parent/'model.txt').read_text()\n")
+            module = load_retriever('retrieval_calibrated', path)
+            self.assertEqual(module.VERSION, 'isolated-version')
+            self.assertEqual(Path(module.__file__).resolve(), path.resolve())
 
     def test_answer_scoring_rejects_other_history_citation(self):
         with tempfile.TemporaryDirectory() as tmp:

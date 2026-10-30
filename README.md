@@ -70,6 +70,26 @@ without repeating inference:
 coordinated.** The earlier history invalidations likely came from simultaneous
 use of the shared agent by a teammate.
 
+Round two adds a frozen, supervised session selector (`--method calibrated`) with
+standard-library inference. Its weights were fitted only on the 433 development
+question IDs; validation and dev-large scale results are kept separate in
+[reports/MAXIMUM_SCORE_R2.md](reports/MAXIMUM_SCORE_R2.md). Full-dev fitted metrics
+are not held-out answer accuracy. The fact-memory, complementary, and mixed-scale
+refit experiments did not justify promotion; their code/reports remain reproducible.
+
+```sh
+.venv/bin/python evaluate.py --data data/dev --method calibrated --k 4
+.venv/bin/python bootstrap.py --split dev-large
+.venv/bin/python evaluate.py --data data/dev-large --method calibrated --k 4
+.venv/bin/python experiments/maximum-score-r2/summarize.py
+```
+
+No model training is needed for inference: `models/session_selection.json` is a
+small frozen artifact. `train_session_selection.py` reproduces development-only
+fitting using NumPy (available in the optional Python 3.12 environment).
+`--retriever-file path/to/candidate.py` evaluates an exact isolated source file,
+avoiding similarly named modules in another worktree.
+
 ## Five-question Reactor smoke test
 
 Configure `REACTOR_ACCESS_KEY` privately in the invoking process environment.
@@ -83,7 +103,8 @@ only whether it is available. The supplied team URL/agent are the CLI defaults.
 This dry run prepares evidence and reports the call plan. Five selected questions
 use five histories: **5 history resets + 5 question requests**, before the official
 client's safe retries of refused, unforwarded messages. To execute the authorized
-small smoke test, repeat that command with `--execute`. The manifest locks data,
+small smoke test, coordinate exclusive access and repeat that command with
+`--execute --exclusive-access`. The manifest locks data,
 question selection, client version, retrieval configuration, and evidence.
 
 ```sh
@@ -116,11 +137,17 @@ in explanatory text are never moved into a final answer. Only actual Reactor abs
 submitted abstentions.
 
 For final-line citation instructions and redacted WebSocket close diagnostics,
-use `--client reactor_client.py`. The wrapper keeps the official answer parser
+the runner now defaults to `reactor_client.py`. The wrapper keeps the official answer parser
 and citation mapper unchanged. `--stop-after 1` pauses after one completed question
 without changing the five-question manifest, allowing a citation check before
 continuation. The 2026-10-30 investigation remains blocked on remote history
 invalidation; see [the reliability report](reports/REACTOR_RELIABILITY.md).
+
+Live execution also requires `--exclusive-access`, a confirmation that the team
+has actually coordinated a window. The local lock is shared across worktrees and
+clones belonging to this machine user, but cannot control another machine or an
+uncooperative client. Dry runs never invoke Reactor. Adopting an unexpected
+server-reported history is disabled because it may contain another user's memory.
 
 A successful response durably recorded in `attempts.jsonl` can be recovered after
 a local validation/write failure without sending the question again. Uncertain
@@ -144,7 +171,7 @@ python3 bootstrap.py --split test
 Choose a configuration from measured dev results before execution. The public
 test description reports 146 questions across 15 histories: approximately 161
 initial API operations; the actual dry run is authoritative. Review the plan,
-obtain approval, then use `--execute`. Completion checks exact selected question
+obtain approval and exclusive access, then use `--execute --exclusive-access`. Completion checks exact selected question
 coverage and per-history citations. Keep the raw results, manifest, checkpoint,
 code revision, and final predictions together for reproducibility.
 

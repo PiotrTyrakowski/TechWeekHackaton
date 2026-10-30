@@ -15,7 +15,7 @@ from collections import Counter
 
 from official.reactor.examples.run_benchmark import retrieve as official_retrieve
 
-METHODS = ("official", "bm25", "bm25-context", "hybrid", "adaptive")
+METHODS = ("official", "bm25", "bm25-context", "hybrid", "adaptive", "calibrated")
 OPTIONAL_METHODS = ("dense", "dense-hybrid")
 ALL_METHODS = METHODS + OPTIONAL_METHODS
 STOPWORDS = set("a an the i me my mine we us our you your it its this that these those "
@@ -99,6 +99,9 @@ def retrieve(question: dict, history: dict, k: int = 4, method: str = "bm25",
     if method == 'adaptive':
         from retrieval_specialized import retrieve as retrieve_specialized
         return retrieve_specialized(question, history, k=k, method='adaptive', budget=budget)
+    if method == 'calibrated':
+        from retrieval_calibrated import retrieve as retrieve_calibrated
+        return retrieve_calibrated(question, history, k=k, method=method, budget=budget)
     if method in OPTIONAL_METHODS:
         from retrieval_dense import retrieve as retrieve_dense
         return retrieve_dense(question, history, k=k, method=method, budget=budget)
