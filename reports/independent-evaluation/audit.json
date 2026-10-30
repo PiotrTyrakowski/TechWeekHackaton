@@ -1,0 +1,362 @@
+{
+  "kind": "measured-local-artifact-audit",
+  "reactor_operations": 0,
+  "source_sha256": {
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev/questions.jsonl": "814011572fb0e873320c0f88ab99bb0e9a87c6c57c304f21f59e4393b0e24278",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev-large/questions.jsonl": "57400a20a7d2046b75dc82b226de0295ace3dabbf735cd1f6e5452cf35ef3e0e",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev/gold.jsonl": "6b6e7808f364313724ab85100adff0de765149a85b0b07b6a9808818e5ee4f9a",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev-large/gold.jsonl": "70a4045f39ed650a0fd2a25ad8a6d5634c4df665d3416fb9f93a4e2221b1b4d8",
+    "models/session_selection.json": "a6ad9390c75b8703641995125ccc7b1226811ab9a53447d73576f274c72dd718",
+    "official/score.py": "d5081b7a3412c768d202b0ca693888d3135678c92b55a6321a24691d3e320297"
+  },
+  "dev": {
+    "questions": 526,
+    "answerable": 496,
+    "histories": 470,
+    "history_question_counts": {
+      "1": 414,
+      "2": 56
+    },
+    "question_types": {
+      "single-session-user": 70,
+      "multi-session": 133,
+      "temporal-reasoning": 133,
+      "knowledge-update": 78,
+      "single-session-assistant": 112
+    },
+    "development_n": 433,
+    "validation_n": 93,
+    "recorded_fit_ids": 433,
+    "recorded_fit_matches_development": true,
+    "validation_shared_training_history_ids": [
+      "q_2a698b22434c",
+      "q_364a0c573531",
+      "q_41f23a70abad",
+      "q_45fbc7675695",
+      "q_476339d2b674",
+      "q_4ee94ad78ea8",
+      "q_5234e62359fb",
+      "q_52ad9380c6d6",
+      "q_685398061e6d",
+      "q_6fabbe9a09a6",
+      "q_c8dd20311b49",
+      "q_e275a5acf1ec",
+      "q_ea2fd08b7b29",
+      "q_f4c172513fa9"
+    ],
+    "validation_unseen_history_n": 79,
+    "validation_unseen_history_answerable_n": 74
+  },
+  "dev_large": {
+    "questions": 526,
+    "same_question_ids": true,
+    "matching_question_text_n": 526,
+    "changed_question_dates_n": 524,
+    "matching_gold_including_evidence_sets_n": 526
+  },
+  "validation_exposure_artifacts": [
+    {
+      "path": "experiments/20261030T212244128730Z/0-official-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "cee038ad709268a80300c96de3f3c617eb933773f3fa3865d7f8599a0cb9aace"
+    },
+    {
+      "path": "experiments/20261030T212244128730Z/1-official-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "55094a950a2b950376bda91d75f400a1a71837f7d8ea7cb17387200b6d45c7ba"
+    },
+    {
+      "path": "experiments/20261030T212244128730Z/2-official-k12-details.jsonl",
+      "validation_n": 93,
+      "sha256": "2ab6ba35a71ca91ccefba99453877043e2efc8447a7b027de91fa0697d5d84a8"
+    },
+    {
+      "path": "experiments/20261030T212244128730Z/3-bm25-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "ad34c9709d0b24221cb3823e428b9b7c05bebaa00513a61adcc288fbc88fe1af"
+    },
+    {
+      "path": "experiments/20261030T212244128730Z/4-bm25-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "1ae6456c52bf1c41898d255945d04e100243c4d5e3921aa60ebc6dc2d6a6d7c5"
+    },
+    {
+      "path": "experiments/20261030T212244128730Z/5-bm25-k12-details.jsonl",
+      "validation_n": 93,
+      "sha256": "900ddec685410c795cc7229b53b063e867950b2506ff7f15c6bf5e25469c5939"
+    },
+    {
+      "path": "experiments/20261030T212244128730Z/6-bm25-context-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "5f01bb268def0e953852f35d5b4de646c5dea2701117184e6bda9b2cb2b4104e"
+    },
+    {
+      "path": "experiments/20261030T212244128730Z/7-bm25-context-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "e8c0b4eb9eb1ba4ea8e0fe7563207dec5b70f63e3a5d91495dc7ece9895dc009"
+    },
+    {
+      "path": "experiments/20261030T212244128730Z/8-bm25-context-k12-details.jsonl",
+      "validation_n": 93,
+      "sha256": "634d9251801eaee4f8f3d46977b0536f0e31e434709ecb62652614ab57ac6f77"
+    },
+    {
+      "path": "experiments/20261030T212313964273Z/0-official-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "720e2a2cb41f5704c49e698f855057256a0ba8f5e35bfad9781602896fc0652c"
+    },
+    {
+      "path": "experiments/20261030T213501121844Z/0-bm25-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "3d8bcd2399a34207d645c3315f345379a5d0ddbca436fabc95100a4988bbb338"
+    },
+    {
+      "path": "experiments/20261030T213501121844Z/1-bm25-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "e73769eb33b425132814764895911768b94810390c107e27d789854c301308f9"
+    },
+    {
+      "path": "experiments/20261030T213501121844Z/2-hybrid-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "e2ccd3b30f80bac36c06c2fe05fcaa54397ebad83d5aaba4c7c89c20b9f9acb1"
+    },
+    {
+      "path": "experiments/20261030T213501121844Z/3-hybrid-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "08cba9ee44122c79a26de882c1f88f0763ad8d6398b13fdbe5eecf23864b20fd"
+    },
+    {
+      "path": "experiments/calibration-r2/final/20261030T222832152993Z/0-calibrated-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "9fa0bd045954d737f9c78b318000a2cb3930f632584db7e3ce1689787e04bd05"
+    },
+    {
+      "path": "experiments/calibration-r2-robust/dev/20261030T223748443496Z/0-calibrated-robust-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "d5b6509290b5d10d42d5540b7aa93ef5f8d6b208cff0b2a024bc7bedb1c50d81"
+    },
+    {
+      "path": "experiments/calibration-r2-robust/dev-large/20261030T223748443657Z/0-calibrated-robust-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "304f4ecad8f2dd3588ce6d05205ef1a61df52e545a6df379374028802828e8c7"
+    },
+    {
+      "path": "experiments/dense-full16/bm25-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "96ac85a9d72320567df2f93208d391cd5d6932a8d8728864939b75da491cea84"
+    },
+    {
+      "path": "experiments/dense-full16/bm25-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "3af0a29550b0438f416a2b530817431bee60696abf26bd2a15207a0400a7bdd9"
+    },
+    {
+      "path": "experiments/dense-full16/dense-hybrid-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "b722b216784f8b7c87f6629965d76bcc150f9c6e27fc5f19df91eeef496073fd"
+    },
+    {
+      "path": "experiments/dense-full16/dense-hybrid-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "952baede362f71491fdc4e3a4021d0169542a333975e5a58ca3dd7bb7cfbe6e0"
+    },
+    {
+      "path": "experiments/dense-full16/dense-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "9d8bd174b4512da45e076713ac312675f4d57dbcc2913e74681f35f105476489"
+    },
+    {
+      "path": "experiments/dense-full16/dense-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "018f62d5e929e5706d33b8bcaacaf652c0f63f87d5eee545fe6ed57e1e334670"
+    },
+    {
+      "path": "experiments/maximum-score-r2/dev-large-baseline/20261030T222629393708Z/0-bm25-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "5994c281eaff786d42a29e68486b2529c43012caeb003cb254da22967261d25d"
+    },
+    {
+      "path": "experiments/maximum-score-r2/dev-large-baseline/20261030T222629393708Z/1-bm25-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "000e5f9e8a7e047258d08fb0d3060937637a6bd3d001fbafd8871f6c0c33fa2e"
+    },
+    {
+      "path": "experiments/maximum-score-r2/dev-large-calibrated-full/20261030T223408144377Z/0-calibrated-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "19ae52bfaaef19521471ac9bb240fd86cb9521dd2da424dca6ca263c63a9fafc"
+    },
+    {
+      "path": "experiments/maximum-score-r2/dev-large-calibrated-validation/20261030T223127751060Z/0-calibrated-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "c4f35662c7d145448b3103a3383406f8d46058d1df2f04aea2334b91a348c885"
+    },
+    {
+      "path": "experiments/maximum-score-r2/dev-large-dense-validation/20261030T223005592968Z/0-dense-hybrid-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "e0548a81ba5b67f5c2d9d8ee9737b8968844958ec2b37b36c970d547fbccfaa7"
+    },
+    {
+      "path": "experiments/memory-r2/holdout/20261030T222847014930Z/0-memory-facts-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "cd963dc0305bad1d30aff59fbb54f5c5ad5fc6fa39e885c7c058b91ba757fc1d"
+    },
+    {
+      "path": "experiments/offline-sprint/unified/20261030T221011228414Z/0-bm25-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "a4da73a4866ed751e09ed4cc96ff919a597267e6726d156ccdff9ca682df99d7"
+    },
+    {
+      "path": "experiments/offline-sprint/unified/20261030T221011228414Z/1-bm25-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "dd6607599cb959e829246259eccad82335d3838055dd9cb418630ae11b414176"
+    },
+    {
+      "path": "experiments/offline-sprint/unified/20261030T221011228414Z/2-adaptive-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "48160d7bbdbeb75ea4635e5f0161f984daf3df874b2378d69f6fdcd41a92861b"
+    },
+    {
+      "path": "experiments/offline-sprint/unified/20261030T221011228414Z/3-adaptive-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "a987ed3fa34c6b8d7ab606892b0476bca8219581ce4784696eda8060a63e7076"
+    },
+    {
+      "path": "experiments/reasoning-r2/final/20261030T222804450560Z/0-complementary-conservative-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "86e99dfcc580cf5bcc8423df6e616cfe62b72cc33c00a1a54f2b45d3e5c5bda8"
+    },
+    {
+      "path": "experiments/rerank-offline/bm25-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "97972bbdfe120cfe0e0fab137e49bbe46b1b1e05609ba01dec3727fa139519b8"
+    },
+    {
+      "path": "experiments/rerank-offline/bm25-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "c8a9fd4c634cf33d5c748473df2515f9bc7d7ab14856c492cff8e219741debde"
+    },
+    {
+      "path": "experiments/rerank-offline/rerank-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "aba1f4fff0005ff76978e4e66fb011316d32fe8c06a5d792fc5c80c37136a38f"
+    },
+    {
+      "path": "experiments/rerank-offline/rerank-k8-details.jsonl",
+      "validation_n": 93,
+      "sha256": "bd3f1d2979faceec11f27c3f363c38a5a77d86eb71acb9736bc45501fb7d138e"
+    },
+    {
+      "path": "experiments/specialized-full/20261030T220751202290Z/0-adaptive-k4-details.jsonl",
+      "validation_n": 93,
+      "sha256": "76716923283c2941b28429ca509b8bd27f0cc6a4fe4cf81544e138390328c9d1"
+    }
+  ],
+  "retrieval_recomputed": [
+    {
+      "dataset": "dev",
+      "method": "BM25-4",
+      "detail_sha256": "a4da73a4866ed751e09ed4cc96ff919a597267e6726d156ccdff9ca682df99d7",
+      "metrics": {
+        "all": {
+          "n": 526,
+          "answerable_n": 496,
+          "retrieval_proxy_f1": 0.7646617383512545,
+          "mean_evidence_text_chars": 4078.028517110266
+        },
+        "validation": {
+          "n": 93,
+          "answerable_n": 88,
+          "retrieval_proxy_f1": 0.7896013708513708,
+          "mean_evidence_text_chars": 3789.8924731182797
+        },
+        "unseen_history_validation": {
+          "n": 79,
+          "answerable_n": 74,
+          "retrieval_proxy_f1": 0.7790755040755041,
+          "mean_evidence_text_chars": 3742.2025316455697
+        }
+      },
+      "leaderboard_f1_matches_recomputed": true
+    },
+    {
+      "dataset": "dev",
+      "method": "calibrated-4",
+      "detail_sha256": "9fa0bd045954d737f9c78b318000a2cb3930f632584db7e3ce1689787e04bd05",
+      "metrics": {
+        "all": {
+          "n": 526,
+          "answerable_n": 496,
+          "retrieval_proxy_f1": 0.8665034562211982,
+          "mean_evidence_text_chars": 7192.610266159696
+        },
+        "validation": {
+          "n": 93,
+          "answerable_n": 88,
+          "retrieval_proxy_f1": 0.8686598124098124,
+          "mean_evidence_text_chars": 7449.1720430107525
+        },
+        "unseen_history_validation": {
+          "n": 79,
+          "answerable_n": 74,
+          "retrieval_proxy_f1": 0.8438116688116688,
+          "mean_evidence_text_chars": 8278.139240506329
+        }
+      },
+      "leaderboard_f1_matches_recomputed": true
+    },
+    {
+      "dataset": "dev-large",
+      "method": "BM25-4",
+      "detail_sha256": "5994c281eaff786d42a29e68486b2529c43012caeb003cb254da22967261d25d",
+      "metrics": {
+        "all": {
+          "n": 526,
+          "answerable_n": 496,
+          "retrieval_proxy_f1": 0.6487151177675371,
+          "mean_evidence_text_chars": 4019.0874524714827
+        },
+        "validation": {
+          "n": 93,
+          "answerable_n": 88,
+          "retrieval_proxy_f1": 0.6726911976911977,
+          "mean_evidence_text_chars": 4111.752688172043
+        },
+        "unseen_history_validation": {
+          "n": 79,
+          "answerable_n": 74,
+          "retrieval_proxy_f1": 0.6472543972543973,
+          "mean_evidence_text_chars": 4008.8987341772154
+        }
+      },
+      "leaderboard_f1_matches_recomputed": true
+    },
+    {
+      "dataset": "dev-large",
+      "method": "calibrated-4",
+      "detail_sha256": "19ae52bfaaef19521471ac9bb240fd86cb9521dd2da424dca6ca263c63a9fafc",
+      "metrics": {
+        "all": {
+          "n": 526,
+          "answerable_n": 496,
+          "retrieval_proxy_f1": 0.7283170122887865,
+          "mean_evidence_text_chars": 7548.321292775666
+        },
+        "validation": {
+          "n": 93,
+          "answerable_n": 88,
+          "retrieval_proxy_f1": 0.7690025252525252,
+          "mean_evidence_text_chars": 7360.94623655914
+        },
+        "unseen_history_validation": {
+          "n": 79,
+          "answerable_n": 74,
+          "retrieval_proxy_f1": 0.7253003003003003,
+          "mean_evidence_text_chars": 8233.949367088608
+        }
+      },
+      "leaderboard_f1_matches_recomputed": true
+    }
+  ],
+  "interpretation": "Exposure is measured; the amount of adaptive selection bias is unknown. Shared histories are a leakage risk, not proof of answer-text leakage. Retrieval F1 uses retrieved sessions as hypothetical citations, never Reactor accuracy.",
+  "diagnostics_sha256": "908ef9d6081defd54f0273508160bab9c01d9913ce5aeae37583436212ec8434"
+}

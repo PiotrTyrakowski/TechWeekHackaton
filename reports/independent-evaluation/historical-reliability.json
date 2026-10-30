@@ -1,0 +1,376 @@
+{
+  "kind": "offline-official-local-scoring",
+  "official_llm_judge_run": false,
+  "scorer_sha256": "d5081b7a3412c768d202b0ca693888d3135678c92b55a6321a24691d3e320297",
+  "adapter_sha256": "e19fb585aaafbbd7f5311d805dea49a7251ebcb764ca72091cf9d1201e17d9cb",
+  "plan": {
+    "base_url": "https://t07.api.reactor-hackathon.rxai.dev",
+    "agent_id": "agt_0c172edd3340495a",
+    "method": "bm25",
+    "k": 4,
+    "budget": 12000,
+    "max_chars": 16000,
+    "client_sha256": "0bf508435e84cc81eb12843d441abb571d676f57a8b80c273ed12e34e4fee88e",
+    "questions_sha256": "6227f98d99cf4c63c995c7635064c8734decc7d576805d033b8e98d8496e5b63",
+    "histories_sha256": "f0263666b82a485afacaf7dda5ebb644cdd6e6370f32118c5bc6cccb08dba897",
+    "question_ids": [
+      "q_d4ead82e5cad",
+      "q_e2cc79359e15",
+      "q_6eaf85dde884",
+      "q_61a19ce280f4",
+      "q_53ebfc7819cf"
+    ],
+    "evidence_sha256": "ec3408feec5bca838eeda66b5a7424a3bec0b5da258a21c18a44a6d84dea6e42",
+    "message_chars": {
+      "q_d4ead82e5cad": 7762,
+      "q_e2cc79359e15": 8150,
+      "q_6eaf85dde884": 5516,
+      "q_61a19ce280f4": 3068,
+      "q_53ebfc7819cf": 4666
+    }
+  },
+  "scope": {
+    "planned": 5,
+    "valid_predictions": 0,
+    "missing": 5,
+    "raw_responses_completed": 0,
+    "response_completion_rate": 0.0,
+    "valid_prediction_completion_rate": 0.0
+  },
+  "actual_prediction_outcomes_local": {
+    "correct": 0,
+    "wrong": 0,
+    "unjudged": 0,
+    "note": "Unjudged requires independent review. Automatic matching is not official Reactor accuracy."
+  },
+  "completed_only_official_local": {},
+  "full_scope_official_submission": {
+    "knowledge-update": {
+      "n": 1,
+      "correct": 0.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "multi-session": {
+      "n": 1,
+      "correct": 0.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "single-session-assistant": {
+      "n": 1,
+      "correct": 0.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "single-session-user": {
+      "n": 1,
+      "correct": 0.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "temporal-reasoning": {
+      "n": 1,
+      "correct": 0.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "all": {
+      "n": 5,
+      "correct": 0.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    }
+  },
+  "full_scope_note": "Exact official missing-prediction behavior; missing counts here are submission penalties, not observed model wrong answers. Completed-only evidence excludes transport missingness; full-scope evidence includes it.",
+  "citations": {
+    "invalid_question_n": 0,
+    "attempted_question_n": 1,
+    "invalid_question_rate": 0.0,
+    "invalid_question_rate_lower_bound": 0.0,
+    "unverifiable_question_n": 0,
+    "note": "Question incidence, including rejected raw attempts; not label precision. Missing archival evidence remains unknown."
+  },
+  "operations": {
+    "invocations": 7,
+    "by_operation": {
+      "new_history": 2,
+      "question": 5
+    },
+    "internal_retries": 5,
+    "observed_api_operations": 12,
+    "failed_invocations": 5,
+    "failure_codes": {
+      "closed": 2,
+      "history_changed": 3
+    },
+    "pending": {
+      "operation": "question",
+      "question_id": "q_d4ead82e5cad",
+      "dataset_history": "h_12968e55565d"
+    },
+    "pending_has_durable_attempt": false,
+    "unlogged_pending_operation_possible": true,
+    "note": "Observed lower bound if pending/unlogged calls exist; retries count requests, not necessarily forwarded model turns."
+  },
+  "latency_by_operation": {
+    "new_history": {
+      "n": 2,
+      "total_s": 1.500425708014518,
+      "p50_s": 0.750212854007259,
+      "p95_s": 0.7558248749992345
+    },
+    "question": {
+      "n": 5,
+      "total_s": 30.47708566801157,
+      "p50_s": 0.9206549579976127,
+      "p95_s": 27.098003958992194
+    }
+  },
+  "isolation": {
+    "reset_history_ids": [
+      "f6374884162b4c2fb8a3db5d1cf527a9",
+      "299413920a324b4d86550991784d36b0"
+    ],
+    "issues": [
+      {
+        "question_id": "q_d4ead82e5cad",
+        "issue": "request cannot be tied to this run's last successful reset"
+      }
+    ],
+    "note": "Local reset lineage cannot exclude external concurrent access; requires exclusive-access evidence."
+  },
+  "per_question": [
+    {
+      "question_id": "q_d4ead82e5cad",
+      "question_record": {
+        "question_id": "q_d4ead82e5cad",
+        "history_id": "h_12968e55565d",
+        "question": "What is the name of my cat?",
+        "question_date": "2023/05/30 (Tue) 12:18"
+      },
+      "sequence_position": 1,
+      "gold_record": {
+        "question_id": "q_d4ead82e5cad",
+        "question_type": "single-session-user",
+        "abstain": false,
+        "answer": "Luna",
+        "aliases": [],
+        "evidence": [
+          "s_8a377a1e6a80"
+        ]
+      },
+      "prediction": null,
+      "official_local_result": null,
+      "prediction_provenance": "no_prediction",
+      "raw_response_completed": false,
+      "valid_prediction_completed": false,
+      "attempted": true,
+      "invalid_citation_reasons": [],
+      "citation_validation_unknown": [],
+      "evidence": null,
+      "evidence_sha256": null,
+      "evidence_chars": null,
+      "question_attempt_latency": {
+        "n": 5,
+        "total_s": 30.47708566801157,
+        "p50_s": 0.9206549579976127,
+        "p95_s": 27.098003958992194
+      },
+      "successful_answer_latency_s": null,
+      "failure_codes": [
+        "closed",
+        "history_changed",
+        "closed",
+        "history_changed",
+        "history_changed"
+      ]
+    },
+    {
+      "question_id": "q_e2cc79359e15",
+      "question_record": {
+        "question_id": "q_e2cc79359e15",
+        "history_id": "h_888675116505",
+        "question": "What refining processes run at CITGO's Lake Charles Refinery?",
+        "question_date": "2023/05/30 (Tue) 23:41"
+      },
+      "sequence_position": 1,
+      "gold_record": {
+        "question_id": "q_e2cc79359e15",
+        "question_type": "single-session-assistant",
+        "abstain": false,
+        "answer": "Atmospheric distillation, fluid catalytic cracking (FCC), alkylation, and hydrotreating.",
+        "aliases": [],
+        "evidence": [
+          "s_4ce9668e7224"
+        ]
+      },
+      "prediction": null,
+      "official_local_result": null,
+      "prediction_provenance": "no_prediction",
+      "raw_response_completed": false,
+      "valid_prediction_completed": false,
+      "attempted": false,
+      "invalid_citation_reasons": [],
+      "citation_validation_unknown": [],
+      "evidence": null,
+      "evidence_sha256": null,
+      "evidence_chars": null,
+      "question_attempt_latency": {
+        "n": 0,
+        "total_s": 0,
+        "p50_s": null,
+        "p95_s": null
+      },
+      "successful_answer_latency_s": null,
+      "failure_codes": []
+    },
+    {
+      "question_id": "q_6eaf85dde884",
+      "question_record": {
+        "question_id": "q_6eaf85dde884",
+        "history_id": "h_8b84e8fc842e",
+        "question": "How many online courses have I completed in total?",
+        "question_date": "2023/05/30 (Tue) 16:30"
+      },
+      "sequence_position": 1,
+      "gold_record": {
+        "question_id": "q_6eaf85dde884",
+        "question_type": "multi-session",
+        "abstain": false,
+        "answer": "5",
+        "aliases": [],
+        "evidence": [
+          "s_8adc485146ac",
+          "s_1a6769d03923"
+        ]
+      },
+      "prediction": null,
+      "official_local_result": null,
+      "prediction_provenance": "no_prediction",
+      "raw_response_completed": false,
+      "valid_prediction_completed": false,
+      "attempted": false,
+      "invalid_citation_reasons": [],
+      "citation_validation_unknown": [],
+      "evidence": null,
+      "evidence_sha256": null,
+      "evidence_chars": null,
+      "question_attempt_latency": {
+        "n": 0,
+        "total_s": 0,
+        "p50_s": null,
+        "p95_s": null
+      },
+      "successful_answer_latency_s": null,
+      "failure_codes": []
+    },
+    {
+      "question_id": "q_61a19ce280f4",
+      "question_record": {
+        "question_id": "q_61a19ce280f4",
+        "history_id": "h_f6f7d9fa009c",
+        "question": "Is my mom using the same grocery list method as me?",
+        "question_date": "2023/05/14 (Sun) 21:14"
+      },
+      "sequence_position": 1,
+      "gold_record": {
+        "question_id": "q_61a19ce280f4",
+        "question_type": "knowledge-update",
+        "abstain": false,
+        "answer": "Yes.",
+        "aliases": [],
+        "evidence": [
+          "s_e983d0ba00e7",
+          "s_24a6fcdbdab6"
+        ]
+      },
+      "prediction": null,
+      "official_local_result": null,
+      "prediction_provenance": "no_prediction",
+      "raw_response_completed": false,
+      "valid_prediction_completed": false,
+      "attempted": false,
+      "invalid_citation_reasons": [],
+      "citation_validation_unknown": [],
+      "evidence": null,
+      "evidence_sha256": null,
+      "evidence_chars": null,
+      "question_attempt_latency": {
+        "n": 0,
+        "total_s": 0,
+        "p50_s": null,
+        "p95_s": null
+      },
+      "successful_answer_latency_s": null,
+      "failure_codes": []
+    },
+    {
+      "question_id": "q_53ebfc7819cf",
+      "question_record": {
+        "question_id": "q_53ebfc7819cf",
+        "history_id": "h_ffd255f5e52d",
+        "question": "How many weeks had passed since I recovered from the flu when I went on my 10th jog outdoors?",
+        "question_date": "2023/10/15 (Sun) 17:53"
+      },
+      "sequence_position": 1,
+      "gold_record": {
+        "question_id": "q_53ebfc7819cf",
+        "question_type": "temporal-reasoning",
+        "abstain": false,
+        "answer": "15",
+        "aliases": [],
+        "evidence": [
+          "s_4135de74602d",
+          "s_87c7da57fc7b"
+        ]
+      },
+      "prediction": null,
+      "official_local_result": null,
+      "prediction_provenance": "no_prediction",
+      "raw_response_completed": false,
+      "valid_prediction_completed": false,
+      "attempted": false,
+      "invalid_citation_reasons": [],
+      "citation_validation_unknown": [],
+      "evidence": null,
+      "evidence_sha256": null,
+      "evidence_chars": null,
+      "question_attempt_latency": {
+        "n": 0,
+        "total_s": 0,
+        "p50_s": null,
+        "p95_s": null
+      },
+      "successful_answer_latency_s": null,
+      "failure_codes": []
+    }
+  ],
+  "archive_sha256": {
+    "attempts.jsonl": "998cd579bd9fa8958ba78731676e659996663eb280ecd2ed58b8178ef0be156f",
+    "predictions.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "6d4dc6c8b7550f7e4941cf01684ac00e775ab99b422a48efeb889bf37b9623db",
+    "checkpoint.json": "24e9ea905e167829ee7c6e0e3f6117a39967292e11eb54cde23e47481f33690c",
+    "recovery.jsonl": "cdf1f242986eaa975f294693d250fa05bff253ae8dfec7365708dac786633ae6",
+    "client-upgrades.jsonl": "a25e759ae50d342e7fdafc8cb2547734324b30071d88960fd8de8b7c5abaa8c0"
+  },
+  "diagnostics_sha256": "908ef9d6081defd54f0273508160bab9c01d9913ce5aeae37583436212ec8434"
+}

@@ -1,0 +1,548 @@
+{
+  "mode": "offline-proposal-only-not-the-execution-plan",
+  "execute": false,
+  "seed": "independent-validity-gates-v1",
+  "gates": [
+    {
+      "gate": 1,
+      "questions": [
+        {
+          "question_id": "q_d4ead82e5cad",
+          "history_id": "h_12968e55565d",
+          "question": "What is the name of my cat?",
+          "question_date": "2023/05/30 (Tue) 12:18"
+        },
+        {
+          "question_id": "q_1773242b1801",
+          "history_id": "h_34aaf10cf930",
+          "question": "What is the name of my hamster?",
+          "question_date": "2023/05/30 (Tue) 21:39"
+        }
+      ],
+      "category_histogram": {
+        "single-session-user": 1,
+        "unanswerable": 1
+      },
+      "arm_order_by_history": {
+        "h_12968e55565d": [
+          "calibrated-4"
+        ],
+        "h_34aaf10cf930": [
+          "calibrated-4"
+        ]
+      },
+      "initial_operations": {
+        "resets": 2,
+        "question_requests": 2,
+        "preloads": 0,
+        "total": 4
+      },
+      "conditional_extra_preloads_if_gate4_memory_winner": 0,
+      "prefix_preloads": {},
+      "evidence": {
+        "q_d4ead82e5cad-bm25.json": {
+          "sha256": "0b55140cd448f2b7b6d36788a2efedcd87fccaeb17e2801637530b3ed2613c82",
+          "text_chars": 6266
+        },
+        "q_d4ead82e5cad-calibrated.json": {
+          "sha256": "9f2b4ef6b27ea278a7b609fdc2e9d3552dbfcae86ec38a91ec1c9e6a9b94b9b3",
+          "text_chars": 4771
+        },
+        "q_1773242b1801-bm25.json": {
+          "sha256": "f420b9fb16460807d2ef7dfdf82e8f6348cf55f5267f48c760f8d8670ca3823d",
+          "text_chars": 1675
+        },
+        "q_1773242b1801-calibrated.json": {
+          "sha256": "7c18d6fca2e937d210957807d30028be827bb44f67b91cf6d48d9444367d6629",
+          "text_chars": 4771
+        }
+      }
+    },
+    {
+      "gate": 2,
+      "questions": [
+        {
+          "question_id": "q_6f54c0fe6d9d",
+          "history_id": "h_d4c29b4ab2ed",
+          "question": "What is the name of the music streaming service have I been using lately?",
+          "question_date": "2023/05/30 (Tue) 23:26"
+        },
+        {
+          "question_id": "q_24587d7a686f",
+          "history_id": "h_882116728686",
+          "question": "I'm planning to visit Bandung again and I was wondering if you could remind me of the name of that restaurant in Cihampelas Walk that serves a great Nasi Goreng?",
+          "question_date": "2023/05/30 (Tue) 23:00"
+        },
+        {
+          "question_id": "q_89573b0113ba",
+          "history_id": "h_28c5538fe6b8",
+          "question": "How many bikes did I service or plan to service in March?",
+          "question_date": "2023/03/20 (Mon) 23:57"
+        },
+        {
+          "question_id": "q_9945e4e10e44",
+          "history_id": "h_e244c9028174",
+          "question": "How long have I been living in my current apartment in Harajuku?",
+          "question_date": "2023/10/15 (Sun) 23:33"
+        },
+        {
+          "question_id": "q_a4314cfd9e60",
+          "history_id": "h_d73ea03df927",
+          "question": "How many months ago did I book the Airbnb in San Francisco?",
+          "question_date": "2023/05/21 (Sun) 22:05"
+        },
+        {
+          "question_id": "q_a9ad1e39da72",
+          "history_id": "h_2c318d5a477f",
+          "question": "How long have I been working before I started my current job at Google?",
+          "question_date": "2023/05/30 (Tue) 23:06"
+        }
+      ],
+      "category_histogram": {
+        "single-session-user": 1,
+        "single-session-assistant": 1,
+        "multi-session": 1,
+        "knowledge-update": 1,
+        "temporal-reasoning": 1,
+        "unanswerable": 1
+      },
+      "arm_order_by_history": {
+        "h_d4c29b4ab2ed": [
+          "calibrated-4",
+          "bm25-4"
+        ],
+        "h_882116728686": [
+          "bm25-4",
+          "calibrated-4"
+        ],
+        "h_28c5538fe6b8": [
+          "calibrated-4",
+          "bm25-4"
+        ],
+        "h_e244c9028174": [
+          "bm25-4",
+          "calibrated-4"
+        ],
+        "h_d73ea03df927": [
+          "calibrated-4",
+          "bm25-4"
+        ],
+        "h_2c318d5a477f": [
+          "bm25-4",
+          "calibrated-4"
+        ]
+      },
+      "initial_operations": {
+        "resets": 12,
+        "question_requests": 12,
+        "preloads": 0,
+        "total": 24
+      },
+      "conditional_extra_preloads_if_gate4_memory_winner": 0,
+      "prefix_preloads": {},
+      "evidence": {
+        "q_6f54c0fe6d9d-bm25.json": {
+          "sha256": "0c74c23b43e3560a4df0a5cd5b885a7a5831d9a3925fd5497540c87828fcacbb",
+          "text_chars": 3485
+        },
+        "q_6f54c0fe6d9d-calibrated.json": {
+          "sha256": "b03bceed7e83378a30c26950d757637ebd4a0d2a6d70d301a70bb126a724c4b0",
+          "text_chars": 11003
+        },
+        "q_24587d7a686f-bm25.json": {
+          "sha256": "c5f6dd68a8b38b3a8cef49f602487d526274e7bcea64aa5dc1dc9e01da35b755",
+          "text_chars": 3759
+        },
+        "q_24587d7a686f-calibrated.json": {
+          "sha256": "bfbf84d7a472822bc14db68273cb983ba6aa53b5e25ba2a111f72cf06cbccb72",
+          "text_chars": 2800
+        },
+        "q_89573b0113ba-bm25.json": {
+          "sha256": "afca32401ac620bb8473bbdad11950d0c3b6187e230164bd2dbf28c140bff2fc",
+          "text_chars": 1392
+        },
+        "q_89573b0113ba-calibrated.json": {
+          "sha256": "45f3595674a83e0235792af5771ad0b730a9bc240979389b6a4d4b0d745fef41",
+          "text_chars": 8043
+        },
+        "q_9945e4e10e44-bm25.json": {
+          "sha256": "3af5ae23fc6ff6fddd39fc1699fc6af092275e5387a4f1c1777ede4674398507",
+          "text_chars": 3291
+        },
+        "q_9945e4e10e44-calibrated.json": {
+          "sha256": "a610824a0b4f37b9b8c3ab7a0eac939bd45f6e77ecef847484fc18c78b961a5a",
+          "text_chars": 7997
+        },
+        "q_a4314cfd9e60-bm25.json": {
+          "sha256": "b06cc754586dbefb59bd3babce81da40a19639eb3c0ae91e014856da40c4b9e4",
+          "text_chars": 5025
+        },
+        "q_a4314cfd9e60-calibrated.json": {
+          "sha256": "b8130764db36ed9d0ccb784a15b89dc0c1af65d91ae80ec88bae139d416b2167",
+          "text_chars": 8204
+        },
+        "q_a9ad1e39da72-bm25.json": {
+          "sha256": "37616a7672cfdc29b16458867f4f25fb9c0553d99ed51a8c8602fe95b6a4e450",
+          "text_chars": 3465
+        },
+        "q_a9ad1e39da72-calibrated.json": {
+          "sha256": "59c73d00f1dc6e510fe129e6f02fa0786a168666f2c9cac911d9375a316462d9",
+          "text_chars": 11358
+        }
+      }
+    },
+    {
+      "gate": 3,
+      "questions": [
+        {
+          "question_id": "q_dd83e3ca01ba",
+          "history_id": "h_869f4de98271",
+          "question": "I was looking back at our previous conversation about buying unique engagement rings directly from designers. Can you remind me of the Instagram handle of the UK-based designer who works with unusual gemstones?",
+          "question_date": "2023/05/30 (Tue) 23:50"
+        },
+        {
+          "question_id": "q_44963ff27f7c",
+          "history_id": "h_869f4de98271",
+          "question": "What's the Instagram handle of the UK designer who makes engagement rings with unusual gemstones?",
+          "question_date": "2023/05/30 (Tue) 23:50"
+        },
+        {
+          "question_id": "q_f79d1fe909ab",
+          "history_id": "h_36fff56ffa11",
+          "question": "Can you remind me of the name of the romantic Italian restaurant in Rome you recommended for dinner?",
+          "question_date": "2023/05/30 (Tue) 23:29"
+        },
+        {
+          "question_id": "q_e01fd898e35c",
+          "history_id": "h_36fff56ffa11",
+          "question": "Which romantic Italian restaurant in Rome was it for dinner?",
+          "question_date": "2023/05/30 (Tue) 23:29"
+        }
+      ],
+      "category_histogram": {
+        "single-session-assistant": 4
+      },
+      "arm_order_by_history": {
+        "h_869f4de98271": [
+          "calibrated-4",
+          "calibrated-prefix-memory"
+        ],
+        "h_36fff56ffa11": [
+          "calibrated-prefix-memory",
+          "calibrated-4"
+        ]
+      },
+      "initial_operations": {
+        "resets": 4,
+        "question_requests": 8,
+        "preloads": 2,
+        "total": 14
+      },
+      "conditional_extra_preloads_if_gate4_memory_winner": 0,
+      "prefix_preloads": {
+        "h_869f4de98271": {
+          "source_question_ids": [
+            "q_dd83e3ca01ba"
+          ],
+          "parts": 1,
+          "chars": 3397,
+          "sha256": "b322ea6c66e5b1c775de4d4448119a4612df59a596f24763ab28bab80551702f"
+        },
+        "h_36fff56ffa11": {
+          "source_question_ids": [
+            "q_f79d1fe909ab"
+          ],
+          "parts": 1,
+          "chars": 1971,
+          "sha256": "931a663464edd0dcb71191841eb014924b59b0f0b9b5f627ccdaf1bc3e052f5a"
+        }
+      },
+      "evidence": {
+        "q_dd83e3ca01ba-bm25.json": {
+          "sha256": "098ece742a1971eaf0d4e6079a3b8a1c4baabff8e29ec6d2a39ca0c5d40de490",
+          "text_chars": 8004
+        },
+        "q_dd83e3ca01ba-calibrated.json": {
+          "sha256": "4666f6af8545e929f17f141e9ed087b1207871d394ab90937542ba377ddeade4",
+          "text_chars": 2771
+        },
+        "q_44963ff27f7c-bm25.json": {
+          "sha256": "0b4a3de50cf5e8d4245835f66771b39b6d5395a1e15cbf5518b127220f683346",
+          "text_chars": 6063
+        },
+        "q_44963ff27f7c-calibrated.json": {
+          "sha256": "4666f6af8545e929f17f141e9ed087b1207871d394ab90937542ba377ddeade4",
+          "text_chars": 2771
+        },
+        "q_f79d1fe909ab-bm25.json": {
+          "sha256": "d612453e428640d6e60a3887440f502ae0ad812fa4c3df0c0373c36aecf42c40",
+          "text_chars": 1759
+        },
+        "q_f79d1fe909ab-calibrated.json": {
+          "sha256": "2718f13f85528b7c1b08e035ce2e8e7c5c1057f343d4f4aa0add3d2b2344a0af",
+          "text_chars": 1345
+        },
+        "q_e01fd898e35c-bm25.json": {
+          "sha256": "0455c65a4ce94c36481e9ba9efb8a48712659466574e3ebf02fc7eb0bffaaeb5",
+          "text_chars": 1694
+        },
+        "q_e01fd898e35c-calibrated.json": {
+          "sha256": "ebeaa0aa45e0cea02bd833107e4448e162e509e0c9e669fd3d42480a29667c04",
+          "text_chars": 2272
+        }
+      }
+    },
+    {
+      "gate": 4,
+      "questions": [
+        {
+          "question_id": "q_c08ce3cda006",
+          "history_id": "h_8cc3df2ad5fa",
+          "question": "What was my previous stance on spirituality?",
+          "question_date": "2023/05/30 (Tue) 19:10"
+        },
+        {
+          "question_id": "q_c92222cb0b30",
+          "history_id": "h_88b9aa6bc021",
+          "question": "I wanted to follow up on our previous conversation about front-end and back-end development. Can you remind me of the specific back-end programming languages you recommended I learn?",
+          "question_date": "2023/05/30 (Tue) 19:20"
+        },
+        {
+          "question_id": "q_5089df8e69b6",
+          "history_id": "h_163c8199f1e5",
+          "question": "What time did I reach the clinic on Monday?",
+          "question_date": "2023/05/30 (Tue) 22:10"
+        },
+        {
+          "question_id": "q_06b3cfdaf136",
+          "history_id": "h_ec53e901256f",
+          "question": "What was my previous personal best time for the charity 5K run?",
+          "question_date": "2023/08/25 (Fri) 05:19"
+        },
+        {
+          "question_id": "q_4f7621dfa873",
+          "history_id": "h_c40e61341757",
+          "question": "How long had I been bird watching when I attended the bird watching workshop?",
+          "question_date": "2023/05/21 (Sun) 23:55"
+        },
+        {
+          "question_id": "q_4f15e4084535",
+          "history_id": "h_fc2d11f0c90c",
+          "question": "How many fish are there in my 30-gallon tank?",
+          "question_date": "2023/05/30 (Tue) 19:56"
+        },
+        {
+          "question_id": "q_3d34c9706753",
+          "history_id": "h_11121118d43f",
+          "question": "How old was I when my grandma gave me the silver necklace?",
+          "question_date": "2023/05/30 (Tue) 21:54"
+        },
+        {
+          "question_id": "q_97fc926aaea5",
+          "history_id": "h_d0d8b3d407dc",
+          "question": "What percentage of the countryside property's price is the cost of the renovations I plan to do on my current house?",
+          "question_date": "2023/05/30 (Tue) 18:29"
+        }
+      ],
+      "category_histogram": {
+        "single-session-user": 2,
+        "single-session-assistant": 1,
+        "multi-session": 2,
+        "knowledge-update": 1,
+        "temporal-reasoning": 1,
+        "unanswerable": 1
+      },
+      "arm_order_by_history": {
+        "h_8cc3df2ad5fa": [
+          "calibrated-4",
+          "frozen-candidate"
+        ],
+        "h_88b9aa6bc021": [
+          "frozen-candidate",
+          "calibrated-4"
+        ],
+        "h_163c8199f1e5": [
+          "calibrated-4",
+          "frozen-candidate"
+        ],
+        "h_ec53e901256f": [
+          "frozen-candidate",
+          "calibrated-4"
+        ],
+        "h_c40e61341757": [
+          "calibrated-4",
+          "frozen-candidate"
+        ],
+        "h_fc2d11f0c90c": [
+          "frozen-candidate",
+          "calibrated-4"
+        ],
+        "h_11121118d43f": [
+          "calibrated-4",
+          "frozen-candidate"
+        ],
+        "h_d0d8b3d407dc": [
+          "frozen-candidate",
+          "calibrated-4"
+        ]
+      },
+      "initial_operations": {
+        "resets": 16,
+        "question_requests": 16,
+        "preloads": 0,
+        "total": 32
+      },
+      "conditional_extra_preloads_if_gate4_memory_winner": 8,
+      "prefix_preloads": {
+        "h_8cc3df2ad5fa": {
+          "source_question_ids": [
+            "q_c08ce3cda006"
+          ],
+          "parts": 1,
+          "chars": 4059,
+          "sha256": "126b30fc8d36bc36826fe41feaf2ffb479f9c04d5a3d625305553f2698329ff7"
+        },
+        "h_88b9aa6bc021": {
+          "source_question_ids": [
+            "q_c92222cb0b30"
+          ],
+          "parts": 1,
+          "chars": 3246,
+          "sha256": "4fc48ac47211278e33a8e82ecb7d5c35fc7baa170992cc0e309afb33c5f031b3"
+        },
+        "h_163c8199f1e5": {
+          "source_question_ids": [
+            "q_5089df8e69b6"
+          ],
+          "parts": 1,
+          "chars": 3320,
+          "sha256": "e20fdeaa54731c78a161c1c43ebb36c1d49f7d452408bfe8f73aca7fdc91205d"
+        },
+        "h_ec53e901256f": {
+          "source_question_ids": [
+            "q_06b3cfdaf136"
+          ],
+          "parts": 1,
+          "chars": 5733,
+          "sha256": "896e61ad7667bda1b0ffa534a63ed16401a27af1c7735b0168fb88e7135a7570"
+        },
+        "h_c40e61341757": {
+          "source_question_ids": [
+            "q_4f7621dfa873"
+          ],
+          "parts": 1,
+          "chars": 3380,
+          "sha256": "1b1a69290b8876644db3807ece77549d6507611ea47827e24f874ce17616259e"
+        },
+        "h_fc2d11f0c90c": {
+          "source_question_ids": [
+            "q_4f15e4084535"
+          ],
+          "parts": 1,
+          "chars": 5505,
+          "sha256": "d3daaa2f480cae1fff0927b9905d54aee95abe91387232b6e1e83e086eef6f1c"
+        },
+        "h_11121118d43f": {
+          "source_question_ids": [
+            "q_3d34c9706753"
+          ],
+          "parts": 1,
+          "chars": 5714,
+          "sha256": "584794f8541da5251d9c67ffe96bad680e85a4a5cbdbfb1eddc4b4aa0374ca55"
+        },
+        "h_d0d8b3d407dc": {
+          "source_question_ids": [
+            "q_97fc926aaea5"
+          ],
+          "parts": 1,
+          "chars": 4382,
+          "sha256": "8459a3ec6483350ecd922765b8a62ee14f177f62db1ef6c06f1afc32cd64f218"
+        }
+      },
+      "evidence": {
+        "q_c08ce3cda006-bm25.json": {
+          "sha256": "3581e67548e50663b3a0e3b9b824e1974d8e106247ba9aab701492d3361bafb0",
+          "text_chars": 3899
+        },
+        "q_c08ce3cda006-calibrated.json": {
+          "sha256": "3fac819ec620ac19f0e560d2ee25492e2d7321931ce8f715b06219f06094943d",
+          "text_chars": 3433
+        },
+        "q_c92222cb0b30-bm25.json": {
+          "sha256": "6e49a50b5b1865808ddd8b7acf3e3af80e5bdc9bcbd5cd66878e2508492e8426",
+          "text_chars": 3296
+        },
+        "q_c92222cb0b30-calibrated.json": {
+          "sha256": "a4ad3f2aa956a7ee5c3bc54da17eb7fae331e3675b9155221756526ee392c0a1",
+          "text_chars": 2620
+        },
+        "q_5089df8e69b6-bm25.json": {
+          "sha256": "a2234a4bb382efcec8692d1c88bd520acde9483519dc042a6d30c6112830b7d9",
+          "text_chars": 3419
+        },
+        "q_5089df8e69b6-calibrated.json": {
+          "sha256": "1e0c91bbd1f7e3494d3aabb7eff484899e6dbeb5408af359d42f8946caee70d5",
+          "text_chars": 2694
+        },
+        "q_06b3cfdaf136-bm25.json": {
+          "sha256": "69130fa300b1929c744d828c91f5bcd43313c3c44c1cae4934f5b9809424cee0",
+          "text_chars": 1886
+        },
+        "q_06b3cfdaf136-calibrated.json": {
+          "sha256": "8f167bf2774ab5ad03a283fb2fd5f97cb0b4bf7160a519be510e4f0930bbb311",
+          "text_chars": 10619
+        },
+        "q_4f7621dfa873-bm25.json": {
+          "sha256": "91e5da96374e5f694c477c466eb633ad0dadfb87acf480df5a357b96df5693e0",
+          "text_chars": 4882
+        },
+        "q_4f7621dfa873-calibrated.json": {
+          "sha256": "f8d16863fc76c905eb78a8f535825940e2cc5ef0bc1d7239396e734a809b8c8f",
+          "text_chars": 7400
+        },
+        "q_4f15e4084535-bm25.json": {
+          "sha256": "6f9965382756470b481f9691c99c8e27dacc04db1af6877e3712d7553d72fe45",
+          "text_chars": 2434
+        },
+        "q_4f15e4084535-calibrated.json": {
+          "sha256": "2e5696550a61dd143c5968ca624759ca285ad978aa11816cee6604295c3fd90f",
+          "text_chars": 10422
+        },
+        "q_3d34c9706753-bm25.json": {
+          "sha256": "71cf40811236dbd7c4a488cd3c0efa42caabcbed9e043d34fd9ba42d4800e177",
+          "text_chars": 3335
+        },
+        "q_3d34c9706753-calibrated.json": {
+          "sha256": "6467f90d854130aebaa36fc9dce3e91e7be2052b884704e8b705dd99bc9e455e",
+          "text_chars": 5088
+        },
+        "q_97fc926aaea5-bm25.json": {
+          "sha256": "5af79504cb1b297e1e7129a88772fc7c5ec9961fd14fc04237aa7371493123ce",
+          "text_chars": 9244
+        },
+        "q_97fc926aaea5-calibrated.json": {
+          "sha256": "e9c36a9436a37b88c7e629e56b69e761f72990d00ea97cf93b54c205189e792a",
+          "text_chars": 9756
+        }
+      }
+    }
+  ],
+  "timeout_s": 600,
+  "primary_baseline": "calibrated-4",
+  "execution_plan_owner": "lead; use lead-owned 23-operation gate_plan only",
+  "initial_operations_total_without_optional_controls": 74,
+  "source_sha256": {
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev/questions.jsonl": "814011572fb0e873320c0f88ab99bb0e9a87c6c57c304f21f59e4393b0e24278",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev/gold.jsonl": "6b6e7808f364313724ab85100adff0de765149a85b0b07b6a9808818e5ee4f9a",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev/histories.jsonl": "f0263666b82a485afacaf7dda5ebb644cdd6e6370f32118c5bc6cccb08dba897"
+  },
+  "code_sha256": {
+    "evaluation_gates.py": "ef5253c82d7a6bc346000f5487ab92b3b644ca97cce80577ec5cb7b63bd5006c",
+    "evaluation_diagnostics.py": "908ef9d6081defd54f0273508160bab9c01d9913ce5aeae37583436212ec8434",
+    "retrieval.py": "ae39416a682f1ecb1af8ac499a4749435481dde86a6af7d469a793dc334403f9",
+    "retrieval_calibrated.py": "17d57a402e299bcb1f93b6b93e2405fc2858ab1458020ba94c6a82feff3f0ee0",
+    "reactor_memory.py": "68c758aae1afc8afde09af1163f56279f54720aa008aab95b05bd12814cf23f5",
+    "models/session_selection.json": "a6ad9390c75b8703641995125ccc7b1226811ab9a53447d73576f274c72dd718"
+  },
+  "constraint": "OFFLINE until explicit cross-machine exclusivity and one authorized runner. Each gate needs explicit live approval and prior raw-results review. Use 600s timeout, normal pending backoff 5-10s; timeout may keep processing: preserve same history, never reset on timeout. Prefix-memory execution is not implemented by this proposal; do not substitute pooled targeted memory. No future question or gold enters preload. Gates 2-4 are development diagnostics, not clean holdouts. Preserve final 146-question window (2.5h or longer), never auto-launch. No external hosted AI API in pipeline; Reactor final answer required."
+}

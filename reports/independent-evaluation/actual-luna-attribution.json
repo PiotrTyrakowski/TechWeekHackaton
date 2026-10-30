@@ -1,0 +1,212 @@
+{
+  "kind": "actual-saved-reactor-output-attribution-evaluation",
+  "oracle_proxy": false,
+  "new_reactor_calls": 0,
+  "external_hosted_ai_calls": 0,
+  "official_llm_judge_run": false,
+  "scope": {
+    "public_dev_questions": 526,
+    "available_real_reactor_answers": 1,
+    "public_dev_answerable": 496,
+    "available_real_answerable_outputs": 1,
+    "available_output_coverage": 0.0019011406844106464,
+    "missing_output_n": 525
+  },
+  "historical_actual_outputs_official_local": {
+    "single-session-user": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "all": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    }
+  },
+  "new_policy_actual_outputs_official_local": {
+    "single-session-user": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 1.0
+    },
+    "all": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 1.0
+    }
+  },
+  "full_scope_new_policy_official_submission": {
+    "knowledge-update": {
+      "n": 78,
+      "correct": 0.0,
+      "unjudged": 0.0,
+      "abstention_n": 6,
+      "abstention_recall": 0.0,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "multi-session": {
+      "n": 133,
+      "correct": 0.0,
+      "unjudged": 0.0,
+      "abstention_n": 12,
+      "abstention_recall": 0.0,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "single-session-assistant": {
+      "n": 112,
+      "correct": 0.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "single-session-user": {
+      "n": 70,
+      "correct": 0.014285714285714285,
+      "unjudged": 0.0,
+      "abstention_n": 6,
+      "abstention_recall": 0.0,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.015625
+    },
+    "temporal-reasoning": {
+      "n": 133,
+      "correct": 0.0,
+      "unjudged": 0.0,
+      "abstention_n": 6,
+      "abstention_recall": 0.0,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "all": {
+      "n": 526,
+      "correct": 0.0019011406844106464,
+      "unjudged": 0.0,
+      "abstention_n": 30,
+      "abstention_recall": 0.0,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0020161290322580645
+    }
+  },
+  "attribution_counts": {
+    "outputs_with_reactor_supplied_citations": 0,
+    "outputs_with_verified_fallback_citations": 1,
+    "outputs_with_unresolved_claims": 0
+  },
+  "per_question": [
+    {
+      "question_id": "q_d4ead82e5cad",
+      "question_record": {
+        "question_id": "q_d4ead82e5cad",
+        "history_id": "h_12968e55565d",
+        "question": "What is the name of my cat?",
+        "question_date": "2023/05/30 (Tue) 12:18"
+      },
+      "saved_reactor_result_sha256": "1652ddf54e4194f8c4b58f5d23140ebcc967de1702253811fe392dbc942889b1",
+      "original_evidence_sha256": "cb9530176cc9b3f5cafccd339134680d8697f28460c3c90244383b0ff6abec6f",
+      "historical_prediction_unchanged": {
+        "question_id": "q_d4ead82e5cad",
+        "abstain": false,
+        "answer": "Luna",
+        "citations": []
+      },
+      "new_automatic_policy_prediction": {
+        "question_id": "q_d4ead82e5cad",
+        "abstain": false,
+        "answer": "Luna",
+        "citations": [
+          "s_8a377a1e6a80"
+        ]
+      },
+      "attribution": {
+        "policy_version": "verified-direct-v1",
+        "reactor_citations": [],
+        "reactor_citation_records": [],
+        "fallback_citations": [
+          "s_8a377a1e6a80"
+        ],
+        "unresolved_claims": [],
+        "supports": [
+          {
+            "claim": "Luna",
+            "source_id": "s_8a377a1e6a80",
+            "evidence_index": 0,
+            "role": "user",
+            "span": "my cat's name is Luna",
+            "start": 18,
+            "end": 39,
+            "rule": "direct_name_v1"
+          }
+        ],
+        "final_citations": [
+          "s_8a377a1e6a80"
+        ]
+      },
+      "reactor_supplied_session_ids": [],
+      "fallback_provenance_independently_checked": true,
+      "verified_fallback_session_ids": [
+        "s_8a377a1e6a80"
+      ],
+      "unresolved_claims": [],
+      "historical_official_local_result": {
+        "question_id": "q_d4ead82e5cad",
+        "question_type": "single-session-user",
+        "gold_abstain": false,
+        "answer": "correct",
+        "abstain_ok": true,
+        "evidence_f1": 0.0
+      },
+      "policy_official_local_result": {
+        "question_id": "q_d4ead82e5cad",
+        "question_type": "single-session-user",
+        "gold_abstain": false,
+        "answer": "correct",
+        "abstain_ok": true,
+        "evidence_f1": 1.0
+      },
+      "actual_citation_f1_delta": 1.0
+    }
+  ],
+  "interpretation": "Official evidence F1 applies to actual saved answers and the explicit new automatic policy derivative. This is not newly generated Reactor performance. Small/selective output coverage cannot establish benchmark accuracy or fallback generalization. Local answer matching is not official Reactor accuracy; missing outputs are submission penalties, not observed wrong model answers. No gold-answer oracle proxy is included.",
+  "input_sha256": {
+    "attempts.jsonl": "6a3e20a11d6f0c0c29fee8d30c3ef55c912f7dfa472b0a248e2c212783598079",
+    "results.jsonl": "d382555a7a099b50688c75c845a521b02ec44b068333c2014b8fd0a869c0d3fc",
+    "predictions.jsonl": "9be3577339d6e128692d15b8a9fb47bef497e893a01188ad89f5a63a90ecf8cd",
+    "plan.json": "dea6ba383b6be1f4dfe64135ac8d1a5942838b939a56bf65d12ab0405e16c2f0",
+    "checkpoint.json": "798a15f02609ea1e3eb9b5d2bf965739684c979965ba96041da83546a3440e94",
+    "recovery.jsonl": "95e8ea59c84299ccc9a74a8722ee06902aa71e4a2a8e28cb4482637c5a1195f9",
+    "evidence/0033e63fa09dc5c52442374290799c20f103fa918ecb6758f734570f7ac99de7.json": "d80082a80d9fce708a494ca538da95e8adb2a4725eabf1686d99faa6181aea41",
+    "evidence/004e554ae2a5ae16f8e477cd435c5a8fec3a1649e9233142681a7c6b16785e1d.json": "91d39cb819e675b981fce9142f95c997784d6b129cc296da36222729bbe874a1",
+    "evidence/00b8d56d6e7e54a5d3bc1b7ccff35b610ce459e31079d714b1b880589da6f666.json": "acd164336f15c6862f456a4a88f96f39a3f2e3f39e288610b884f42ac4c446e2",
+    "evidence/02c5de9bce31a8c4384b08dae9c34a9afd9f1575774963af61257cb15746da0b.json": "def7a62702f2c38e76996af3337032088fc7e8305629795e7a393cbe2b3d9728",
+    "evidence/02f86817b521868fb9be02fac319af05e0ccc600dc2e3bfc8c6c4eb3348b381e.json": "96f63dc2bed585aab40298eca036d2ea5286b081554c33e07ef307441eff3760",
+    "evaluation-questions.jsonl": "814011572fb0e873320c0f88ab99bb0e9a87c6c57c304f21f59e4393b0e24278",
+    "evaluation-gold.jsonl": "6b6e7808f364313724ab85100adff0de765149a85b0b07b6a9808818e5ee4f9a",
+    "original-selected-histories.jsonl": "870195d3d425b85fba512659c4a38065d13c1fb5ab937fa91d4c7cd6645378c0",
+    "attribution-policy.py": "52280d84bd502b6e9cce1013f10d4ed498bf2256f743060b7a057d3cd882de5f"
+  },
+  "evaluator_sha256": "9eb53b7439eddc8438ecd71ec46b84ca6eb92ec85a9453db4c31c12b3b82de0c",
+  "scorer_sha256": "d5081b7a3412c768d202b0ca693888d3135678c92b55a6321a24691d3e320297",
+  "adapter_sha256": "e19fb585aaafbbd7f5311d805dea49a7251ebcb764ca72091cf9d1201e17d9cb",
+  "attribution_file": "/private/tmp/opentovibe-reactor-independent-20261031/attribution.py"
+}

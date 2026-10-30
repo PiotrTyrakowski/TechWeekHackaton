@@ -1,0 +1,21 @@
+{
+  "base_commit": "f2e124d",
+  "new_tests": 25,
+  "full_offline_suite_tests": 124,
+  "full_offline_suite_passed": true,
+  "interpreter": "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python",
+  "log": "/private/tmp/opentovibe-validity-tests-final.log",
+  "live_reactor_requests": 0,
+  "external_hosted_ai_calls": 0,
+  "attribution_commit": "acd11b8",
+  "attribution_sha256": "52280d84bd502b6e9cce1013f10d4ed498bf2256f743060b7a057d3cd882de5f",
+  "full_raw_attribution_archive": "/private/tmp/opentovibe-validity-attribution-v2",
+  "source_sha256": {
+    "evaluation_diagnostics.py": "908ef9d6081defd54f0273508160bab9c01d9913ce5aeae37583436212ec8434",
+    "evaluation_gates.py": "ef5253c82d7a6bc346000f5487ab92b3b644ca97cce80577ec5cb7b63bd5006c",
+    "evaluate_attribution.py": "9eb53b7439eddc8438ecd71ec46b84ca6eb92ec85a9453db4c31c12b3b82de0c",
+    "tests/test_evaluation_validity.py": "057f1bcec549ada956361282bdb18856a2ecfd4754e49fd6edb9c277ea2c650c",
+    "tests/test_attribution_evaluation.py": "b7cbf2c0eec69685bf7da25102c01b29f2fb1f77b2b8fa67c948c7461f0bc011"
+  },
+  "note": "System Python passes new tests but lacks existing websockets dependency; full suite passed with existing project venv. No dependencies downloaded. Tests replace transports; no live requests."
+}
