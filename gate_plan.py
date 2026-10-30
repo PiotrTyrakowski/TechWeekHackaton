@@ -115,7 +115,7 @@ def build_plan(args):
         write_jsonl(gpath, [gold[q["question_id"]] for q in rows])
         ns = argparse.Namespace(questions=qpath, histories=histories, question_ids=None,
             limit=0, method=method, k=4, budget=12000, max_chars=16000,
-            timeout=300, client=ROOT / "reactor_client.py", base_url=args.base_url,
+            timeout=600, client=ROOT / "reactor_client.py", base_url=args.base_url,
             agent_id=args.agent_id, memory_mode=memory, memory_budget=args.memory_budget)
         prepared, _, evidence, manifest = runtime.prepare(ns)
         manifest_path = directory / "runtime-manifest.json"
@@ -127,7 +127,8 @@ def build_plan(args):
         argv = [sys.executable, str(ROOT / "runtime.py"), "--questions", str(qpath),
             "--histories", str(histories), "--out-dir", str(out / "runs" / name),
             "--limit", "0", "--method", method, "--k", "4", "--budget", "12000",
-            "--memory-mode", memory, "--memory-budget", str(args.memory_budget),
+            "--memory-mode", memory, "--memory-budget", str(args.memory_budget), "--timeout", "600",
+            "--attribution-mode", "verified",
             "--base-url", args.base_url, "--agent-id", args.agent_id]
         report = [sys.executable, str(ROOT / "smoke_report.py"), "--run", str(out / "runs" / name),
                   "--questions", str(qpath), "--gold", str(gpath), "--out", str(out / "reports" / name)]
@@ -146,7 +147,8 @@ def build_plan(args):
                 "source_sha256": {name: digest for name, digest in manifest["source_sha256"].items()
                                   if name != "reactor_memory.py"},
                 "client_sha256": manifest["client_sha256"], "k": 4, "budget": 12000,
-                "max_chars": 16000, "timeout_s": 300, "base_url": args.base_url,
+                "attribution_mode": "verified",
+                "max_chars": 16000, "timeout_s": 600, "base_url": args.base_url,
                 "agent_id": args.agent_id},
             "command_argv": argv, "dry_run_command": shlex.join(argv),
             "report_command_argv": report, "report_command": shlex.join(report),
@@ -155,7 +157,7 @@ def build_plan(args):
         jobs[name] = value
         return value
 
-    smoke_job = job("smoke-bm25", smoke + smoke_pair, "bm25")
+    smoke_job = job("smoke-calibrated", smoke + smoke_pair, "calibrated")
     if smoke_job["question_ids"][0] != DIAGNOSTIC_ID:
         raise ValueError("cat must be first after actual runtime history grouping")
     bm25 = job("paired-bm25", comparison_pair, "bm25")
@@ -176,16 +178,17 @@ def build_plan(args):
          "acceptance": ["All local protocol, citation, isolation, failure-recovery, and planner tests pass.",
                         "Mocks/simulations are labelled offline; no model quality is inferred."]},
         {"gate": 1, "status": "blocked-exclusive-access", "counts": counts(1, 1),
-         "job_ids": ["smoke-bm25"], "command_argv": cat_command,
+         "job_ids": ["smoke-calibrated"], "command_argv": cat_command,
          "dry_run_command": shlex.join(cat_command),
          "interim_report_command_argv": interim_report,
          "interim_report_command": shlex.join(interim_report),
          "report_note": "Interim archive uses its own directory. Six intentionally unattempted Gate-2 questions remain explicit; assess Gate 1 on the cat row only.",
-         "acceptance": ["Actual current-ref marked answer is correct with a correct nonempty final-segment citation.",
+         "acceptance": ["Actual current-ref Reactor answer is correct; supporting session attribution comes from official labels or verified local fallback with exact source spans.",
+                        "Report Reactor-supplied and verified-fallback citations and unresolved claims separately; preserve the raw final answer.",
                         "Official adapter accepts actual prediction; local answer correct and Evidence F1 equals 1.",
                         "No uncertain pending operation, foreign history, or unexplained protocol failure."]},
         {"gate": 2, "status": "blocked-gate-1", "counts": counts(5, 6),
-         "job_ids": ["smoke-bm25"], "resume_same_manifest": True,
+         "job_ids": ["smoke-calibrated"], "resume_same_manifest": True,
          "command_argv": smoke_job["command_argv"], "dry_run_command": smoke_job["dry_run_command"],
          "acceptance": ["Continue exact Gate-1 run/checkpoint; do not repeat its completed cat question.",
                         "Complete all seven predeclared questions, including real abstention and both natural same-user questions.",
@@ -209,11 +212,11 @@ def build_plan(args):
          "acceptance": ["Compare unchanged evidence-only baseline against the bounded preload arm on identical questions.",
                         "Baseline reuse is predeclared here; incomplete/uncertain archives stop the gate. No automatic replay or fallback.",
                         "Report first versus second question outcomes; retain all preload replies separately from predictions.",
-                        "Disclose query-aware future-question pooling and order/time confounding; gain cannot isolate native memory.",
+                        "Preload selection uses the first-question prefix only; disclose extra-context and order/time confounding. A gain cannot isolate native memory.",
                         "One pair does not support a benchmark or statistical improvement claim."]}]
     total = {key: sum(g["counts"][key] for g in gates) for key in counts()}
     compare = {}
-    for name, arm_jobs in (("gate3", [bm25, calibrated]), ("gate4", [calibrated, memory])):
+    for name, arm_jobs in (("gate3", [calibrated, bm25]), ("gate4", [calibrated, memory])):
         if arm_jobs[0]["comparability_identity"] != arm_jobs[1]["comparability_identity"]:
             raise ValueError("contrast changed code/data/order/prompt provenance")
         argv = [sys.executable, str(ROOT / "compare_reactor.py")]
@@ -227,6 +230,11 @@ def build_plan(args):
             "warning": "Existing comparer is descriptive and checks question/gold equality only. Independently verify these frozen identities against settled run artifacts before interpreting a contrast."}
     plan = {"schema_version": 1, "mode": "offline-plan-only", "execute": False,
         "live_runner": None, "exclusive_access_confirmed": False, "seed": args.seed,
+        "organizer_policy": {"source": "User-supplied official Discord clarifications, 2026-10-31",
+            "primary_baseline": "calibrated-k4", "external_hosted_ai_inference": "forbidden",
+            "local_verified_attribution": "permitted; preserve Reactor answer and retain supporting source spans",
+            "pending_backoff_seconds": [5, 10], "client_timeout_seconds": 600,
+            "judging": "Benchmark contributes within HARNESS/SOLUTION 4, alongside IDEA 4 and APPLICATION 4."},
         "gates": gates, "jobs": jobs, "comparisons": compare,
         "total_initial_counts_conditional_baseline_reuse": total,
         "source_sha256": {str(path.resolve()): runtime.file_sha256(path)
@@ -248,7 +256,8 @@ def build_plan(args):
             "All generated runtime commands are dry runs; no access attestation is created.",
             "Before any live call, explicitly confirm cross-machine exclusive access and appoint exactly one runner.",
             "Do not execute the legacy 95-operation plan automatically.",
-            "Preserve actual outputs; never repair final answers/citations or selectively retry wrong completed answers."]}
+            "Preserve Reactor final answer; verified automatic local citation attribution is allowed with separate provenance. Never blindly cite retrieved rank or selectively retry wrong completed answers.",
+            "No hosted external AI API may process benchmark inputs or generate auxiliary answers; permitted local models remain local."]}
     runtime.atomic_json(out / "plan.json", plan)
     lines = ["# Minimal offline gate plan", "", "No live access is authorized. Commands below are dry runs. Execute only one accepted gate at a time after actual team coordination.", ""]
     for gate in gates:

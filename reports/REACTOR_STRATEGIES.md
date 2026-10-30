@@ -1,5 +1,10 @@
 # Reactor integration strategies
 
+**Organizer policy update:** verified local automatic citation fallback is
+permitted; hosted auxiliary AI processing of benchmark data is forbidden.
+Calibrated k4 is the primary baseline. Current gate/recovery decisions override
+older assumptions here: [PROJECT_STATUS.md](PROJECT_STATUS.md).
+
 Offline design audit, 2026-10-30. Grounded in the pinned official participant kit
 `f0a317dfa13e7797baae61711cef27a9805bedcc`; see the detailed
 [API audit](reactor-deep-dive/api-audit.md) and
@@ -42,8 +47,8 @@ found in the kit, so these are API/latency estimates rather than monetary quotes
 All five are compatible with the official architecture **if Reactor produces the
 submitted final answer**, IDs/dates are from the current history, local tools use
 only allowed inputs, and predictions are generated without manual edits. The
-rules expressly permit local preprocessing/models/retrievers. Paid external
-inference is neither needed for this offline phase nor approved by this report.
+rules expressly permit local preprocessing/models/retrievers. Hosted external
+AI inference for benchmark processing is forbidden by organizer clarification.
 
 ### A. Evidence-first answering
 

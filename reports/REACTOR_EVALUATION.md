@@ -1,5 +1,18 @@
 # Reactor evaluation: gated, reproducible live experiments
 
+**Organizer clarification supersedes earlier citation policy:** verified local
+fallback attribution is permitted; preserve Reactor's answer and report raw
+labels, verified supporting sources, and unresolved claims separately. Hosted
+auxiliary AI APIs are forbidden. Current baseline is calibrated k4 with 600s
+timeout and 5–10s safe pending backoff. See [current status](PROJECT_STATUS.md).
+
+**Coordination update, 2026-10-31:** the current small Gates 0–4 plan and
+acceptance decisions are in [PROJECT_STATUS.md](PROJECT_STATUS.md), with frozen
+[counts and provenance](gates/plan-summary.json). Use `gate_plan.py` for that
+offline plan. The 95-operation paired proposal below is retained as a larger
+historical design; it must not run automatically. Gate 0 has passed locally;
+all live gates still await explicit cross-machine exclusivity.
+
 Status: **offline infrastructure validated; live experiments await an actual team
 exclusive-access agreement.** No new model answers or judging points are claimed.
 The three highest-value experiments are final-answer citation correctness,
@@ -88,8 +101,10 @@ Acceptance requires all of the following:
 4. Runtime validation and official prediction conversion accept the output;
    official local scoring reports a correct answer and Evidence F1 1.0.
 
-Do not add citations after the call, edit predictions, or retry repeatedly until
-one good output can be selected. A failure is recorded and diagnosed. A planned
+Automatic verified attribution may add supporting session IDs after the call,
+with exact-source provenance and separate raw/effective scores. Do not manually
+edit predictions or retry repeatedly until one good output can be selected.
+A failure is recorded and diagnosed. A planned
 new prompt trial is a separate run with an explicit changed configuration.
 
 ## Stage 2: diverse five-question smoke

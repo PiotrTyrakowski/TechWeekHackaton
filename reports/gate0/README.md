@@ -1,5 +1,17 @@
 # Gate 0 — offline protocol validation, 2026-10-31
 
+**Current organizer-policy integration: 179 tests passed.**
+[Current validation](organizer-update/validation.json) and
+[log](organizer-update/tests.log) include verified attribution, 600s timeout,
+normal pending backoff/recovery, and coverage diagnostics. Earlier milestones
+below remain historical. Raw final labels and verified fallback are now scored
+separately; missing labels no longer prohibit automatic verified attribution.
+
+Lead integration check: **109 tests passed** after adding the six small-planner
+tests. The [integrated record](integrated/validation.json) and
+[test log](integrated/tests.log) preserve that run. The 103-test independent
+evaluation below is retained unchanged as its earlier milestone.
+
 **Passed locally: 103 tests, zero new Reactor operations. Gates 1–4 remain unverified live.**
 
 The independent baseline check passed all 99 existing tests. The final guarded

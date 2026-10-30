@@ -1,0 +1,534 @@
+{
+  "schema_version": 1,
+  "mode": "offline-plan-only",
+  "execute": false,
+  "live_runner": null,
+  "exclusive_access_confirmed": false,
+  "seed": "reactor-small-gates-v1",
+  "organizer_policy": {
+    "source": "User-supplied official Discord clarifications, 2026-10-31",
+    "primary_baseline": "calibrated-k4",
+    "external_hosted_ai_inference": "forbidden",
+    "local_verified_attribution": "permitted; preserve Reactor answer and retain supporting source spans",
+    "pending_backoff_seconds": [
+      5,
+      10
+    ],
+    "client_timeout_seconds": 600,
+    "judging": "Benchmark contributes within HARNESS/SOLUTION 4, alongside IDEA 4 and APPLICATION 4."
+  },
+  "gates": [
+    {
+      "gate": 0,
+      "status": "requires-local-validation",
+      "counts": {
+        "history_resets": 0,
+        "question_requests": 0,
+        "preload_requests": 0,
+        "initial_api_operations": 0
+      },
+      "command_argv": [
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests"
+      ],
+      "acceptance": [
+        "All local protocol, citation, isolation, failure-recovery, and planner tests pass.",
+        "Mocks/simulations are labelled offline; no model quality is inferred."
+      ]
+    },
+    {
+      "gate": 1,
+      "status": "blocked-exclusive-access",
+      "counts": {
+        "history_resets": 1,
+        "question_requests": 1,
+        "preload_requests": 0,
+        "initial_api_operations": 2
+      },
+      "job_ids": [
+        "smoke-calibrated"
+      ],
+      "command_argv": [
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runtime.py",
+        "--questions",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/smoke-calibrated/questions.jsonl",
+        "--histories",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/histories.jsonl",
+        "--out-dir",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/runs/smoke-calibrated",
+        "--limit",
+        "0",
+        "--method",
+        "calibrated",
+        "--k",
+        "4",
+        "--budget",
+        "12000",
+        "--memory-mode",
+        "none",
+        "--memory-budget",
+        "12000",
+        "--timeout",
+        "600",
+        "--attribution-mode",
+        "verified",
+        "--base-url",
+        "https://t07.api.reactor-hackathon.rxai.dev",
+        "--agent-id",
+        "agt_0c172edd3340495a",
+        "--stop-after",
+        "1"
+      ],
+      "dry_run_command": "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python /Users/zoga/Dev/Playground/TechWeekHackaton/runtime.py --questions /Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/smoke-calibrated/questions.jsonl --histories /Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/histories.jsonl --out-dir /Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/runs/smoke-calibrated --limit 0 --method calibrated --k 4 --budget 12000 --memory-mode none --memory-budget 12000 --timeout 600 --attribution-mode verified --base-url https://t07.api.reactor-hackathon.rxai.dev --agent-id agt_0c172edd3340495a --stop-after 1",
+      "interim_report_command_argv": [
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/smoke_report.py",
+        "--run",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/runs/smoke-calibrated",
+        "--questions",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/smoke-calibrated/questions.jsonl",
+        "--gold",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/smoke-calibrated/gold.jsonl",
+        "--out",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/reports/gate1-interim"
+      ],
+      "interim_report_command": "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python /Users/zoga/Dev/Playground/TechWeekHackaton/smoke_report.py --run /Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/runs/smoke-calibrated --questions /Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/smoke-calibrated/questions.jsonl --gold /Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/smoke-calibrated/gold.jsonl --out /Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/reports/gate1-interim",
+      "report_note": "Interim archive uses its own directory. Six intentionally unattempted Gate-2 questions remain explicit; assess Gate 1 on the cat row only.",
+      "acceptance": [
+        "Actual current-ref Reactor answer is correct; supporting session attribution comes from official labels or verified local fallback with exact source spans.",
+        "Report Reactor-supplied and verified-fallback citations and unresolved claims separately; preserve the raw final answer.",
+        "Official adapter accepts actual prediction; local answer correct and Evidence F1 equals 1.",
+        "No uncertain pending operation, foreign history, or unexplained protocol failure."
+      ]
+    },
+    {
+      "gate": 2,
+      "status": "blocked-gate-1",
+      "counts": {
+        "history_resets": 5,
+        "question_requests": 6,
+        "preload_requests": 0,
+        "initial_api_operations": 11
+      },
+      "job_ids": [
+        "smoke-calibrated"
+      ],
+      "resume_same_manifest": true,
+      "command_argv": [
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runtime.py",
+        "--questions",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/smoke-calibrated/questions.jsonl",
+        "--histories",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/histories.jsonl",
+        "--out-dir",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/runs/smoke-calibrated",
+        "--limit",
+        "0",
+        "--method",
+        "calibrated",
+        "--k",
+        "4",
+        "--budget",
+        "12000",
+        "--memory-mode",
+        "none",
+        "--memory-budget",
+        "12000",
+        "--timeout",
+        "600",
+        "--attribution-mode",
+        "verified",
+        "--base-url",
+        "https://t07.api.reactor-hackathon.rxai.dev",
+        "--agent-id",
+        "agt_0c172edd3340495a"
+      ],
+      "dry_run_command": "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python /Users/zoga/Dev/Playground/TechWeekHackaton/runtime.py --questions /Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/smoke-calibrated/questions.jsonl --histories /Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/inputs/histories.jsonl --out-dir /Users/zoga/Dev/Playground/TechWeekHackaton/runs/organizer-gates-20261031/runs/smoke-calibrated --limit 0 --method calibrated --k 4 --budget 12000 --memory-mode none --memory-budget 12000 --timeout 600 --attribution-mode verified --base-url https://t07.api.reactor-hackathon.rxai.dev --agent-id agt_0c172edd3340495a",
+      "acceptance": [
+        "Continue exact Gate-1 run/checkpoint; do not repeat its completed cat question.",
+        "Complete all seven predeclared questions, including real abstention and both natural same-user questions.",
+        "The known unanswerable probe must produce an actual marked INSUFFICIENT_EVIDENCE abstention; a transport failure cannot satisfy this check.",
+        "Exactly one reset for each dataset history; no reset between the natural pair.",
+        "Validate current-question citation mapping and report every wrong/unjudged/uncited answer and failure.",
+        "Stop expansion on protocol/isolation failure; ordinary wrong answers remain in results."
+      ]
+    },
+    {
+      "gate": 3,
+      "status": "blocked-gate-2",
+      "counts": {
+        "history_resets": 2,
+        "question_requests": 4,
+        "preload_requests": 0,
+        "initial_api_operations": 6
+      },
+      "job_ids": [
+        "paired-bm25",
+        "paired-calibrated"
+      ],
+      "fresh_history_per_arm": true,
+      "acceptance": [
+        "Run both frozen retrieval arms sequentially in the specified order with fresh arm histories.",
+        "Report paired actual answer outcomes, citation F1, abstention, failures, latency and operations.",
+        "One two-question history is an integration pilot and cannot establish a general winner."
+      ]
+    },
+    {
+      "gate": 4,
+      "status": "blocked-gate-3",
+      "counts": {
+        "history_resets": 1,
+        "question_requests": 2,
+        "preload_requests": 1,
+        "initial_api_operations": 4
+      },
+      "job_ids": [
+        "paired-calibrated-memory"
+      ],
+      "baseline_job_id": "paired-calibrated",
+      "baseline_reuse": {
+        "conditional": true,
+        "requires": [
+          "Completed, unchanged Gate-3 calibrated archive and no unresolved pending call.",
+          "Identical original questions/order, exact evidence hash, source hashes, prompt/client, dates and budgets.",
+          "Baseline is evidence-only; preload arm starts fresh and loads exact prepared bounded parts."
+        ],
+        "fallback_additional_counts": {
+          "history_resets": 1,
+          "question_requests": 2,
+          "preload_requests": 0,
+          "initial_api_operations": 3
+        }
+      },
+      "identical_final_evidence_sha256": "e0847bb1ed51143304ab8df364717bb140b62d27147cfb381cde9c79dd7bc1a0",
+      "acceptance": [
+        "Compare unchanged evidence-only baseline against the bounded preload arm on identical questions.",
+        "Baseline reuse is predeclared here; incomplete/uncertain archives stop the gate. No automatic replay or fallback.",
+        "Report first versus second question outcomes; retain all preload replies separately from predictions.",
+        "Preload selection uses the first-question prefix only; disclose extra-context and order/time confounding. A gain cannot isolate native memory.",
+        "One pair does not support a benchmark or statistical improvement claim."
+      ]
+    }
+  ],
+  "selection": {
+    "smoke_shared_question_ids": [
+      "q_4e61f6554795",
+      "q_8a42fbe85acc"
+    ],
+    "comparison_question_ids": [
+      "q_0521ad05cc21",
+      "q_74474275300c"
+    ],
+    "pair_categories": {
+      "smoke": [
+        "single-session-assistant",
+        "single-session-assistant"
+      ],
+      "comparison": [
+        "single-session-assistant",
+        "single-session-assistant"
+      ]
+    },
+    "pair_gold_source_sets_equal": {
+      "smoke": true,
+      "comparison": true
+    },
+    "policy": "Public IDs only; whole-history development exclusion; original within-history order; no retrieval/answer filtering.",
+    "limits": "Reused development diagnostics, development-trained calibrated model, one comparison history; not independent generalization. Temporal coverage is deferred. Current natural assistant pairs repeat gold source sets and prepared E1 sources: they test sequencing, not cross-source label remapping robustness or retrieval discrimination. True cross-source remapping is covered by local synthetic protocol tests only. Do not select replacement pairs based on retrieval disagreement."
+  },
+  "total_initial_counts_conditional_baseline_reuse": {
+    "history_resets": 9,
+    "question_requests": 13,
+    "preload_requests": 1,
+    "initial_api_operations": 23
+  },
+  "source_sha256": {
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/gate_plan.py": "73594a6e703ef935114bdca847f9359027f1b029d5480ab7f40270672262a810",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/evaluate.py": "b59eb9e5ee78c0fb62d22e620fd381af467de2bb7b1ed45d9d2201740ad96ec1",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/smoke_report.py": "d115d31db3a48eed3177447038e13573c16d601944ce2b5c4ad90a4ec16e8db5",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/compare_reactor.py": "a80beb6fd22db1020c7461ec7d1c723bf418bfd36ca1334b7efd622446f8d64c",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev/questions.jsonl": "814011572fb0e873320c0f88ab99bb0e9a87c6c57c304f21f59e4393b0e24278",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev/histories.jsonl": "f0263666b82a485afacaf7dda5ebb644cdd6e6370f32118c5bc6cccb08dba897",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev/gold.jsonl": "6b6e7808f364313724ab85100adff0de765149a85b0b07b6a9808818e5ee4f9a",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/smoke/questions.jsonl": "257de4e7e3f0c902f4f316c1bc5342a53ce8ca88bba1aa4d0b83526f0f320d52"
+  },
+  "cost": {
+    "monetary_usd": null,
+    "reason": "No price or usage tariff established by inspected kit.",
+    "operations_exclude": "Safe refused retries, failed calls, uncertain in-flight calls and explicitly coordinated recovery.",
+    "latency": "Measure Gate 1/2 before forecasting; one historical 46.63s answer is not representative."
+  },
+  "safety": [
+    "This file is a plan, not an execution driver; no automatic gate transitions.",
+    "All generated runtime commands are dry runs; no access attestation is created.",
+    "Before any live call, explicitly confirm cross-machine exclusive access and appoint exactly one runner.",
+    "Do not execute the legacy 95-operation plan automatically.",
+    "Preserve Reactor final answer; verified automatic local citation attribution is allowed with separate provenance. Never blindly cite retrieved rank or selectively retry wrong completed answers.",
+    "No hosted external AI API may process benchmark inputs or generate auxiliary answers; permitted local models remain local."
+  ],
+  "local_plan": "runs/organizer-gates-20261031/plan.json",
+  "local_plan_sha256": "de5b789e8b6d93795fec1c39d1abcf3ab79da3d2330b0dc1fdf8ec4f8f262b4c",
+  "dry_run_checks": {
+    "commands": 5,
+    "new_reactor_operations": 0,
+    "jobs": [
+      {
+        "job": "smoke-calibrated",
+        "manifest_matches": true,
+        "attempt_log_absent": true,
+        "questions": 7,
+        "max_message_chars": 13315,
+        "memory_scope": "none",
+        "preload_chars": []
+      },
+      {
+        "job": "paired-bm25",
+        "manifest_matches": true,
+        "attempt_log_absent": true,
+        "questions": 2,
+        "max_message_chars": 9686,
+        "memory_scope": "none",
+        "preload_chars": []
+      },
+      {
+        "job": "paired-calibrated",
+        "manifest_matches": true,
+        "attempt_log_absent": true,
+        "questions": 2,
+        "max_message_chars": 6178,
+        "memory_scope": "none",
+        "preload_chars": []
+      },
+      {
+        "job": "paired-calibrated-memory",
+        "manifest_matches": true,
+        "attempt_log_absent": true,
+        "questions": 2,
+        "max_message_chars": 6178,
+        "memory_scope": "first-question-prefix",
+        "preload_chars": [
+          4208
+        ]
+      }
+    ]
+  },
+  "jobs": {
+    "smoke-calibrated": {
+      "method": "calibrated",
+      "memory_mode": "none",
+      "question_ids": [
+        "q_d4ead82e5cad",
+        "q_1773242b1801",
+        "q_e2cc79359e15",
+        "q_6eaf85dde884",
+        "q_4e61f6554795",
+        "q_8a42fbe85acc",
+        "q_61a19ce280f4"
+      ],
+      "counts": {
+        "history_resets": 6,
+        "question_requests": 7,
+        "preload_requests": 0,
+        "initial_api_operations": 13
+      },
+      "runtime_manifest_sha256": "965cc4f94be7fd57df2f26881819ec4ac00afd35c541dc2ffb58b90417cf49b0",
+      "per_question_evidence_sha256": {
+        "q_d4ead82e5cad": "040ab18a1876471ba9045db2f831cba36794bb1b56b413f7f94b7760ecd7e6a2",
+        "q_1773242b1801": "ff304eb1829c930142eba9f98937232b64fa1fde16ef44b6d39d36343a39f568",
+        "q_e2cc79359e15": "906dcf668434953dcf9020902e7816813195ccb7a02cd5c297502cdadc8df3e7",
+        "q_6eaf85dde884": "028c2809a3fa404b117ef19bd1194dbc22037e250a2308b3af3f3fb5b1bc046a",
+        "q_4e61f6554795": "c01f06e4321ffc89dd3dc862f82c739df65cefd6cf792a2c34f73e40276c4fa9",
+        "q_8a42fbe85acc": "c01f06e4321ffc89dd3dc862f82c739df65cefd6cf792a2c34f73e40276c4fa9",
+        "q_61a19ce280f4": "cbfc111ec1ff54ba1957c635ec75ddbc51c8572b8ca5515670ab2b7f8cde59ba"
+      },
+      "comparability_identity": {
+        "question_ids_in_runtime_order": [
+          "q_d4ead82e5cad",
+          "q_1773242b1801",
+          "q_e2cc79359e15",
+          "q_6eaf85dde884",
+          "q_4e61f6554795",
+          "q_8a42fbe85acc",
+          "q_61a19ce280f4"
+        ],
+        "questions_sha256": "6dc7db46211b27f163d9853e25802b41e5e0f1faea6d04870af7cb7edb85d378",
+        "histories_sha256": "d47e2469233ae66d3638f8328cd52924afc0d4ee9b3caa2099e1a44e0744229d",
+        "source_sha256": {
+          "runtime.py": "682abdcda16f4e1f6c9e8375ede97ae17e2bc3b24dcb9e6e598e6095058bd6fc",
+          "official/reactor/client.py": "99cd636b269736bfb0e7bcf0d1f1fbe7b47613753a1f9cc342aa3d0912d8a9a0",
+          "official/reactor/predictions.py": "e19fb585aaafbbd7f5311d805dea49a7251ebcb764ca72091cf9d1201e17d9cb",
+          "retrieval.py": "ae39416a682f1ecb1af8ac499a4749435481dde86a6af7d469a793dc334403f9",
+          "retrieval_calibrated.py": "17d57a402e299bcb1f93b6b93e2405fc2858ab1458020ba94c6a82feff3f0ee0",
+          "retrieval_dense.py": "2c0192630163a7b6e0458a9d5916c43a7395fbdc5303ee9bf5eab33ccf5f3b10",
+          "retrieval_memory.py": "7d7a08b805df1240ec93ec4bb7f1e2adf2c15c50ade63b6f7e93f3bc3799f168",
+          "retrieval_reasoning.py": "c3ed7adc63ba76cad2d78c71b5877f8744f27dbd57ddbac196374775ab08df3b",
+          "retrieval_specialized.py": "a1313496ce08eb48ae67958d8bca7a4fff0c06f2130f27d8ec2738c881d93681",
+          "models/session_selection.json": "a6ad9390c75b8703641995125ccc7b1226811ab9a53447d73576f274c72dd718",
+          "models/session_selection_robust.json": "0e1d062c7478dce88977cf2a97482dc14d58f1e982c245384bf811abbfe31292",
+          "attribution.py": "3918ee6123c356e2c14eddd096517ed8397d19c66d71cefa65a20072439edcbb"
+        },
+        "client_sha256": "e76bc119395442661b11b953bd0fc1124370c0e45957cc0be8015213d10e4010",
+        "k": 4,
+        "budget": 12000,
+        "attribution_mode": "verified",
+        "max_chars": 16000,
+        "timeout_s": 600,
+        "base_url": "https://t07.api.reactor-hackathon.rxai.dev",
+        "agent_id": "agt_0c172edd3340495a"
+      }
+    },
+    "paired-bm25": {
+      "method": "bm25",
+      "memory_mode": "none",
+      "question_ids": [
+        "q_0521ad05cc21",
+        "q_74474275300c"
+      ],
+      "counts": {
+        "history_resets": 1,
+        "question_requests": 2,
+        "preload_requests": 0,
+        "initial_api_operations": 3
+      },
+      "runtime_manifest_sha256": "c7b5ee4a5e5d8b045a351c9de640e3c70bf2f686bbe75670dc2fa66d726a82c5",
+      "per_question_evidence_sha256": {
+        "q_0521ad05cc21": "a1a566d1dfea84d0fe490adc952af7d11297dd53b56b051c171c8d98371e5d06",
+        "q_74474275300c": "3b27c8ff48b30c080a10d9e26082cf2c2e709f322fd26a7725cd6c6b90b81ff6"
+      },
+      "comparability_identity": {
+        "question_ids_in_runtime_order": [
+          "q_0521ad05cc21",
+          "q_74474275300c"
+        ],
+        "questions_sha256": "5e5e5da02c8e365cd9f313e574d9aa518586504c006bd3e2df69a89b669e1bcc",
+        "histories_sha256": "d47e2469233ae66d3638f8328cd52924afc0d4ee9b3caa2099e1a44e0744229d",
+        "source_sha256": {
+          "runtime.py": "682abdcda16f4e1f6c9e8375ede97ae17e2bc3b24dcb9e6e598e6095058bd6fc",
+          "official/reactor/client.py": "99cd636b269736bfb0e7bcf0d1f1fbe7b47613753a1f9cc342aa3d0912d8a9a0",
+          "official/reactor/predictions.py": "e19fb585aaafbbd7f5311d805dea49a7251ebcb764ca72091cf9d1201e17d9cb",
+          "retrieval.py": "ae39416a682f1ecb1af8ac499a4749435481dde86a6af7d469a793dc334403f9",
+          "retrieval_calibrated.py": "17d57a402e299bcb1f93b6b93e2405fc2858ab1458020ba94c6a82feff3f0ee0",
+          "retrieval_dense.py": "2c0192630163a7b6e0458a9d5916c43a7395fbdc5303ee9bf5eab33ccf5f3b10",
+          "retrieval_memory.py": "7d7a08b805df1240ec93ec4bb7f1e2adf2c15c50ade63b6f7e93f3bc3799f168",
+          "retrieval_reasoning.py": "c3ed7adc63ba76cad2d78c71b5877f8744f27dbd57ddbac196374775ab08df3b",
+          "retrieval_specialized.py": "a1313496ce08eb48ae67958d8bca7a4fff0c06f2130f27d8ec2738c881d93681",
+          "models/session_selection.json": "a6ad9390c75b8703641995125ccc7b1226811ab9a53447d73576f274c72dd718",
+          "models/session_selection_robust.json": "0e1d062c7478dce88977cf2a97482dc14d58f1e982c245384bf811abbfe31292",
+          "attribution.py": "3918ee6123c356e2c14eddd096517ed8397d19c66d71cefa65a20072439edcbb"
+        },
+        "client_sha256": "e76bc119395442661b11b953bd0fc1124370c0e45957cc0be8015213d10e4010",
+        "k": 4,
+        "budget": 12000,
+        "attribution_mode": "verified",
+        "max_chars": 16000,
+        "timeout_s": 600,
+        "base_url": "https://t07.api.reactor-hackathon.rxai.dev",
+        "agent_id": "agt_0c172edd3340495a"
+      }
+    },
+    "paired-calibrated": {
+      "method": "calibrated",
+      "memory_mode": "none",
+      "question_ids": [
+        "q_0521ad05cc21",
+        "q_74474275300c"
+      ],
+      "counts": {
+        "history_resets": 1,
+        "question_requests": 2,
+        "preload_requests": 0,
+        "initial_api_operations": 3
+      },
+      "runtime_manifest_sha256": "9bea3e7b1e876df9ca88b988c1ee988d8d3c4a2d167651fd14e6b0cc946d613d",
+      "per_question_evidence_sha256": {
+        "q_0521ad05cc21": "f2ee3e137736916aecda04b7ca02e7459c1b7fe5025d6abddfdd83924abca366",
+        "q_74474275300c": "f2ee3e137736916aecda04b7ca02e7459c1b7fe5025d6abddfdd83924abca366"
+      },
+      "comparability_identity": {
+        "question_ids_in_runtime_order": [
+          "q_0521ad05cc21",
+          "q_74474275300c"
+        ],
+        "questions_sha256": "5e5e5da02c8e365cd9f313e574d9aa518586504c006bd3e2df69a89b669e1bcc",
+        "histories_sha256": "d47e2469233ae66d3638f8328cd52924afc0d4ee9b3caa2099e1a44e0744229d",
+        "source_sha256": {
+          "runtime.py": "682abdcda16f4e1f6c9e8375ede97ae17e2bc3b24dcb9e6e598e6095058bd6fc",
+          "official/reactor/client.py": "99cd636b269736bfb0e7bcf0d1f1fbe7b47613753a1f9cc342aa3d0912d8a9a0",
+          "official/reactor/predictions.py": "e19fb585aaafbbd7f5311d805dea49a7251ebcb764ca72091cf9d1201e17d9cb",
+          "retrieval.py": "ae39416a682f1ecb1af8ac499a4749435481dde86a6af7d469a793dc334403f9",
+          "retrieval_calibrated.py": "17d57a402e299bcb1f93b6b93e2405fc2858ab1458020ba94c6a82feff3f0ee0",
+          "retrieval_dense.py": "2c0192630163a7b6e0458a9d5916c43a7395fbdc5303ee9bf5eab33ccf5f3b10",
+          "retrieval_memory.py": "7d7a08b805df1240ec93ec4bb7f1e2adf2c15c50ade63b6f7e93f3bc3799f168",
+          "retrieval_reasoning.py": "c3ed7adc63ba76cad2d78c71b5877f8744f27dbd57ddbac196374775ab08df3b",
+          "retrieval_specialized.py": "a1313496ce08eb48ae67958d8bca7a4fff0c06f2130f27d8ec2738c881d93681",
+          "models/session_selection.json": "a6ad9390c75b8703641995125ccc7b1226811ab9a53447d73576f274c72dd718",
+          "models/session_selection_robust.json": "0e1d062c7478dce88977cf2a97482dc14d58f1e982c245384bf811abbfe31292",
+          "attribution.py": "3918ee6123c356e2c14eddd096517ed8397d19c66d71cefa65a20072439edcbb"
+        },
+        "client_sha256": "e76bc119395442661b11b953bd0fc1124370c0e45957cc0be8015213d10e4010",
+        "k": 4,
+        "budget": 12000,
+        "attribution_mode": "verified",
+        "max_chars": 16000,
+        "timeout_s": 600,
+        "base_url": "https://t07.api.reactor-hackathon.rxai.dev",
+        "agent_id": "agt_0c172edd3340495a"
+      }
+    },
+    "paired-calibrated-memory": {
+      "method": "calibrated",
+      "memory_mode": "targeted",
+      "question_ids": [
+        "q_0521ad05cc21",
+        "q_74474275300c"
+      ],
+      "counts": {
+        "history_resets": 1,
+        "question_requests": 2,
+        "preload_requests": 1,
+        "initial_api_operations": 4
+      },
+      "runtime_manifest_sha256": "832e243fb4b8a2e75bdcbd3f01645255e90409aaeb00580fa31c37d288069031",
+      "per_question_evidence_sha256": {
+        "q_0521ad05cc21": "f2ee3e137736916aecda04b7ca02e7459c1b7fe5025d6abddfdd83924abca366",
+        "q_74474275300c": "f2ee3e137736916aecda04b7ca02e7459c1b7fe5025d6abddfdd83924abca366"
+      },
+      "comparability_identity": {
+        "question_ids_in_runtime_order": [
+          "q_0521ad05cc21",
+          "q_74474275300c"
+        ],
+        "questions_sha256": "5e5e5da02c8e365cd9f313e574d9aa518586504c006bd3e2df69a89b669e1bcc",
+        "histories_sha256": "d47e2469233ae66d3638f8328cd52924afc0d4ee9b3caa2099e1a44e0744229d",
+        "source_sha256": {
+          "runtime.py": "682abdcda16f4e1f6c9e8375ede97ae17e2bc3b24dcb9e6e598e6095058bd6fc",
+          "official/reactor/client.py": "99cd636b269736bfb0e7bcf0d1f1fbe7b47613753a1f9cc342aa3d0912d8a9a0",
+          "official/reactor/predictions.py": "e19fb585aaafbbd7f5311d805dea49a7251ebcb764ca72091cf9d1201e17d9cb",
+          "retrieval.py": "ae39416a682f1ecb1af8ac499a4749435481dde86a6af7d469a793dc334403f9",
+          "retrieval_calibrated.py": "17d57a402e299bcb1f93b6b93e2405fc2858ab1458020ba94c6a82feff3f0ee0",
+          "retrieval_dense.py": "2c0192630163a7b6e0458a9d5916c43a7395fbdc5303ee9bf5eab33ccf5f3b10",
+          "retrieval_memory.py": "7d7a08b805df1240ec93ec4bb7f1e2adf2c15c50ade63b6f7e93f3bc3799f168",
+          "retrieval_reasoning.py": "c3ed7adc63ba76cad2d78c71b5877f8744f27dbd57ddbac196374775ab08df3b",
+          "retrieval_specialized.py": "a1313496ce08eb48ae67958d8bca7a4fff0c06f2130f27d8ec2738c881d93681",
+          "models/session_selection.json": "a6ad9390c75b8703641995125ccc7b1226811ab9a53447d73576f274c72dd718",
+          "models/session_selection_robust.json": "0e1d062c7478dce88977cf2a97482dc14d58f1e982c245384bf811abbfe31292",
+          "attribution.py": "3918ee6123c356e2c14eddd096517ed8397d19c66d71cefa65a20072439edcbb"
+        },
+        "client_sha256": "e76bc119395442661b11b953bd0fc1124370c0e45957cc0be8015213d10e4010",
+        "k": 4,
+        "budget": 12000,
+        "attribution_mode": "verified",
+        "max_chars": 16000,
+        "timeout_s": 600,
+        "base_url": "https://t07.api.reactor-hackathon.rxai.dev",
+        "agent_id": "agt_0c172edd3340495a"
+      }
+    }
+  }
+}

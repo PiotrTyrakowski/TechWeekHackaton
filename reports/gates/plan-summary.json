@@ -1,0 +1,545 @@
+{
+  "schema_version": 1,
+  "mode": "offline-plan-only",
+  "execute": false,
+  "live_runner": null,
+  "exclusive_access_confirmed": false,
+  "seed": "reactor-small-gates-v1",
+  "gates": [
+    {
+      "gate": 0,
+      "status": "requires-local-validation",
+      "counts": {
+        "history_resets": 0,
+        "question_requests": 0,
+        "preload_requests": 0,
+        "initial_api_operations": 0
+      },
+      "command_argv": [
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests"
+      ],
+      "acceptance": [
+        "All local protocol, citation, isolation, failure-recovery, and planner tests pass.",
+        "Mocks/simulations are labelled offline; no model quality is inferred."
+      ]
+    },
+    {
+      "gate": 1,
+      "status": "blocked-exclusive-access",
+      "counts": {
+        "history_resets": 1,
+        "question_requests": 1,
+        "preload_requests": 0,
+        "initial_api_operations": 2
+      },
+      "job_ids": [
+        "smoke-bm25"
+      ],
+      "command_argv": [
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runtime.py",
+        "--questions",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/smoke-bm25/questions.jsonl",
+        "--histories",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/histories.jsonl",
+        "--out-dir",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/runs/smoke-bm25",
+        "--limit",
+        "0",
+        "--method",
+        "bm25",
+        "--k",
+        "4",
+        "--budget",
+        "12000",
+        "--memory-mode",
+        "none",
+        "--memory-budget",
+        "12000",
+        "--base-url",
+        "https://t07.api.reactor-hackathon.rxai.dev",
+        "--agent-id",
+        "agt_0c172edd3340495a",
+        "--stop-after",
+        "1"
+      ],
+      "dry_run_command": "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python /Users/zoga/Dev/Playground/TechWeekHackaton/runtime.py --questions /Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/smoke-bm25/questions.jsonl --histories /Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/histories.jsonl --out-dir /Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/runs/smoke-bm25 --limit 0 --method bm25 --k 4 --budget 12000 --memory-mode none --memory-budget 12000 --base-url https://t07.api.reactor-hackathon.rxai.dev --agent-id agt_0c172edd3340495a --stop-after 1",
+      "interim_report_command_argv": [
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/smoke_report.py",
+        "--run",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/runs/smoke-bm25",
+        "--questions",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/smoke-bm25/questions.jsonl",
+        "--gold",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/smoke-bm25/gold.jsonl",
+        "--out",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/reports/gate1-interim"
+      ],
+      "interim_report_command": "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python /Users/zoga/Dev/Playground/TechWeekHackaton/smoke_report.py --run /Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/runs/smoke-bm25 --questions /Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/smoke-bm25/questions.jsonl --gold /Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/smoke-bm25/gold.jsonl --out /Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/reports/gate1-interim",
+      "report_note": "Interim archive uses its own directory. Six intentionally unattempted Gate-2 questions remain explicit; assess Gate 1 on the cat row only.",
+      "acceptance": [
+        "Actual current-ref marked answer is correct with a correct nonempty final-segment citation.",
+        "Official adapter accepts actual prediction; local answer correct and Evidence F1 equals 1.",
+        "No uncertain pending operation, foreign history, or unexplained protocol failure."
+      ]
+    },
+    {
+      "gate": 2,
+      "status": "blocked-gate-1",
+      "counts": {
+        "history_resets": 5,
+        "question_requests": 6,
+        "preload_requests": 0,
+        "initial_api_operations": 11
+      },
+      "job_ids": [
+        "smoke-bm25"
+      ],
+      "resume_same_manifest": true,
+      "command_argv": [
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runtime.py",
+        "--questions",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/smoke-bm25/questions.jsonl",
+        "--histories",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/histories.jsonl",
+        "--out-dir",
+        "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/runs/smoke-bm25",
+        "--limit",
+        "0",
+        "--method",
+        "bm25",
+        "--k",
+        "4",
+        "--budget",
+        "12000",
+        "--memory-mode",
+        "none",
+        "--memory-budget",
+        "12000",
+        "--base-url",
+        "https://t07.api.reactor-hackathon.rxai.dev",
+        "--agent-id",
+        "agt_0c172edd3340495a"
+      ],
+      "dry_run_command": "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python /Users/zoga/Dev/Playground/TechWeekHackaton/runtime.py --questions /Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/smoke-bm25/questions.jsonl --histories /Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/inputs/histories.jsonl --out-dir /Users/zoga/Dev/Playground/TechWeekHackaton/runs/minimal-gates-20261031/runs/smoke-bm25 --limit 0 --method bm25 --k 4 --budget 12000 --memory-mode none --memory-budget 12000 --base-url https://t07.api.reactor-hackathon.rxai.dev --agent-id agt_0c172edd3340495a",
+      "acceptance": [
+        "Continue exact Gate-1 run/checkpoint; do not repeat its completed cat question.",
+        "Complete all seven predeclared questions, including real abstention and both natural same-user questions.",
+        "The known unanswerable probe must produce an actual marked INSUFFICIENT_EVIDENCE abstention; a transport failure cannot satisfy this check.",
+        "Exactly one reset for each dataset history; no reset between the natural pair.",
+        "Validate current-question citation mapping and report every wrong/unjudged/uncited answer and failure.",
+        "Stop expansion on protocol/isolation failure; ordinary wrong answers remain in results."
+      ]
+    },
+    {
+      "gate": 3,
+      "status": "blocked-gate-2",
+      "counts": {
+        "history_resets": 2,
+        "question_requests": 4,
+        "preload_requests": 0,
+        "initial_api_operations": 6
+      },
+      "job_ids": [
+        "paired-bm25",
+        "paired-calibrated"
+      ],
+      "fresh_history_per_arm": true,
+      "acceptance": [
+        "Run both frozen retrieval arms sequentially in the specified order with fresh arm histories.",
+        "Report paired actual answer outcomes, citation F1, abstention, failures, latency and operations.",
+        "One two-question history is an integration pilot and cannot establish a general winner."
+      ]
+    },
+    {
+      "gate": 4,
+      "status": "blocked-gate-3",
+      "counts": {
+        "history_resets": 1,
+        "question_requests": 2,
+        "preload_requests": 1,
+        "initial_api_operations": 4
+      },
+      "job_ids": [
+        "paired-calibrated-memory"
+      ],
+      "baseline_job_id": "paired-calibrated",
+      "baseline_reuse": {
+        "conditional": true,
+        "requires": [
+          "Completed, unchanged Gate-3 calibrated archive and no unresolved pending call.",
+          "Identical original questions/order, exact evidence hash, source hashes, prompt/client, dates and budgets.",
+          "Baseline is evidence-only; preload arm starts fresh and loads exact prepared bounded parts."
+        ],
+        "fallback_additional_counts": {
+          "history_resets": 1,
+          "question_requests": 2,
+          "preload_requests": 0,
+          "initial_api_operations": 3
+        }
+      },
+      "identical_final_evidence_sha256": "e0847bb1ed51143304ab8df364717bb140b62d27147cfb381cde9c79dd7bc1a0",
+      "acceptance": [
+        "Compare unchanged evidence-only baseline against the bounded preload arm on identical questions.",
+        "Baseline reuse is predeclared here; incomplete/uncertain archives stop the gate. No automatic replay or fallback.",
+        "Report first versus second question outcomes; retain all preload replies separately from predictions.",
+        "Disclose query-aware future-question pooling and order/time confounding; gain cannot isolate native memory.",
+        "One pair does not support a benchmark or statistical improvement claim."
+      ]
+    }
+  ],
+  "total_initial_counts_conditional_baseline_reuse": {
+    "history_resets": 9,
+    "question_requests": 13,
+    "preload_requests": 1,
+    "initial_api_operations": 23
+  },
+  "source_sha256": {
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/gate_plan.py": "046f9b0058f99adbcecb5ba8fed262147e1d49938630298805a1bad2271f5d73",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/evaluate.py": "b59eb9e5ee78c0fb62d22e620fd381af467de2bb7b1ed45d9d2201740ad96ec1",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/smoke_report.py": "7052bfccc11fd72542b487906fa779f750f01404a60a7443cacaf8acf5bed2f9",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/compare_reactor.py": "a80beb6fd22db1020c7461ec7d1c723bf418bfd36ca1334b7efd622446f8d64c",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev/questions.jsonl": "814011572fb0e873320c0f88ab99bb0e9a87c6c57c304f21f59e4393b0e24278",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev/histories.jsonl": "f0263666b82a485afacaf7dda5ebb644cdd6e6370f32118c5bc6cccb08dba897",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/data/dev/gold.jsonl": "6b6e7808f364313724ab85100adff0de765149a85b0b07b6a9808818e5ee4f9a",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/smoke/questions.jsonl": "257de4e7e3f0c902f4f316c1bc5342a53ce8ca88bba1aa4d0b83526f0f320d52"
+  },
+  "selected_histories_sha256": "d47e2469233ae66d3638f8328cd52924afc0d4ee9b3caa2099e1a44e0744229d",
+  "selection": {
+    "smoke_shared_question_ids": [
+      "q_4e61f6554795",
+      "q_8a42fbe85acc"
+    ],
+    "comparison_question_ids": [
+      "q_0521ad05cc21",
+      "q_74474275300c"
+    ],
+    "pair_categories": {
+      "smoke": [
+        "single-session-assistant",
+        "single-session-assistant"
+      ],
+      "comparison": [
+        "single-session-assistant",
+        "single-session-assistant"
+      ]
+    },
+    "pair_gold_source_sets_equal": {
+      "smoke": true,
+      "comparison": true
+    },
+    "policy": "Public IDs only; whole-history development exclusion; original within-history order; no retrieval/answer filtering.",
+    "limits": "Reused development diagnostics, development-trained calibrated model, one comparison history; not independent generalization. Temporal coverage is deferred. Current natural assistant pairs repeat gold source sets and prepared E1 sources: they test sequencing, not cross-source label remapping robustness or retrieval discrimination. True cross-source remapping is covered by local synthetic protocol tests only. Do not select replacement pairs based on retrieval disagreement."
+  },
+  "cost": {
+    "monetary_usd": null,
+    "reason": "No price or usage tariff established by inspected kit.",
+    "operations_exclude": "Safe refused retries, failed calls, uncertain in-flight calls and explicitly coordinated recovery.",
+    "latency": "Measure Gate 1/2 before forecasting; one historical 46.63s answer is not representative."
+  },
+  "safety": [
+    "This file is a plan, not an execution driver; no automatic gate transitions.",
+    "All generated runtime commands are dry runs; no access attestation is created.",
+    "Before any live call, explicitly confirm cross-machine exclusive access and appoint exactly one runner.",
+    "Do not execute the legacy 95-operation plan automatically.",
+    "Preserve actual outputs; never repair final answers/citations or selectively retry wrong completed answers."
+  ],
+  "local_plan": "runs/minimal-gates-20261031/plan.json",
+  "local_plan_sha256": "919ded18871d7017b3e985bf4f98c88ed27de598582e91aa98ad15f9f01c1f1f",
+  "dry_run_checks": {
+    "new_reactor_operations": 0,
+    "commands_checked": 5,
+    "jobs": [
+      {
+        "job": "smoke-bm25",
+        "manifest_matches": true,
+        "attempt_log_absent": true,
+        "questions": 7,
+        "max_message_chars": 9261,
+        "preload_chars": []
+      },
+      {
+        "job": "paired-bm25",
+        "manifest_matches": true,
+        "attempt_log_absent": true,
+        "questions": 2,
+        "max_message_chars": 9686,
+        "preload_chars": []
+      },
+      {
+        "job": "paired-calibrated",
+        "manifest_matches": true,
+        "attempt_log_absent": true,
+        "questions": 2,
+        "max_message_chars": 6178,
+        "preload_chars": []
+      },
+      {
+        "job": "paired-calibrated-memory",
+        "manifest_matches": true,
+        "attempt_log_absent": true,
+        "questions": 2,
+        "max_message_chars": 6178,
+        "preload_chars": [
+          4208
+        ]
+      }
+    ]
+  },
+  "jobs": {
+    "smoke-bm25": {
+      "method": "bm25",
+      "memory_mode": "none",
+      "question_ids": [
+        "q_d4ead82e5cad",
+        "q_1773242b1801",
+        "q_e2cc79359e15",
+        "q_6eaf85dde884",
+        "q_4e61f6554795",
+        "q_8a42fbe85acc",
+        "q_61a19ce280f4"
+      ],
+      "history_ids": [
+        "h_12968e55565d",
+        "h_34aaf10cf930",
+        "h_888675116505",
+        "h_8b84e8fc842e",
+        "h_d9c4d3316a8c",
+        "h_f6f7d9fa009c"
+      ],
+      "counts": {
+        "history_resets": 6,
+        "question_requests": 7,
+        "preload_requests": 0,
+        "initial_api_operations": 13
+      },
+      "runtime_manifest_sha256": "88b193d4afa739d04ae463fa43ca30101473eda2a8e1f70cc17a43f4c2632406",
+      "evidence_sha256": "0a3113ff91f4c520ef5d875aef0d9aa37128226352448bf65592034f839bed91",
+      "per_question_evidence_sha256": {
+        "q_d4ead82e5cad": "cb9530176cc9b3f5cafccd339134680d8697f28460c3c90244383b0ff6abec6f",
+        "q_1773242b1801": "81b308e40281ec7fab2f662136240a6a96fe64a6ea46901c6d461b8ad4bab516",
+        "q_e2cc79359e15": "8c9a1568f2ee3b673c5482d7328c5685b616f05a100cbe5a4dd1b5a9a35e8875",
+        "q_6eaf85dde884": "223a5526021e05790be9e406c278f051ff0f179b3c5d3036106a9b8456d9ebc2",
+        "q_4e61f6554795": "fba8a6525faf5aaa0753d68026be1e540315aed39c25ae8c3c4fbabf44c43ebc",
+        "q_8a42fbe85acc": "fba8a6525faf5aaa0753d68026be1e540315aed39c25ae8c3c4fbabf44c43ebc",
+        "q_61a19ce280f4": "61132c68fcc18eba2fd5e9fd52daa57995c802756318e85120b853d932c7a03e"
+      },
+      "prepared_e1_session_by_question": {
+        "q_d4ead82e5cad": "s_8a377a1e6a80",
+        "q_1773242b1801": "s_89ac0daacf53",
+        "q_e2cc79359e15": "s_4ce9668e7224",
+        "q_6eaf85dde884": "s_1a6769d03923",
+        "q_4e61f6554795": "s_d53b7f6c1547",
+        "q_8a42fbe85acc": "s_d53b7f6c1547",
+        "q_61a19ce280f4": "s_24a6fcdbdab6"
+      },
+      "comparability_identity": {
+        "question_ids_in_runtime_order": [
+          "q_d4ead82e5cad",
+          "q_1773242b1801",
+          "q_e2cc79359e15",
+          "q_6eaf85dde884",
+          "q_4e61f6554795",
+          "q_8a42fbe85acc",
+          "q_61a19ce280f4"
+        ],
+        "questions_sha256": "6dc7db46211b27f163d9853e25802b41e5e0f1faea6d04870af7cb7edb85d378",
+        "histories_sha256": "d47e2469233ae66d3638f8328cd52924afc0d4ee9b3caa2099e1a44e0744229d",
+        "source_sha256": {
+          "runtime.py": "b1ececbd036be89ac067b44108bdb51f4baaa599acf466ff613f979776bd417d",
+          "official/reactor/client.py": "99cd636b269736bfb0e7bcf0d1f1fbe7b47613753a1f9cc342aa3d0912d8a9a0",
+          "official/reactor/predictions.py": "e19fb585aaafbbd7f5311d805dea49a7251ebcb764ca72091cf9d1201e17d9cb",
+          "retrieval.py": "ae39416a682f1ecb1af8ac499a4749435481dde86a6af7d469a793dc334403f9",
+          "retrieval_calibrated.py": "17d57a402e299bcb1f93b6b93e2405fc2858ab1458020ba94c6a82feff3f0ee0",
+          "retrieval_dense.py": "2c0192630163a7b6e0458a9d5916c43a7395fbdc5303ee9bf5eab33ccf5f3b10",
+          "retrieval_memory.py": "7d7a08b805df1240ec93ec4bb7f1e2adf2c15c50ade63b6f7e93f3bc3799f168",
+          "retrieval_reasoning.py": "c3ed7adc63ba76cad2d78c71b5877f8744f27dbd57ddbac196374775ab08df3b",
+          "retrieval_specialized.py": "a1313496ce08eb48ae67958d8bca7a4fff0c06f2130f27d8ec2738c881d93681",
+          "models/session_selection.json": "a6ad9390c75b8703641995125ccc7b1226811ab9a53447d73576f274c72dd718",
+          "models/session_selection_robust.json": "0e1d062c7478dce88977cf2a97482dc14d58f1e982c245384bf811abbfe31292"
+        },
+        "client_sha256": "919a913ebda08877e07bb002eff4f277b01227d0693e31d7e2a055ffd89ddcc8",
+        "k": 4,
+        "budget": 12000,
+        "max_chars": 16000,
+        "timeout_s": 300,
+        "base_url": "https://t07.api.reactor-hackathon.rxai.dev",
+        "agent_id": "agt_0c172edd3340495a"
+      }
+    },
+    "paired-bm25": {
+      "method": "bm25",
+      "memory_mode": "none",
+      "question_ids": [
+        "q_0521ad05cc21",
+        "q_74474275300c"
+      ],
+      "history_ids": [
+        "h_e626ab8825e3"
+      ],
+      "counts": {
+        "history_resets": 1,
+        "question_requests": 2,
+        "preload_requests": 0,
+        "initial_api_operations": 3
+      },
+      "runtime_manifest_sha256": "e5b89affe90afd7f97abbcdd34c3c7dbf7b243143e888162bf9bf5c29ff11ca4",
+      "evidence_sha256": "025142d13e5bb63e2e1efbf13361d46b04461529e3fcf7cf589b2dcf6f43b5cf",
+      "per_question_evidence_sha256": {
+        "q_0521ad05cc21": "a1a566d1dfea84d0fe490adc952af7d11297dd53b56b051c171c8d98371e5d06",
+        "q_74474275300c": "3b27c8ff48b30c080a10d9e26082cf2c2e709f322fd26a7725cd6c6b90b81ff6"
+      },
+      "prepared_e1_session_by_question": {
+        "q_0521ad05cc21": "s_4e4f6c4db3e2",
+        "q_74474275300c": "s_4e4f6c4db3e2"
+      },
+      "comparability_identity": {
+        "question_ids_in_runtime_order": [
+          "q_0521ad05cc21",
+          "q_74474275300c"
+        ],
+        "questions_sha256": "5e5e5da02c8e365cd9f313e574d9aa518586504c006bd3e2df69a89b669e1bcc",
+        "histories_sha256": "d47e2469233ae66d3638f8328cd52924afc0d4ee9b3caa2099e1a44e0744229d",
+        "source_sha256": {
+          "runtime.py": "b1ececbd036be89ac067b44108bdb51f4baaa599acf466ff613f979776bd417d",
+          "official/reactor/client.py": "99cd636b269736bfb0e7bcf0d1f1fbe7b47613753a1f9cc342aa3d0912d8a9a0",
+          "official/reactor/predictions.py": "e19fb585aaafbbd7f5311d805dea49a7251ebcb764ca72091cf9d1201e17d9cb",
+          "retrieval.py": "ae39416a682f1ecb1af8ac499a4749435481dde86a6af7d469a793dc334403f9",
+          "retrieval_calibrated.py": "17d57a402e299bcb1f93b6b93e2405fc2858ab1458020ba94c6a82feff3f0ee0",
+          "retrieval_dense.py": "2c0192630163a7b6e0458a9d5916c43a7395fbdc5303ee9bf5eab33ccf5f3b10",
+          "retrieval_memory.py": "7d7a08b805df1240ec93ec4bb7f1e2adf2c15c50ade63b6f7e93f3bc3799f168",
+          "retrieval_reasoning.py": "c3ed7adc63ba76cad2d78c71b5877f8744f27dbd57ddbac196374775ab08df3b",
+          "retrieval_specialized.py": "a1313496ce08eb48ae67958d8bca7a4fff0c06f2130f27d8ec2738c881d93681",
+          "models/session_selection.json": "a6ad9390c75b8703641995125ccc7b1226811ab9a53447d73576f274c72dd718",
+          "models/session_selection_robust.json": "0e1d062c7478dce88977cf2a97482dc14d58f1e982c245384bf811abbfe31292"
+        },
+        "client_sha256": "919a913ebda08877e07bb002eff4f277b01227d0693e31d7e2a055ffd89ddcc8",
+        "k": 4,
+        "budget": 12000,
+        "max_chars": 16000,
+        "timeout_s": 300,
+        "base_url": "https://t07.api.reactor-hackathon.rxai.dev",
+        "agent_id": "agt_0c172edd3340495a"
+      }
+    },
+    "paired-calibrated": {
+      "method": "calibrated",
+      "memory_mode": "none",
+      "question_ids": [
+        "q_0521ad05cc21",
+        "q_74474275300c"
+      ],
+      "history_ids": [
+        "h_e626ab8825e3"
+      ],
+      "counts": {
+        "history_resets": 1,
+        "question_requests": 2,
+        "preload_requests": 0,
+        "initial_api_operations": 3
+      },
+      "runtime_manifest_sha256": "131f2bfa14b4e636c4dcd18dd4eab6be0e7a47c5a18582b1c3c811ff4ba64f5c",
+      "evidence_sha256": "e0847bb1ed51143304ab8df364717bb140b62d27147cfb381cde9c79dd7bc1a0",
+      "per_question_evidence_sha256": {
+        "q_0521ad05cc21": "f2ee3e137736916aecda04b7ca02e7459c1b7fe5025d6abddfdd83924abca366",
+        "q_74474275300c": "f2ee3e137736916aecda04b7ca02e7459c1b7fe5025d6abddfdd83924abca366"
+      },
+      "prepared_e1_session_by_question": {
+        "q_0521ad05cc21": "s_4e4f6c4db3e2",
+        "q_74474275300c": "s_4e4f6c4db3e2"
+      },
+      "comparability_identity": {
+        "question_ids_in_runtime_order": [
+          "q_0521ad05cc21",
+          "q_74474275300c"
+        ],
+        "questions_sha256": "5e5e5da02c8e365cd9f313e574d9aa518586504c006bd3e2df69a89b669e1bcc",
+        "histories_sha256": "d47e2469233ae66d3638f8328cd52924afc0d4ee9b3caa2099e1a44e0744229d",
+        "source_sha256": {
+          "runtime.py": "b1ececbd036be89ac067b44108bdb51f4baaa599acf466ff613f979776bd417d",
+          "official/reactor/client.py": "99cd636b269736bfb0e7bcf0d1f1fbe7b47613753a1f9cc342aa3d0912d8a9a0",
+          "official/reactor/predictions.py": "e19fb585aaafbbd7f5311d805dea49a7251ebcb764ca72091cf9d1201e17d9cb",
+          "retrieval.py": "ae39416a682f1ecb1af8ac499a4749435481dde86a6af7d469a793dc334403f9",
+          "retrieval_calibrated.py": "17d57a402e299bcb1f93b6b93e2405fc2858ab1458020ba94c6a82feff3f0ee0",
+          "retrieval_dense.py": "2c0192630163a7b6e0458a9d5916c43a7395fbdc5303ee9bf5eab33ccf5f3b10",
+          "retrieval_memory.py": "7d7a08b805df1240ec93ec4bb7f1e2adf2c15c50ade63b6f7e93f3bc3799f168",
+          "retrieval_reasoning.py": "c3ed7adc63ba76cad2d78c71b5877f8744f27dbd57ddbac196374775ab08df3b",
+          "retrieval_specialized.py": "a1313496ce08eb48ae67958d8bca7a4fff0c06f2130f27d8ec2738c881d93681",
+          "models/session_selection.json": "a6ad9390c75b8703641995125ccc7b1226811ab9a53447d73576f274c72dd718",
+          "models/session_selection_robust.json": "0e1d062c7478dce88977cf2a97482dc14d58f1e982c245384bf811abbfe31292"
+        },
+        "client_sha256": "919a913ebda08877e07bb002eff4f277b01227d0693e31d7e2a055ffd89ddcc8",
+        "k": 4,
+        "budget": 12000,
+        "max_chars": 16000,
+        "timeout_s": 300,
+        "base_url": "https://t07.api.reactor-hackathon.rxai.dev",
+        "agent_id": "agt_0c172edd3340495a"
+      }
+    },
+    "paired-calibrated-memory": {
+      "method": "calibrated",
+      "memory_mode": "targeted",
+      "question_ids": [
+        "q_0521ad05cc21",
+        "q_74474275300c"
+      ],
+      "history_ids": [
+        "h_e626ab8825e3"
+      ],
+      "counts": {
+        "history_resets": 1,
+        "question_requests": 2,
+        "preload_requests": 1,
+        "initial_api_operations": 4
+      },
+      "runtime_manifest_sha256": "385187d52fe02dd60fa665cd8d28875d109946385915d1e202e1cd93c480dbbd",
+      "evidence_sha256": "e0847bb1ed51143304ab8df364717bb140b62d27147cfb381cde9c79dd7bc1a0",
+      "per_question_evidence_sha256": {
+        "q_0521ad05cc21": "f2ee3e137736916aecda04b7ca02e7459c1b7fe5025d6abddfdd83924abca366",
+        "q_74474275300c": "f2ee3e137736916aecda04b7ca02e7459c1b7fe5025d6abddfdd83924abca366"
+      },
+      "prepared_e1_session_by_question": {
+        "q_0521ad05cc21": "s_4e4f6c4db3e2",
+        "q_74474275300c": "s_4e4f6c4db3e2"
+      },
+      "comparability_identity": {
+        "question_ids_in_runtime_order": [
+          "q_0521ad05cc21",
+          "q_74474275300c"
+        ],
+        "questions_sha256": "5e5e5da02c8e365cd9f313e574d9aa518586504c006bd3e2df69a89b669e1bcc",
+        "histories_sha256": "d47e2469233ae66d3638f8328cd52924afc0d4ee9b3caa2099e1a44e0744229d",
+        "source_sha256": {
+          "runtime.py": "b1ececbd036be89ac067b44108bdb51f4baaa599acf466ff613f979776bd417d",
+          "official/reactor/client.py": "99cd636b269736bfb0e7bcf0d1f1fbe7b47613753a1f9cc342aa3d0912d8a9a0",
+          "official/reactor/predictions.py": "e19fb585aaafbbd7f5311d805dea49a7251ebcb764ca72091cf9d1201e17d9cb",
+          "retrieval.py": "ae39416a682f1ecb1af8ac499a4749435481dde86a6af7d469a793dc334403f9",
+          "retrieval_calibrated.py": "17d57a402e299bcb1f93b6b93e2405fc2858ab1458020ba94c6a82feff3f0ee0",
+          "retrieval_dense.py": "2c0192630163a7b6e0458a9d5916c43a7395fbdc5303ee9bf5eab33ccf5f3b10",
+          "retrieval_memory.py": "7d7a08b805df1240ec93ec4bb7f1e2adf2c15c50ade63b6f7e93f3bc3799f168",
+          "retrieval_reasoning.py": "c3ed7adc63ba76cad2d78c71b5877f8744f27dbd57ddbac196374775ab08df3b",
+          "retrieval_specialized.py": "a1313496ce08eb48ae67958d8bca7a4fff0c06f2130f27d8ec2738c881d93681",
+          "models/session_selection.json": "a6ad9390c75b8703641995125ccc7b1226811ab9a53447d73576f274c72dd718",
+          "models/session_selection_robust.json": "0e1d062c7478dce88977cf2a97482dc14d58f1e982c245384bf811abbfe31292"
+        },
+        "client_sha256": "919a913ebda08877e07bb002eff4f277b01227d0693e31d7e2a055ffd89ddcc8",
+        "k": 4,
+        "budget": 12000,
+        "max_chars": 16000,
+        "timeout_s": 300,
+        "base_url": "https://t07.api.reactor-hackathon.rxai.dev",
+        "agent_id": "agt_0c172edd3340495a"
+      }
+    }
+  },
+  "validation_record": "reports/gate0/integrated/validation.json",
+  "runtime_dry_run_note": "runtime --stop-after 1 reports the full seven-question remaining plan in dry-run mode; the two-operation Gate1 budget applies only to a later authorized execution stopping after its first answer."
+}

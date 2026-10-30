@@ -1,5 +1,12 @@
 # Reactor reliability — current status, 2026-10-31
 
+**Organizer update:** current integration uses a 600s timeout, 5–10s safe
+unforwarded pending/busy backoff, and explicit one-time same-history question
+timeout recovery. Normal pending cycles are expected; timeout does not cancel
+processing. No automatic timeout reset or foreign-history adoption is allowed.
+Verified local citation fallback is permitted. [Current status](PROJECT_STATUS.md)
+supersedes older execution details below.
+
 **Offline hardening is implemented; new live behavior remains unverified. No
 Reactor calls were made in this workstream.** The shared agent must remain idle
 from our side until the team agrees an exclusive window. Earlier invalidations

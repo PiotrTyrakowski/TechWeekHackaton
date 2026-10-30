@@ -3,6 +3,18 @@
 Benchmark-first Python retrieval and sequential Reactor execution. Final answers
 are produced only by the organizer's Reactor client. No external model calls.
 
+Organizer clarifications: hosted auxiliary AI APIs are forbidden in the benchmark
+pipeline. Verified local citation attribution is permitted while preserving
+Reactor's answer. Current baseline: calibrated k4, 600s timeout, sequential
+history use, and 5–10s safe pending backoff. Source attribution is recorded
+separately from raw Reactor replies; no blind top-result citation fallback.
+
+Current coordination, gate acceptance, and experiment decisions:
+[PROJECT_STATUS.md](reports/PROJECT_STATUS.md). The small Gates 0–4 plan supersedes
+the earlier expansion proposal; Reactor remains offline pending explicit
+cross-machine exclusivity. Generate dry-run commands with
+`.venv/bin/python gate_plan.py --out-dir runs/new-small-gate-plan`.
+
 ## Setup
 
 Python 3.11+; run from this directory:
@@ -40,7 +52,8 @@ establish that an excerpt contains the answer.
 ## Offline parallel research results
 
 The completed research sprint is summarized in [reports/OFFLINE_SPRINT.md](reports/OFFLINE_SPRINT.md).
-BM25 remains the simple default recommendation. `adaptive` is an experimental
+Calibrated k4 is the current primary baseline; BM25 is the simple comparison
+control. `adaptive` is an experimental
 broader session pool; `dense` and `dense-hybrid` are optional local MiniLM rerankers
 over a BM25 top-16-turn shortlist. Dense fusion improves the retrieval F1 proxy,
 but answer quality and actual Reactor citation F1 remain untested. The generic
@@ -106,7 +119,7 @@ Never put its value in commands, source files, logs, or chat. The runner reports
 only whether it is available. The supplied team URL/agent are the CLI defaults.
 
 ```sh
-.venv/bin/python runtime.py --questions smoke/questions.jsonl --histories data/dev/histories.jsonl --out-dir runs/smoke-bm25-k4 --method bm25 --k 4 --limit 0
+.venv/bin/python runtime.py --questions smoke/questions.jsonl --histories data/dev/histories.jsonl --out-dir runs/smoke-calibrated-k4 --method calibrated --k 4 --timeout 600 --limit 0
 ```
 
 This dry run prepares evidence and reports the call plan. Five selected questions
@@ -119,8 +132,8 @@ and repeat that command with
 question selection, client version, retrieval configuration, and evidence.
 
 ```sh
-.venv/bin/python evaluate.py --data data/dev --questions smoke/questions.jsonl --predictions runs/smoke-bm25-k4/predictions.jsonl
-.venv/bin/python official/score.py smoke/gold.jsonl runs/smoke-bm25-k4/predictions.jsonl --details runs/smoke-bm25-k4/score-details.jsonl
+.venv/bin/python evaluate.py --data data/dev --questions smoke/questions.jsonl --predictions runs/smoke-calibrated-k4/predictions.jsonl
+.venv/bin/python official/score.py smoke/gold.jsonl runs/smoke-calibrated-k4/predictions.jsonl --details runs/smoke-calibrated-k4/score-details.jsonl
 ```
 
 The five-question smoke sample includes an unanswerable case and user, assistant,
@@ -143,9 +156,19 @@ calls stop execution; timeouts are never silently converted to abstentions.
 Inspect raw attempts and checkpoint before recovering an uncertain call. Preserve
 the artifacts; do not manually edit answer predictions. Unexpected citations,
 citations outside the corresponding history and missing/duplicate IDs are rejected.
-Uncited Reactor answers are preserved with their actual zero evidence score; labels
-in explanatory text are never moved into a final answer. Only actual Reactor abstentions become
+Raw uncited Reactor answers are preserved. A verified local attribution policy
+can add supporting same-history session IDs to derived predictions, recording
+Reactor-supplied and fallback citations separately. Only actual Reactor abstentions become
 submitted abstentions.
+
+`--attribution-mode verified` is the default; `--attribution-mode reactor` retains
+the raw citation control. `attribution.jsonl` records exact supporting spans and
+unresolved claims. The conservative fallback supports narrow direct facts and
+explicit item lists; it leaves arithmetic, temporal updates, and free synthesis
+unresolved. `--retry-timeout` explicitly permits one same-history retry with a
+fresh ref, waiting through safely unforwarded pending refusals, without resetting.
+Targeted preloads select from the first question only, without future-topic
+lookahead. All policy/source changes require fresh run manifests.
 
 For final-line citation instructions and redacted WebSocket close diagnostics,
 the runner now defaults to `reactor_client.py`. The wrapper keeps the official answer parser

@@ -1,5 +1,11 @@
 # Maximum-score audit and optimization round two
 
+Historical measurement report. Organizer clarifications now permit verified
+automatic citation attribution and forbid hosted auxiliary AI benchmark
+processing; current integration/tests/decisions are in
+[PROJECT_STATUS.md](PROJECT_STATUS.md). Raw historical predictions below remain
+unchanged; new policy-derived attribution is reported separately.
+
 ## Honest live status
 
 One unique Reactor question has completed: cat name `Luna`, exactly matching gold.

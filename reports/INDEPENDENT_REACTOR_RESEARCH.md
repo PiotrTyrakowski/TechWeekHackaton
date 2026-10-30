@@ -1,5 +1,12 @@
 # OpenToVibe: independent Reactor research
 
+**Organizer clarification:** verified local source attribution is permitted
+when final labels are absent/incomplete; raw answer text stays unchanged. The
+automatic fallback and its n=1 actual-answer replay are now integrated; see
+[current project status](PROJECT_STATUS.md). The mapper-only constraints below
+describe the original client path, not a ban on verified code-side attribution.
+Hosted auxiliary AI inference for benchmark processing is forbidden.
+
 2026-10-31 · application snapshot `f2e124d45c220ae9759c585ed74bc611377b6dea` · official kit `f0a317dfa13e7797baae61711cef27a9805bedcc`.
 
 **Recommendation:** establish reliable final-segment citations, improve original-evidence packing without extra calls, then test a bounded memory preload against a matched inline-context control. Memory alone cannot repair the scored evidence ceiling. A source-discovery step must recover original excerpts into the final question's evidence to lift that ceiling.

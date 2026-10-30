@@ -18,7 +18,7 @@ from pathlib import Path
 
 from official import score
 
-ARCHIVE_FILES = ("results.jsonl", "predictions.jsonl", "attempts.jsonl", "plan.json", "recovery.jsonl", "checkpoint.json", "client-upgrades.jsonl", "access-windows.jsonl")
+ARCHIVE_FILES = ("results.jsonl", "predictions.jsonl", "attribution.jsonl", "attempts.jsonl", "plan.json", "recovery.jsonl", "checkpoint.json", "client-upgrades.jsonl", "access-windows.jsonl")
 
 
 def parse_lines(raw):
@@ -39,7 +39,7 @@ def snapshot(run):
     raise ValueError("Run artifacts changed during snapshot; rerun report after the current write")
 
 
-def build_report(questions, gold, predictions, attempts, results, checkpoint):
+def build_report(questions, gold, predictions, attempts, results, checkpoint, attributions=()):
     questions = {q["question_id"]: q for q in questions}
     gold = {g["question_id"]: g for g in gold}
     if set(questions) - set(gold):
@@ -49,6 +49,7 @@ def build_report(questions, gold, predictions, attempts, results, checkpoint):
         raise ValueError("\n".join(errors))
     by_id = {p["question_id"]: p for p in predictions}
     raw = {r.get("question_id"): r for r in results}
+    attribution = {a["question_id"]: a for a in attributions}
     per_question, completed_scores = [], []
     for qid, question in questions.items():
         g, prediction = gold[qid], by_id.get(qid)
@@ -71,6 +72,11 @@ def build_report(questions, gold, predictions, attempts, results, checkpoint):
             "evidence_precision": (hits / len(support) if support else 0.0) if measured and not g["abstain"] else None,
             "evidence_recall": (hits / len(expected) if expected else 0.0) if measured and not g["abstain"] else None,
             "unknown_labels": raw.get(qid, {}).get("unknown_citations", []),
+            "attribution": attribution.get(qid),
+            "reactor_supplied_evidence_f1": (score.evidence_f1(attribution[qid]["reactor_citations"], g["evidence"])
+                                             if measured and not g["abstain"] and qid in attribution else None),
+            "fallback_only_evidence_f1": (score.evidence_f1(attribution[qid]["fallback_citations"], g["evidence"])
+                                         if measured and not g["abstain"] and qid in attribution else None),
             "question_attempts": len(qa), "total_attempt_latency_s": sum(a.get("wall_s", 0) for a in qa),
             "successful_answer_latency_s": raw.get(qid, {}).get("latency_s"),
             "manual_review": {"required": bool(measured and measured["answer"] == "unjudged"),
@@ -94,6 +100,11 @@ def build_report(questions, gold, predictions, attempts, results, checkpoint):
             "final_answer_citation_coverage": sum(bool(r["citations"]) for r in cited_eligible) / len(cited_eligible) if cited_eligible else None,
             "results_with_unknown_labels": sum(bool(r.get("unknown_citations")) for r in results),
             "note": "Coverage is presence of actual submitted citations, not proof of support; official Evidence F1 includes false abstentions."},
+        "attribution_diagnostics": {"records": len(attribution),
+            "with_reactor_citations": sum(bool(a["reactor_citations"]) for a in attribution.values()),
+            "with_verified_fallback": sum(bool(a["fallback_citations"]) for a in attribution.values()),
+            "with_unresolved_claims": sum(bool(a["unresolved_claims"]) for a in attribution.values()),
+            "note": "Effective prediction citations and raw Reactor-supplied citations are distinct; fallback does not change Reactor answer text."},
         "successful_answer_latency_s": {"n": len(latencies),
             "p50": statistics.median(latencies) if latencies else None,
             "p95": latencies[math.ceil(.95 * len(latencies)) - 1] if latencies else None,
@@ -128,7 +139,8 @@ def main(argv=None):
             raise ValueError("Refusing to archive an artifact containing credential material")
     report = build_report(parse_lines(files["questions.jsonl"]), parse_lines(files["gold.jsonl"]),
         parse_lines(files.get("predictions.jsonl", b"")), parse_lines(files.get("attempts.jsonl", b"")),
-        parse_lines(files.get("results.jsonl", b"")), json.loads(files.get("checkpoint.json", b"{}")))
+        parse_lines(files.get("results.jsonl", b"")), json.loads(files.get("checkpoint.json", b"{}")),
+        parse_lines(files.get("attribution.jsonl", b"")))
     report["source_run"] = str(args.run)
     report["archive_sha256"] = {name: hashlib.sha256(raw).hexdigest() for name, raw in files.items()}
     report["report_script_sha256"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()

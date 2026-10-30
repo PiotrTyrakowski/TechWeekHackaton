@@ -1,0 +1,11 @@
+{
+  "kind": "lead_read_only_cached_source_set_bound",
+  "reactor_operations": 0,
+  "answerable": 496,
+  "all_retrieved_cited_macro_f1": 0.7283170122887865,
+  "oracle_selective_citation_macro_f1_ceiling": 0.8565972222222222,
+  "input_path": "experiments/maximum-score-r2/dev-large-calibrated-full/20261030T223408144377Z/0-calibrated-k4-details.jsonl",
+  "input_sha256": "19ae52bfaaef19521471ac9bb240fd86cb9521dd2da424dca6ca263c63a9fafc",
+  "formula": "For supplied session set S, gold G, k=|S intersect G|: 2k/(|G|+k).",
+  "limitations": "Oracle uses evaluation gold only; ignores answer-span retention and includes fitted questions. Not real Reactor accuracy or evidence F1."
+}

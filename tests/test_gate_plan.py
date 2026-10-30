@@ -68,7 +68,7 @@ class GatePlanTests(unittest.TestCase):
     def test_gate1_and_gate2_share_exact_manifest_without_repeating_cat(self):
         plan = self.offline_plan()
         gate1, gate2 = plan["gates"][1:3]
-        job = plan["jobs"]["smoke-bm25"]
+        job = plan["jobs"]["smoke-calibrated"]
         self.assertEqual(job["question_ids"][0], gate_plan.DIAGNOSTIC_ID)
         self.assertEqual(gate1["job_ids"], gate2["job_ids"])
         self.assertEqual(gate1["command_argv"][:-2], gate2["command_argv"])
@@ -80,6 +80,9 @@ class GatePlanTests(unittest.TestCase):
         self.assertEqual(plan["total_initial_counts_conditional_baseline_reuse"], gate_plan.counts(9, 13, 1))
         self.assertFalse(plan["exclusive_access_confirmed"])
         self.assertIsNone(plan["live_runner"])
+        self.assertEqual(job["method"], "calibrated")
+        self.assertEqual(plan["organizer_policy"]["external_hosted_ai_inference"], "forbidden")
+        self.assertEqual(job["comparability_identity"]["timeout_s"], 600)
         for value in plan["jobs"].values():
             self.assertFalse(value["execute"])
             self.assertNotIn("--execute", value["command_argv"])

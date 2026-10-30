@@ -213,9 +213,12 @@ def validate_evidence_citations(result, evidence):
             raise ValueError("client citation metadata disagrees with the actual marked final answer")
 
 
-def write_predictions(out, results, questions, histories, complete=False, evidence=None):
+def write_predictions(out, results, questions, histories, complete=False, evidence=None,
+                      attribution_mode="reactor"):
+    if attribution_mode not in {"reactor", "verified"}:
+        raise ValueError("unknown attribution mode")
     by_q = {q["question_id"]: q for q in questions}
-    seen, preds = set(), []
+    seen, preds, attributions = set(), [], []
     for result in results:
         qid = result.get("question_id")
         if qid in seen or qid not in by_q:
@@ -224,9 +227,62 @@ def write_predictions(out, results, questions, histories, complete=False, eviden
         q = by_q[qid]
         if evidence is not None:
             validate_evidence_citations(result, evidence[qid])
-        preds.append(prediction(result, q, histories[q["history_id"]]))
+        history = histories[q["history_id"]]
+        pred = prediction(result, q, history)
+        record = {"policy_version": "reactor-only", "reactor_citations": pred["citations"],
+                  "fallback_citations": [], "final_citations": pred["citations"],
+                  "unresolved_claims": [], "supports": []}
+        if attribution_mode == "verified":
+            if evidence is None:
+                raise ValueError("verified attribution requires exact supplied evidence")
+            from attribution import attribute_answer
+            record = attribute_answer(q, history, evidence[qid], result)
+            raw_ids = list(dict.fromkeys(c["id"] for c in result.get("citations") or []))
+            if record["reactor_citations"] != raw_ids:
+                raise ValueError("attribution disagrees with official Reactor citation mapping")
+            supplied = {e["id"] for e in evidence[qid]}
+            valid = {s["session_id"] for s in history["sessions"]}
+            final, fallback = record["final_citations"], record["fallback_citations"]
+            if (not isinstance(final, list) or not isinstance(fallback, list)
+                    or any(not isinstance(sid, str) for sid in final + fallback)
+                    or len(set(final)) != len(final) or len(set(fallback)) != len(fallback)
+                    or not set(final) <= supplied & valid
+                    or not set(fallback) <= set(final)
+                    or not set(final) <= set(pred["citations"]) | set(fallback)):
+                raise ValueError("invalid attributed session provenance")
+            supported = set()
+            for support in record["supports"]:
+                index, start, end = support["evidence_index"], support["start"], support["end"]
+                if (not isinstance(index, int) or not 0 <= index < len(evidence[qid])
+                        or not isinstance(start, int) or not isinstance(end, int)):
+                    raise ValueError("invalid attribution support offsets")
+                passage = evidence[qid][index]
+                if (passage["id"] != support["source_id"] or not 0 <= start < end <= len(passage["text"])
+                        or passage["text"][start:end] != support["span"]):
+                    raise ValueError("attribution support disagrees with exact evidence")
+                original = next(s for s in history["sessions"] if s["session_id"] == support["source_id"])
+                if not any(t.get("role") == support["role"] and support["span"] in t.get("content", "")
+                           for t in original["turns"]):
+                    raise ValueError("attribution support is absent from original role/source")
+                supported.add(support["source_id"])
+            if not set(fallback) <= supported or (fallback and record["unresolved_claims"]):
+                raise ValueError("fallback lacks fully verified claim support")
+            if pred["abstain"] and final:
+                raise ValueError("an abstention cannot acquire fallback citations")
+            pred = {**pred, "citations": final}
+        attributions.append({**record, "question_id": qid, "dataset_history": q["history_id"],
+                             "reactor_history": result.get("history_id"), "raw_final_answer": result["answer"]})
+        preds.append(pred)
     if complete and seen != set(by_q):
         raise ValueError("missing questions: " + str(sorted(set(by_q) - seen)))
+    # Recompute from durable raw answers and the frozen policy, never manual edits.
+    attr_tmp = out / "attribution.jsonl.tmp"
+    with attr_tmp.open("w", encoding="utf-8") as stream:
+        stream.write("".join(json.dumps(a, ensure_ascii=False) + "\n" for a in attributions))
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(attr_tmp, out / "attribution.jsonl")
+    sync_directory(out)
     tmp = out / "predictions.jsonl.tmp"
     with tmp.open("w", encoding="utf-8") as stream:
         stream.write("".join(json.dumps(p, ensure_ascii=False) + "\n" for p in preds))
@@ -302,6 +358,7 @@ def prepare(args):
         "method": args.method, "k": args.k, "budget": args.budget, "max_chars": args.max_chars,
         "evidence_mode": getattr(args, "evidence_mode", "retrieved"),
         "citation_mode": getattr(args, "citation_mode", "strict"),
+        "attribution_mode": getattr(args, "attribution_mode", "verified"),
         "timeout_s": getattr(args, "timeout", 600.0),
         "client_sha256": file_sha256(args.client),
         "source_sha256": {name: file_sha256(ROOT / name) for name in (
@@ -315,13 +372,19 @@ def prepare(args):
         "evidence_sha256": hashlib.sha256(json.dumps(passages, sort_keys=True).encode()).hexdigest(),
         "message_chars": sizes,
     }
+    if manifest["attribution_mode"] == "verified":
+        manifest["source_sha256"]["attribution.py"] = file_sha256(ROOT / "attribution.py")
     memory = {}
     mode = getattr(args, "memory_mode", "none")
+    manifest["memory_scope"] = "first-question-prefix" if mode == "targeted" else "none"
     if mode == "targeted":
         from reactor_memory import prepare_memory
         manifest["source_sha256"]["reactor_memory.py"] = file_sha256(ROOT / "reactor_memory.py")
         for hid, history in histories.items():
-            memory[hid] = prepare_memory(history, [q for q in questions if q["history_id"] == hid],
+            # Preload selection sees only the first question available for this
+            # user. Later public questions cannot select memory for earlier ones.
+            prefix = [q for q in questions if q["history_id"] == hid][:1]
+            memory[hid] = prepare_memory(history, prefix,
                                          args.method, args.k, args.memory_budget, args.max_chars)
     manifest["memory_mode"] = mode
     manifest["memory_budget"] = getattr(args, "memory_budget", 12000)
@@ -448,7 +511,8 @@ def run(args):
             "active_dataset_history": None, "reactor_history": None, "pending": None, "completed_histories": []}
         result_path = out / "results.jsonl"
         results = read_jsonl(result_path) if result_path.exists() else []
-        done = write_predictions(out, results, questions, histories, evidence=evidence)
+        done = write_predictions(out, results, questions, histories, evidence=evidence,
+                                 attribution_mode=getattr(args, "attribution_mode", "verified"))
         pending = state["pending"]
         if pending and pending.get("operation") in {"new_history", "preload"}:
             attempts_path = out / "attempts.jsonl"
@@ -492,7 +556,8 @@ def run(args):
                     prediction(result, q, histories[q['history_id']])
                     append_jsonl(result_path, result)
                     results.append(result)
-                    done = write_predictions(out, results, questions, histories, evidence=evidence)
+                    done = write_predictions(out, results, questions, histories, evidence=evidence,
+                                             attribution_mode=getattr(args, "attribution_mode", "verified"))
         recover_pending_failure(args, out, state, done, questions)
         if state["pending"] and state["pending"].get("question_id") in done:
             state["pending"] = None  # crash after result fsync but before checkpoint
@@ -581,14 +646,16 @@ def run(args):
             prediction(result, q, histories[hid])
             append_jsonl(result_path, result)
             results.append(result)
-            write_predictions(out, results, questions, histories, evidence=evidence)
+            write_predictions(out, results, questions, histories, evidence=evidence,
+                              attribution_mode=getattr(args, "attribution_mode", "verified"))
             state["pending"] = None
             atomic_json(state_path, state)
             print(json.dumps({"question_id": qid, "status": result["status"], "wall_s": round(latency, 3)}), flush=True)
             completed_this_run += 1
             if getattr(args, 'stop_after', 0) and completed_this_run >= args.stop_after:
                 return 0
-        write_predictions(out, results, questions, histories, complete=True, evidence=evidence)
+        write_predictions(out, results, questions, histories, complete=True, evidence=evidence,
+                          attribution_mode=getattr(args, "attribution_mode", "verified"))
         return 0
 
 
@@ -615,6 +682,7 @@ def main(argv=None):
     ap.add_argument("--access-window", type=Path, help="JSON operator attestation: owner, agreed_with, starts_at, ends_at, base_url, agent_id")
     ap.add_argument("--citation-mode", choices=("strict", "official"), help="prompt instructions (default: strict for wrapper, official for other clients); mapping and parsing always use official rules")
     ap.add_argument("--evidence-mode", choices=("retrieved", "none"), default="retrieved", help="question evidence independently of optional memory preload; none has no mappable labels")
+    ap.add_argument("--attribution-mode", choices=("verified", "reactor"), default="verified", help="verified local supporting-source fallback or unmodified Reactor citation control; raw answers are preserved")
     ap.add_argument("--retry-not-forwarded", action="store_true", help="retry once after busy/previous_pending only when the server explicitly reported forwarded=false")
     ap.add_argument("--retry-timeout", action="store_true", help="explicitly retry one timed-out question in the same history with a fresh ref; safe pending refusals wait within the total deadline, never reset")
     ap.add_argument("--memory-mode", choices=("none", "targeted"), default="none", help="optional source-linked shared-context preload before questions")

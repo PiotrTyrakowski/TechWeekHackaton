@@ -1,5 +1,12 @@
 # Reactor deep dive: API, memory, and our harness
 
+**Organizer policy update:** automatic verified local source attribution is
+explicitly allowed, including when final labels are missing or incomplete;
+Reactor's answer stays unchanged. Hosted auxiliary AI APIs are forbidden.
+The current runtime plan uses calibrated k4, a 600s timeout, 5–10s pending
+backoff, and explicit same-history timeout recovery. Earlier behavior below is
+historical; [PROJECT_STATUS.md](PROJECT_STATUS.md) is current.
+
 Audit started 2026-10-30; offline implementation continued 2026-10-31. Scope:
 the organizer kit pinned by `bootstrap.py` to
 `f0a317dfa13e7797baae61711cef27a9805bedcc`, our feature branch, and preserved live
@@ -120,7 +127,9 @@ The official parser extracted `Luna`; its citation mapper saw no labels in that
 segment. The prediction therefore had `answer: "Luna"` and `citations: []`.
 The local official scorer matched the answer, but Evidence F1 was zero. A valid
 target is Reactor itself emitting `Luna [E1]` after the marker. Moving the earlier
-citation into predictions would fabricate output and is prohibited.
+citation into a hand-edited prediction was our former restriction. The clarified
+rules permit automatic verified attribution from genuinely supporting retrieved
+sources, with raw Reactor output preserved and fallback provenance reported.
 [Unchanged raw result](live-smoke-20261030T2135/results.jsonl),
 [unchanged prediction](live-smoke-20261030T2135/predictions.jsonl).
 
