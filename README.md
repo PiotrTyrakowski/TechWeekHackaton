@@ -82,6 +82,13 @@ Uncited Reactor answers are preserved with their actual zero evidence score; lab
 in explanatory text are never moved into a final answer. Only actual Reactor abstentions become
 submitted abstentions.
 
+For final-line citation instructions and redacted WebSocket close diagnostics,
+use `--client reactor_client.py`. The wrapper keeps the official answer parser
+and citation mapper unchanged. `--stop-after 1` pauses after one completed question
+without changing the five-question manifest, allowing a citation check before
+continuation. The 2026-10-30 investigation remains blocked on remote history
+invalidation; see [the reliability report](reports/REACTOR_RELIABILITY.md).
+
 A successful response durably recorded in `attempts.jsonl` can be recovered after
 a local validation/write failure without sending the question again. Uncertain
 timeouts remain blocked. After inspecting a server `closed` response,

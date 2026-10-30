@@ -1,0 +1,4 @@
+{"operation": "retry_closed", "question_id": "q_d4ead82e5cad", "history_id": "f6374884162b4c2fb8a3db5d1cf527a9"}
+{"operation": "restart_history", "dataset_history": "h_12968e55565d", "reason": "server changed history before any successful question"}
+{"operation": "retry_closed", "question_id": "q_d4ead82e5cad", "history_id": "299413920a324b4d86550991784d36b0"}
+{"operation": "adopt_server_history", "dataset_history": "h_12968e55565d", "old_history_id": "299413920a324b4d86550991784d36b0", "new_history_id": "ce463bbbcc0c4414a58015afba58d0b0", "reason": "explicit documented recovery before any answer; local contention checked"}

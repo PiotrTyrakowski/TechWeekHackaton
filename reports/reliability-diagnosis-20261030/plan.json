@@ -1,0 +1,26 @@
+{
+  "base_url": "https://t07.api.reactor-hackathon.rxai.dev",
+  "agent_id": "agt_0c172edd3340495a",
+  "method": "bm25",
+  "k": 4,
+  "budget": 12000,
+  "max_chars": 16000,
+  "client_sha256": "0bf508435e84cc81eb12843d441abb571d676f57a8b80c273ed12e34e4fee88e",
+  "questions_sha256": "6227f98d99cf4c63c995c7635064c8734decc7d576805d033b8e98d8496e5b63",
+  "histories_sha256": "f0263666b82a485afacaf7dda5ebb644cdd6e6370f32118c5bc6cccb08dba897",
+  "question_ids": [
+    "q_d4ead82e5cad",
+    "q_e2cc79359e15",
+    "q_6eaf85dde884",
+    "q_61a19ce280f4",
+    "q_53ebfc7819cf"
+  ],
+  "evidence_sha256": "ec3408feec5bca838eeda66b5a7424a3bec0b5da258a21c18a44a6d84dea6e42",
+  "message_chars": {
+    "q_d4ead82e5cad": 7762,
+    "q_e2cc79359e15": 8150,
+    "q_6eaf85dde884": 5516,
+    "q_61a19ce280f4": 3068,
+    "q_53ebfc7819cf": 4666
+  }
+}

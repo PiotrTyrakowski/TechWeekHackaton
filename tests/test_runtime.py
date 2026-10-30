@@ -26,7 +26,8 @@ class RuntimeTests(unittest.TestCase):
         for name, values in [("questions", self.questions), ("histories", self.histories)]:
             (self.root / (name + ".jsonl")).write_text("".join(json.dumps(x) + "\n" for x in values))
         self.argv = ["--questions", str(self.root / "questions.jsonl"), "--histories",
-                     str(self.root / "histories.jsonl"), "--out-dir", str(self.root / "run"), "--limit", "0"]
+                     str(self.root / "histories.jsonl"), "--out-dir", str(self.root / "run"), "--limit", "0",
+                     "--agent-id", "unit-test-agent"]
         self.calls = []
 
     def client(self, args, extra):
@@ -64,6 +65,17 @@ class RuntimeTests(unittest.TestCase):
         preds = runtime.read_jsonl(self.root / "run/predictions.jsonl")
         self.assertEqual([x["question_id"] for x in preds], ["q1", "q2", "q3"])
         self.assertEqual(preds[0]["answer"], "Blue.")
+
+    def test_stop_after_preserves_manifest_for_continuation(self):
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=self.client), patch.object(
+                runtime.official_client, 'environment_problem', return_value=None):
+            self.assertEqual(runtime.main(self.argv + ['--execute', '--stop-after', '1']), 0)
+            before = (self.root / 'run/plan.json').read_bytes()
+            self.assertEqual(len(self.calls), 2)
+            self.assertEqual(runtime.main(self.argv + ['--execute']), 0)
+            self.assertEqual(len(self.calls), 5)
+            self.assertEqual((self.root / 'run/plan.json').read_bytes(), before)
 
     def test_timeout_stops_and_is_not_retried_on_resume(self):
         def timeout(args, extra):
@@ -132,6 +144,47 @@ class RuntimeTests(unittest.TestCase):
             self.assertEqual(runtime.main(self.argv + ['--execute', '--restart-interrupted-history']), 0)
             self.assertEqual(len(self.calls), 7)
             self.assertNotEqual(self.calls[1][1], self.calls[3][1])
+
+    def test_documented_current_history_recovery_never_adds_reset(self):
+        def changed_once(args, extra):
+            if len(self.calls) == 1:
+                self.calls.append(extra)
+                return {'status': 'refused', 'code': 'history_changed', 'question_id': 'q1',
+                        'current_history_id': 'server-current'}, 4, .01
+            return self.client(args, extra)
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=changed_once), patch.object(
+                runtime.official_client, 'environment_problem', return_value=None):
+            self.assertEqual(runtime.main(self.argv + ['--execute']), 2)
+            self.assertEqual(runtime.main(self.argv + ['--execute', '--adopt-server-history']), 0)
+            self.assertEqual(len(self.calls), 6)
+            self.assertEqual(self.calls[2][1], 'server-current')
+            self.assertEqual(sum('--new-history' in c for c in self.calls), 2)
+
+    def test_server_history_adoption_rejected_after_answer_in_same_history(self):
+        def changed_second(args, extra):
+            if '--question-id' in extra and extra[extra.index('--question-id') + 1] == 'q2':
+                self.calls.append(extra)
+                return {'status': 'refused', 'code': 'history_changed', 'question_id': 'q2',
+                        'current_history_id': 'foreign-current'}, 4, .01
+            return self.client(args, extra)
+        with patch.dict(os.environ, {'REACTOR_ACCESS_KEY': 'test-key'}), patch.object(
+                runtime, 'invoke', side_effect=changed_second), patch.object(
+                runtime.official_client, 'environment_problem', return_value=None):
+            self.assertEqual(runtime.main(self.argv + ['--execute']), 2)
+            calls = len(self.calls)
+            self.assertEqual(runtime.main(self.argv + ['--execute', '--adopt-server-history']), 2)
+            self.assertEqual(len(self.calls), calls)
+
+    def test_client_upgrade_requires_explicit_flag_and_no_prior_answers(self):
+        self.assertEqual(runtime.main(self.argv), 0)
+        path = self.root / 'run/plan.json'
+        old = json.loads(path.read_text())
+        old['client_sha256'] = 'old-client-hash'
+        path.write_text(json.dumps(old))
+        self.assertEqual(runtime.main(self.argv), 2)
+        self.assertEqual(runtime.main(self.argv + ['--upgrade-client']), 0)
+        self.assertTrue((self.root / 'run/client-upgrades.jsonl').exists())
 
     def test_redacts_secret_recursively(self):
         with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}):

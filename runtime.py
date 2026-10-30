@@ -144,6 +144,10 @@ def write_predictions(out, results, questions, histories, complete=False):
 
 def prepare(args):
     from retrieval import retrieve
+    message_builder = official_client.build_message
+    if args.client.resolve() == (ROOT / 'reactor_client.py').resolve():
+        from reactor_client import build_message
+        message_builder = build_message
 
     questions = read_jsonl(args.questions)
     if len({q["question_id"] for q in questions}) != len(questions):
@@ -177,7 +181,7 @@ def prepare(args):
             if e["id"] not in valid or e.get("date") != valid[e["id"]]:
                 raise ValueError("retrieval returned invalid citation or date")
         date = official_client.parse_question_date(q["question_date"])
-        message = official_client.build_message(q["question"], evidence, "00000000", date)
+        message = message_builder(q["question"], evidence, "00000000", date)
         if len(message) > args.max_chars:
             raise ValueError(f"{q['question_id']}: message {len(message)} exceeds {args.max_chars} characters")
         passages[q["question_id"]] = evidence
@@ -207,7 +211,15 @@ def run(args):
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         plan_path = out / "plan.json"
         if plan_path.exists() and json.loads(plan_path.read_text()) != manifest:
-            raise ValueError("run configuration/data changed; choose a new output directory")
+            old_manifest = json.loads(plan_path.read_text())
+            old_without_client = {k:v for k,v in old_manifest.items() if k != 'client_sha256'}
+            new_without_client = {k:v for k,v in manifest.items() if k != 'client_sha256'}
+            existing_results = out / 'results.jsonl'
+            if not (getattr(args, 'upgrade_client', False) and old_without_client == new_without_client
+                    and not (existing_results.exists() and existing_results.stat().st_size)):
+                raise ValueError("run configuration/data changed; choose a new output directory")
+            append_jsonl(out / 'client-upgrades.jsonl', {'old_manifest': old_manifest, 'new_manifest': manifest,
+                         'reason': 'explicit client-only upgrade before any successful answer'})
         atomic_json(plan_path, manifest)
         evidence_dir = out / "evidence"
         evidence_dir.mkdir(exist_ok=True)
@@ -239,12 +251,25 @@ def run(args):
                     append_jsonl(result_path, result)
                     results.append(result)
                     done = write_predictions(out, results, questions, histories)
-                elif getattr(args, 'retry_closed', False) and attempt.get('exit_code') == 5 and result.get('status') == 'closed' and len(candidates) == 1:
+                elif getattr(args, 'retry_closed', False) and attempt.get('exit_code') == 5 and result.get('status') == 'closed' and len([a for a in candidates if a.get('result', {}).get('history_id', state['reactor_history']) == state['reactor_history']]) == 1:
                     # Organizer guide: closed may be asked again. Explicit opt-in,
                     # one retry, same history; old refs remain isolated by client.
                     append_jsonl(out / 'recovery.jsonl', {'operation': 'retry_closed',
                                  'question_id': pending['question_id'], 'history_id': state['reactor_history']})
                     state['pending'] = None
+                    atomic_json(state_path, state)
+                elif getattr(args, 'adopt_server_history', False) and result.get('code') == 'history_changed':
+                    hid = pending['dataset_history']
+                    qids_in_history = {q['question_id'] for q in questions if q['history_id'] == hid}
+                    recovery_path = out / 'recovery.jsonl'
+                    prior = read_jsonl(recovery_path) if recovery_path.exists() else []
+                    current = result.get('current_history_id')
+                    if not isinstance(current, str) or not current or current == state['reactor_history'] or done & qids_in_history or any(r.get('operation') == 'adopt_server_history' and r.get('dataset_history') == hid for r in prior):
+                        raise ValueError('refusing unsafe or repeated server-history adoption')
+                    append_jsonl(recovery_path, {'operation': 'adopt_server_history', 'dataset_history': hid,
+                                 'old_history_id': state['reactor_history'], 'new_history_id': current,
+                                 'reason': 'explicit documented recovery before any answer; local contention checked'})
+                    state.update(reactor_history=current, pending=None)
                     atomic_json(state_path, state)
                 elif getattr(args, 'restart_interrupted_history', False) and result.get('code') == 'history_changed':
                     hid = pending['dataset_history']
@@ -277,6 +302,7 @@ def run(args):
         problem = official_client.environment_problem()
         if problem and args.client.resolve() == (ROOT / "official/reactor/client.py").resolve():
             raise ValueError(problem)
+        completed_this_run = 0
         for q in remaining:
             hid, qid = q["history_id"], q["question_id"]
             if hid != state["active_dataset_history"]:
@@ -316,6 +342,9 @@ def run(args):
             state["pending"] = None
             atomic_json(state_path, state)
             print(json.dumps({"question_id": qid, "status": result["status"], "wall_s": round(latency, 3)}), flush=True)
+            completed_this_run += 1
+            if getattr(args, 'stop_after', 0) and completed_this_run >= args.stop_after:
+                return 0
         write_predictions(out, results, questions, histories, complete=True)
         return 0
 
@@ -329,6 +358,7 @@ def main(argv=None):
     ap.add_argument("--out-dir", type=Path, required=True)
     ap.add_argument("--question-ids", type=Path, help="JSON array or whitespace-separated IDs")
     ap.add_argument("--limit", type=int, default=5, help="0 selects all (large batches require human approval)")
+    ap.add_argument("--stop-after", type=int, default=0, help="pause after this many completed questions without changing the run manifest")
     ap.add_argument("--method", choices=METHODS, default="official")
     ap.add_argument("--k", type=int, default=4)
     ap.add_argument("--budget", type=int, default=12000)
@@ -340,6 +370,8 @@ def main(argv=None):
     ap.add_argument("--execute", action="store_true", help="make the planned API calls")
     ap.add_argument("--retry-closed", action="store_true", help="explicitly retry one previously closed request in the same history")
     ap.add_argument("--restart-interrupted-history", action="store_true", help="restart once after server history_changed, only if no question in that history succeeded")
+    ap.add_argument("--upgrade-client", action="store_true", help="record a client-only upgrade before any successful answer; evidence, prompt size, and data must match")
+    ap.add_argument("--adopt-server-history", action="store_true", help="after checking exclusive use, rebind once to server-reported current history before any answer succeeded")
     args = ap.parse_args(argv)
     try:
         if args.execute:

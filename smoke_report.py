@@ -16,7 +16,7 @@ from pathlib import Path
 
 from official import score
 
-ARCHIVE_FILES = ("results.jsonl", "predictions.jsonl", "attempts.jsonl", "plan.json", "recovery.jsonl", "checkpoint.json")
+ARCHIVE_FILES = ("results.jsonl", "predictions.jsonl", "attempts.jsonl", "plan.json", "recovery.jsonl", "checkpoint.json", "client-upgrades.jsonl")
 
 
 def parse_lines(raw):
