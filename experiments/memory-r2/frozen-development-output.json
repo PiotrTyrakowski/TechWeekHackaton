@@ -1,0 +1,27 @@
+{
+  "artifacts": "experiments/memory-r2/frozen-development/20261030T222903785223Z",
+  "experiments": [
+    {
+      "experiment_id": "20261030T222903785223Z-0-memory-facts-k4",
+      "config": {
+        "method": "memory-facts",
+        "k": 4,
+        "budget": 12000
+      },
+      "metrics": {
+        "n": 433,
+        "answerable_n": 408,
+        "recall": 0.8499591503267974,
+        "precision": 0.8200571895424836,
+        "evidence_f1": 0.805905695611578,
+        "any_hit": 0.9681372549019608,
+        "all_hit": 0.7279411764705882,
+        "latency_ms": 75.23066116550423,
+        "packed_chars": 1632.9907621247114,
+        "unique_sessions": 2.0831408775981526,
+        "latency_p95_ms": 103.9316670212429
+      },
+      "improvement_vs_baseline": null
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "partition": "development",
+  "answerable_n": 408,
+  "exact_normalized_answer_or_alias_in_selected_full_sessions_n": 226,
+  "exact_normalized_answer_or_alias_in_packed_cards_n": 192,
+  "retention_conditional_on_answer_in_selected_session": 0.8495575221238938,
+  "history_preprocessing_s": 44.15537691710051,
+  "history_n": 393,
+  "sentence_card_n": 1663921,
+  "warm_query_s": 0.2092802487022709,
+  "query_n": 433,
+  "notes": "Literal answer-span retention only, not answer accuracy; computed on development only. Includes unsupported answers that coincidentally occur in other selected sessions. Final packing preserves original whitespace between merged snippets."
+}
