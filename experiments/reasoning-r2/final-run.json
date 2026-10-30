@@ -1,0 +1,27 @@
+{
+  "artifacts": "experiments/reasoning-r2/final/20261030T222804450560Z",
+  "experiments": [
+    {
+      "experiment_id": "20261030T222804450560Z-0-complementary-conservative-k4",
+      "config": {
+        "method": "complementary-conservative",
+        "k": 4,
+        "budget": 12000
+      },
+      "metrics": {
+        "n": 526,
+        "answerable_n": 496,
+        "recall": 0.8813508064516129,
+        "precision": 0.6480174731182795,
+        "evidence_f1": 0.7187548003072196,
+        "any_hit": 0.9657258064516129,
+        "all_hit": 0.7943548387096774,
+        "latency_ms": 32.78617234236628,
+        "packed_chars": 7877.726235741445,
+        "unique_sessions": 2.6159695817490496,
+        "latency_p95_ms": 36.71554199536331
+      },
+      "improvement_vs_baseline": null
+    }
+  ]
+}

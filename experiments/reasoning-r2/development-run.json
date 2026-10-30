@@ -1,0 +1,49 @@
+{
+  "artifacts": "experiments/reasoning-r2/development/20261030T222705886413Z",
+  "experiments": [
+    {
+      "experiment_id": "20261030T222705886413Z-0-complementary-k4",
+      "config": {
+        "method": "complementary",
+        "k": 4,
+        "budget": 12000
+      },
+      "metrics": {
+        "n": 433,
+        "answerable_n": 408,
+        "recall": 0.8920343137254902,
+        "precision": 0.5902777777777778,
+        "evidence_f1": 0.6783963585434174,
+        "any_hit": 0.9632352941176471,
+        "all_hit": 0.8161764705882353,
+        "latency_ms": 37.398596286696254,
+        "packed_chars": 8040.960739030023,
+        "unique_sessions": 3.004618937644342,
+        "latency_p95_ms": 47.68541699741036
+      },
+      "improvement_vs_baseline": null
+    },
+    {
+      "experiment_id": "20261030T222705886413Z-1-complementary-conservative-k4",
+      "config": {
+        "method": "complementary-conservative",
+        "k": 4,
+        "budget": 12000
+      },
+      "metrics": {
+        "n": 433,
+        "answerable_n": 408,
+        "recall": 0.8798202614379085,
+        "precision": 0.642361111111111,
+        "evidence_f1": 0.7139725334578276,
+        "any_hit": 0.9632352941176471,
+        "all_hit": 0.7965686274509803,
+        "latency_ms": 37.048468321567725,
+        "packed_chars": 7845.381062355658,
+        "unique_sessions": 2.6304849884526558,
+        "latency_p95_ms": 47.12445801123977
+      },
+      "improvement_vs_baseline": null
+    }
+  ]
+}
