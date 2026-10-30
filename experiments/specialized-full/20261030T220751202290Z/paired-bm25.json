@@ -1,0 +1,319 @@
+{
+  "baseline_details": "/Users/zoga/Dev/Playground/TechWeekHackaton/experiments/20261030T212244128730Z/3-bm25-k4-details.jsonl",
+  "baseline_sha256": "ad34c9709d0b24221cb3823e428b9b7c05bebaa00513a61adcc288fbc88fe1af",
+  "n": 526,
+  "by_partition": {
+    "development": {
+      "adaptive": {
+        "n": 433,
+        "answerable_n": 408,
+        "recall": 0.9435049019607843,
+        "precision": 0.273999183006536,
+        "evidence_f1": 0.4106895827484063,
+        "any_hit": 0.9779411764705882,
+        "all_hit": 0.8946078431372549,
+        "latency_ms": 36.112194288079465,
+        "packed_chars": 9672.789838337183,
+        "unique_sessions": 6.475750577367205,
+        "latency_p95_ms": 48.19995898287743
+      },
+      "bm25_k4": {
+        "n": 433,
+        "answerable_n": 408,
+        "recall": 0.8493055555555555,
+        "precision": 0.7479575163398693,
+        "evidence_f1": 0.7592826019296608,
+        "any_hit": 0.9607843137254902,
+        "all_hit": 0.7450980392156863,
+        "latency_ms": 30.391728146164088,
+        "packed_chars": 4139.914549653579,
+        "unique_sessions": 2.159353348729792,
+        "latency_p95_ms": 31.59262498957105
+      },
+      "delta": {
+        "recall": 0.09419934640522876,
+        "precision": -0.4739583333333333,
+        "evidence_f1": -0.3485930191812545,
+        "all_hit": 0.14950980392156865,
+        "packed_chars": 5532.875288683604,
+        "latency_ms": 5.720466141915377,
+        "unique_sessions": 4.316397228637413
+      }
+    },
+    "validation": {
+      "adaptive": {
+        "n": 93,
+        "answerable_n": 88,
+        "recall": 0.9600378787878788,
+        "precision": 0.27982954545454547,
+        "evidence_f1": 0.4185144401053492,
+        "any_hit": 1.0,
+        "all_hit": 0.9090909090909091,
+        "latency_ms": 36.41712103321928,
+        "packed_chars": 9644.462365591398,
+        "unique_sessions": 6.580645161290323,
+        "latency_p95_ms": 46.95229200297035
+      },
+      "bm25_k4": {
+        "n": 93,
+        "answerable_n": 88,
+        "recall": 0.8464015151515152,
+        "precision": 0.7888257575757576,
+        "evidence_f1": 0.7896013708513708,
+        "any_hit": 0.9772727272727273,
+        "all_hit": 0.7045454545454546,
+        "latency_ms": 30.30646909735546,
+        "packed_chars": 3789.8924731182797,
+        "unique_sessions": 2.053763440860215,
+        "latency_p95_ms": 31.252124987076968
+      },
+      "delta": {
+        "recall": 0.11363636363636365,
+        "precision": -0.5089962121212122,
+        "evidence_f1": -0.3710869307460216,
+        "all_hit": 0.20454545454545447,
+        "packed_chars": 5854.569892473119,
+        "latency_ms": 6.110651935863821,
+        "unique_sessions": 4.526881720430108
+      }
+    }
+  },
+  "by_type": {
+    "knowledge-update": {
+      "adaptive": {
+        "n": 78,
+        "answerable_n": 72,
+        "recall": 0.9930555555555556,
+        "precision": 0.3385416666666667,
+        "evidence_f1": 0.4935185185185185,
+        "any_hit": 1.0,
+        "all_hit": 0.9861111111111112,
+        "latency_ms": 41.889253755634385,
+        "packed_chars": 9554.615384615385,
+        "unique_sessions": 6.512820512820513,
+        "latency_p95_ms": 49.40845799865201
+      },
+      "bm25_k4": {
+        "n": 78,
+        "answerable_n": 72,
+        "recall": 0.9097222222222222,
+        "precision": 0.9074074074074074,
+        "evidence_f1": 0.8986111111111111,
+        "any_hit": 0.9861111111111112,
+        "all_hit": 0.8333333333333334,
+        "latency_ms": 30.52971476706891,
+        "packed_chars": 3488.4102564102564,
+        "unique_sessions": 2.0384615384615383,
+        "latency_p95_ms": 31.76179199363105
+      },
+      "delta": {
+        "recall": 0.08333333333333337,
+        "precision": -0.5688657407407407,
+        "evidence_f1": -0.4050925925925926,
+        "all_hit": 0.1527777777777778,
+        "packed_chars": 6066.205128205129,
+        "latency_ms": 11.359538988565475,
+        "unique_sessions": 4.4743589743589745
+      }
+    },
+    "multi-session": {
+      "adaptive": {
+        "n": 133,
+        "answerable_n": 121,
+        "recall": 0.8958677685950414,
+        "precision": 0.3174931129476584,
+        "evidence_f1": 0.4567831617418394,
+        "any_hit": 0.9917355371900827,
+        "all_hit": 0.7603305785123967,
+        "latency_ms": 32.939385638495246,
+        "packed_chars": 9968.15037593985,
+        "unique_sessions": 7.451127819548872,
+        "latency_p95_ms": 35.13241600012407
+      },
+      "bm25_k4": {
+        "n": 133,
+        "answerable_n": 121,
+        "recall": 0.693939393939394,
+        "precision": 0.7555096418732782,
+        "evidence_f1": 0.6975600157418339,
+        "any_hit": 0.9669421487603306,
+        "all_hit": 0.4132231404958678,
+        "latency_ms": 30.37282769875496,
+        "packed_chars": 4336.548872180451,
+        "unique_sessions": 2.511278195488722,
+        "latency_p95_ms": 31.487999978708103
+      },
+      "delta": {
+        "recall": 0.2019283746556474,
+        "precision": -0.43801652892561976,
+        "evidence_f1": -0.2407768539999945,
+        "all_hit": 0.34710743801652894,
+        "packed_chars": 5631.601503759398,
+        "latency_ms": 2.566557939740285,
+        "unique_sessions": 4.93984962406015
+      }
+    },
+    "single-session-assistant": {
+      "adaptive": {
+        "n": 112,
+        "answerable_n": 112,
+        "recall": 1.0,
+        "precision": 0.22209821428571427,
+        "evidence_f1": 0.3603174603174603,
+        "any_hit": 1.0,
+        "all_hit": 1.0,
+        "latency_ms": 43.11795945536038,
+        "packed_chars": 9665.42857142857,
+        "unique_sessions": 4.892857142857143,
+        "latency_p95_ms": 50.180874997749925
+      },
+      "bm25_k4": {
+        "n": 112,
+        "answerable_n": 112,
+        "recall": 1.0,
+        "precision": 0.7611607142857143,
+        "evidence_f1": 0.830952380952381,
+        "any_hit": 1.0,
+        "all_hit": 1.0,
+        "latency_ms": 30.49226932255676,
+        "packed_chars": 4051.6339285714284,
+        "unique_sessions": 1.5982142857142858,
+        "latency_p95_ms": 31.883749994449317
+      },
+      "delta": {
+        "recall": 0.0,
+        "precision": -0.5390625,
+        "evidence_f1": -0.4706349206349207,
+        "all_hit": 0.0,
+        "packed_chars": 5613.794642857142,
+        "latency_ms": 12.62569013280362,
+        "unique_sessions": 3.2946428571428577
+      }
+    },
+    "single-session-user": {
+      "adaptive": {
+        "n": 70,
+        "answerable_n": 64,
+        "recall": 0.984375,
+        "precision": 0.2265625,
+        "evidence_f1": 0.3559027777777778,
+        "any_hit": 0.984375,
+        "all_hit": 0.984375,
+        "latency_ms": 31.262682813602233,
+        "packed_chars": 9001.085714285715,
+        "unique_sessions": 5.1,
+        "latency_p95_ms": 33.728917012922466
+      },
+      "bm25_k4": {
+        "n": 70,
+        "answerable_n": 64,
+        "recall": 0.984375,
+        "precision": 0.6328125,
+        "evidence_f1": 0.7359375,
+        "any_hit": 0.984375,
+        "all_hit": 0.984375,
+        "latency_ms": 30.27154527454903,
+        "packed_chars": 4324.8,
+        "unique_sessions": 2,
+        "latency_p95_ms": 31.907666998449713
+      },
+      "delta": {
+        "recall": 0.0,
+        "precision": -0.40625,
+        "evidence_f1": -0.38003472222222223,
+        "all_hit": 0.0,
+        "packed_chars": 4676.285714285715,
+        "latency_ms": 0.9911375390532022,
+        "unique_sessions": 3.0999999999999996
+      }
+    },
+    "temporal-reasoning": {
+      "adaptive": {
+        "n": 133,
+        "answerable_n": 127,
+        "recall": 0.9018372703412073,
+        "precision": 0.26968503937007876,
+        "evidence_f1": 0.3972692224660729,
+        "any_hit": 0.9448818897637795,
+        "all_hit": 0.84251968503937,
+        "latency_ms": 32.76295521816491,
+        "packed_chars": 9786.654135338345,
+        "unique_sessions": 7.609022556390977,
+        "latency_p95_ms": 34.90958400652744
+      },
+      "bm25_k4": {
+        "n": 133,
+        "answerable_n": 127,
+        "recall": 0.7601049868766404,
+        "precision": 0.7250656167979003,
+        "evidence_f1": 0.7086676665416823,
+        "any_hit": 0.905511811023622,
+        "all_hit": 0.6377952755905512,
+        "latency_ms": 30.248674768665666,
+        "packed_chars": 4057.6466165413535,
+        "unique_sessions": 2.3609022556390977,
+        "latency_p95_ms": 31.13445799681358
+      },
+      "delta": {
+        "recall": 0.1417322834645669,
+        "precision": -0.4553805774278215,
+        "evidence_f1": -0.31139844407560946,
+        "all_hit": 0.20472440944881887,
+        "packed_chars": 5729.007518796992,
+        "latency_ms": 2.514280449499246,
+        "unique_sessions": 5.2481203007518795
+      }
+    }
+  },
+  "all": {
+    "adaptive": {
+      "n": 526,
+      "answerable_n": 496,
+      "recall": 0.9464381720430107,
+      "precision": 0.2750336021505376,
+      "evidence_f1": 0.41207786389238005,
+      "any_hit": 0.9818548387096774,
+      "all_hit": 0.8971774193548387,
+      "latency_ms": 36.166107191687836,
+      "packed_chars": 9667.781368821294,
+      "unique_sessions": 6.494296577946768,
+      "latency_p95_ms": 48.088083014590666
+    },
+    "bm25_k4": {
+      "n": 526,
+      "answerable_n": 496,
+      "recall": 0.8487903225806451,
+      "precision": 0.7552083333333334,
+      "evidence_f1": 0.7646617383512545,
+      "any_hit": 0.9637096774193549,
+      "all_hit": 0.7379032258064516,
+      "latency_ms": 30.376653827648493,
+      "packed_chars": 4078.028517110266,
+      "unique_sessions": 2.140684410646388,
+      "latency_p95_ms": 31.50795798865147
+    },
+    "delta": {
+      "recall": 0.0976478494623656,
+      "precision": -0.48017473118279574,
+      "evidence_f1": -0.35258387445887446,
+      "all_hit": 0.15927419354838712,
+      "packed_chars": 5589.752851711028,
+      "latency_ms": 5.789453364039343,
+      "unique_sessions": 4.35361216730038
+    }
+  },
+  "wins_losses": {
+    "recall": {
+      "wins": 101,
+      "losses": 0
+    },
+    "all_hit": {
+      "wins": 79,
+      "losses": 0
+    },
+    "evidence_f1": {
+      "wins": 44,
+      "losses": 422
+    }
+  }
+}
