@@ -1,0 +1,322 @@
+{
+  "scope_n": 24,
+  "sample_selection": "sha256(question_id) ascending, development only",
+  "reports": [
+    {
+      "config": {
+        "method": "bm25",
+        "k": 4,
+        "budget": 12000
+      },
+      "metrics": {
+        "n": 24,
+        "answerable_n": 22,
+        "recall": 0.9242424242424242,
+        "precision": 0.8712121212121212,
+        "evidence_f1": 0.8606060606060606,
+        "any_hit": 1.0,
+        "all_hit": 0.8636363636363636,
+        "latency_ms": 31.950402746588225,
+        "packed_chars": 4318.416666666667,
+        "unique_sessions": 2.0833333333333335,
+        "latency_p95_ms": 39.574458001879975
+      },
+      "by_partition": {
+        "development": {
+          "n": 24,
+          "answerable_n": 22,
+          "recall": 0.9242424242424242,
+          "precision": 0.8712121212121212,
+          "evidence_f1": 0.8606060606060606,
+          "any_hit": 1.0,
+          "all_hit": 0.8636363636363636,
+          "latency_ms": 31.950402746588225,
+          "packed_chars": 4318.416666666667,
+          "unique_sessions": 2.0833333333333335,
+          "latency_p95_ms": 39.574458001879975
+        },
+        "validation": {
+          "n": 0,
+          "answerable_n": 0,
+          "recall": null,
+          "precision": null,
+          "evidence_f1": null,
+          "any_hit": null,
+          "all_hit": null,
+          "latency_ms": null,
+          "packed_chars": null,
+          "unique_sessions": null,
+          "latency_p95_ms": null
+        }
+      }
+    },
+    {
+      "config": {
+        "method": "bm25",
+        "k": 8,
+        "budget": 12000
+      },
+      "metrics": {
+        "n": 24,
+        "answerable_n": 22,
+        "recall": 0.9848484848484849,
+        "precision": 0.5931818181818181,
+        "evidence_f1": 0.7121212121212122,
+        "any_hit": 1.0,
+        "all_hit": 0.9545454545454546,
+        "latency_ms": 31.743119872165455,
+        "packed_chars": 7056.916666666667,
+        "unique_sessions": 3.4166666666666665,
+        "latency_p95_ms": 39.269000000786036
+      },
+      "by_partition": {
+        "development": {
+          "n": 24,
+          "answerable_n": 22,
+          "recall": 0.9848484848484849,
+          "precision": 0.5931818181818181,
+          "evidence_f1": 0.7121212121212122,
+          "any_hit": 1.0,
+          "all_hit": 0.9545454545454546,
+          "latency_ms": 31.743119872165455,
+          "packed_chars": 7056.916666666667,
+          "unique_sessions": 3.4166666666666665,
+          "latency_p95_ms": 39.269000000786036
+        },
+        "validation": {
+          "n": 0,
+          "answerable_n": 0,
+          "recall": null,
+          "precision": null,
+          "evidence_f1": null,
+          "any_hit": null,
+          "all_hit": null,
+          "latency_ms": null,
+          "packed_chars": null,
+          "unique_sessions": null,
+          "latency_p95_ms": null
+        }
+      }
+    },
+    {
+      "config": {
+        "method": "dense",
+        "k": 4,
+        "budget": 12000
+      },
+      "metrics": {
+        "n": 24,
+        "answerable_n": 22,
+        "recall": 0.8409090909090909,
+        "precision": 0.8712121212121212,
+        "evidence_f1": 0.8272727272727273,
+        "any_hit": 1.0,
+        "all_hit": 0.6818181818181818,
+        "latency_ms": 986.3718957506838,
+        "packed_chars": 4132.541666666667,
+        "unique_sessions": 1.875,
+        "latency_p95_ms": 1182.1802920021582
+      },
+      "by_partition": {
+        "development": {
+          "n": 24,
+          "answerable_n": 22,
+          "recall": 0.8409090909090909,
+          "precision": 0.8712121212121212,
+          "evidence_f1": 0.8272727272727273,
+          "any_hit": 1.0,
+          "all_hit": 0.6818181818181818,
+          "latency_ms": 986.3718957506838,
+          "packed_chars": 4132.541666666667,
+          "unique_sessions": 1.875,
+          "latency_p95_ms": 1182.1802920021582
+        },
+        "validation": {
+          "n": 0,
+          "answerable_n": 0,
+          "recall": null,
+          "precision": null,
+          "evidence_f1": null,
+          "any_hit": null,
+          "all_hit": null,
+          "latency_ms": null,
+          "packed_chars": null,
+          "unique_sessions": null,
+          "latency_p95_ms": null
+        }
+      }
+    },
+    {
+      "config": {
+        "method": "dense",
+        "k": 8,
+        "budget": 12000
+      },
+      "metrics": {
+        "n": 24,
+        "answerable_n": 22,
+        "recall": 0.9772727272727273,
+        "precision": 0.7090909090909091,
+        "evidence_f1": 0.7831168831168831,
+        "any_hit": 1.0,
+        "all_hit": 0.9545454545454546,
+        "latency_ms": 36.223215288676634,
+        "packed_chars": 6790.083333333333,
+        "unique_sessions": 2.9583333333333335,
+        "latency_p95_ms": 40.51999998046085
+      },
+      "by_partition": {
+        "development": {
+          "n": 24,
+          "answerable_n": 22,
+          "recall": 0.9772727272727273,
+          "precision": 0.7090909090909091,
+          "evidence_f1": 0.7831168831168831,
+          "any_hit": 1.0,
+          "all_hit": 0.9545454545454546,
+          "latency_ms": 36.223215288676634,
+          "packed_chars": 6790.083333333333,
+          "unique_sessions": 2.9583333333333335,
+          "latency_p95_ms": 40.51999998046085
+        },
+        "validation": {
+          "n": 0,
+          "answerable_n": 0,
+          "recall": null,
+          "precision": null,
+          "evidence_f1": null,
+          "any_hit": null,
+          "all_hit": null,
+          "latency_ms": null,
+          "packed_chars": null,
+          "unique_sessions": null,
+          "latency_p95_ms": null
+        }
+      }
+    },
+    {
+      "config": {
+        "method": "dense-hybrid",
+        "k": 4,
+        "budget": 12000
+      },
+      "metrics": {
+        "n": 24,
+        "answerable_n": 22,
+        "recall": 0.9242424242424242,
+        "precision": 0.8712121212121212,
+        "evidence_f1": 0.8712121212121212,
+        "any_hit": 1.0,
+        "all_hit": 0.8636363636363636,
+        "latency_ms": 33.615151123134034,
+        "packed_chars": 4016.0833333333335,
+        "unique_sessions": 2.0833333333333335,
+        "latency_p95_ms": 39.36070797499269
+      },
+      "by_partition": {
+        "development": {
+          "n": 24,
+          "answerable_n": 22,
+          "recall": 0.9242424242424242,
+          "precision": 0.8712121212121212,
+          "evidence_f1": 0.8712121212121212,
+          "any_hit": 1.0,
+          "all_hit": 0.8636363636363636,
+          "latency_ms": 33.615151123134034,
+          "packed_chars": 4016.0833333333335,
+          "unique_sessions": 2.0833333333333335,
+          "latency_p95_ms": 39.36070797499269
+        },
+        "validation": {
+          "n": 0,
+          "answerable_n": 0,
+          "recall": null,
+          "precision": null,
+          "evidence_f1": null,
+          "any_hit": null,
+          "all_hit": null,
+          "latency_ms": null,
+          "packed_chars": null,
+          "unique_sessions": null,
+          "latency_p95_ms": null
+        }
+      }
+    },
+    {
+      "config": {
+        "method": "dense-hybrid",
+        "k": 8,
+        "budget": 12000
+      },
+      "metrics": {
+        "n": 24,
+        "answerable_n": 22,
+        "recall": 0.9772727272727273,
+        "precision": 0.7454545454545455,
+        "evidence_f1": 0.8073593073593074,
+        "any_hit": 1.0,
+        "all_hit": 0.9545454545454546,
+        "latency_ms": 32.60489400054212,
+        "packed_chars": 6854.458333333333,
+        "unique_sessions": 2.8333333333333335,
+        "latency_p95_ms": 37.8405420051422
+      },
+      "by_partition": {
+        "development": {
+          "n": 24,
+          "answerable_n": 22,
+          "recall": 0.9772727272727273,
+          "precision": 0.7454545454545455,
+          "evidence_f1": 0.8073593073593074,
+          "any_hit": 1.0,
+          "all_hit": 0.9545454545454546,
+          "latency_ms": 32.60489400054212,
+          "packed_chars": 6854.458333333333,
+          "unique_sessions": 2.8333333333333335,
+          "latency_p95_ms": 37.8405420051422
+        },
+        "validation": {
+          "n": 0,
+          "answerable_n": 0,
+          "recall": null,
+          "precision": null,
+          "evidence_f1": null,
+          "any_hit": null,
+          "all_hit": null,
+          "latency_ms": null,
+          "packed_chars": null,
+          "unique_sessions": null,
+          "latency_p95_ms": null
+        }
+      }
+    }
+  ],
+  "runtime_s": 28.794451916997787,
+  "model_id": "Xenova/all-MiniLM-L6-v2",
+  "model_revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+  "candidate_limit": 16,
+  "encoding": "raw turn content/query; no prefixes; max256 tokens; masked mean pooling; L2 normalization; quantized ONNX CPU",
+  "rrf_constant": 60,
+  "rrf_weights": [
+    1,
+    1
+  ],
+  "threads": 2,
+  "batch_size": 16,
+  "reactor_call_count": 0,
+  "source_sha256": {
+    "retrieval_dense.py": "0713feb5af12658ce02c05fd0532669bf06d3426d1307aa00432e2f6d61bb51c",
+    "retrieval.py": "dc71b0e74ada79e1d491b06447cf735c0cd968da3d56c9511bbe623b7a89b205",
+    "experiments/dense-run.py": "a59a4a4cde853ad00eb731324d09147a3256aff98cc64263404e4dad961ad7a6",
+    "experiments/dense-model/model_quantized.onnx": "afdb6f1a0e45b715d0bb9b11772f032c399babd23bfc31fed1c170afc848bdb1",
+    "experiments/dense-model/tokenizer.json": "da0e79933b9ed51798a3ae27893d3c5fa4a201126cef75586296df9b4d2c62a0",
+    "data/dev/questions.jsonl": "814011572fb0e873320c0f88ab99bb0e9a87c6c57c304f21f59e4393b0e24278",
+    "data/dev/histories.jsonl": "f0263666b82a485afacaf7dda5ebb644cdd6e6370f32118c5bc6cccb08dba897",
+    "data/dev/gold.jsonl": "6b6e7808f364313724ab85100adff0de765149a85b0b07b6a9808818e5ee4f9a"
+  },
+  "git": {
+    "commit": "57961610ac5eb5f7d91c3748c6468befa3337405",
+    "dirty": true
+  },
+  "limitation": "Session evidence proxy only. Not answer accuracy or actual Reactor citation F1. Cold model/document embedding cost attributed to dense-k4; subsequent dense variants use cache."
+}
