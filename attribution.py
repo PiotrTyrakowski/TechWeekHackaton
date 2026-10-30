@@ -308,6 +308,9 @@ def attribute_answer(question: dict, history: dict, evidence: list, result: dict
         output["unresolved_claims"].append({"claim": answer, "reason": "question_mismatch"})
         return output
     if result.get("abstained") or re.match(r"^\W*INSUFFICIENT_EVIDENCE\b", answer, re.I):
+        # The official adapter drops citations on semantic abstention. Keep the
+        # supplied records above for provenance, but finalize no citation IDs.
+        output["final_citations"] = []
         return output
     clean_answer = _LABEL.sub("", answer).strip()
     claims = _question_plan(question.get("question", ""), clean_answer)

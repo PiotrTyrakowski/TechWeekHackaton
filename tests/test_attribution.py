@@ -194,6 +194,20 @@ class AttributionTests(unittest.TestCase):
             self.assertEqual(attribute_answer(*args)["fallback_citations"], [])
             self.assertEqual(args, before)
 
+    def test_abstention_with_final_label_preserves_raw_but_finalizes_no_citations(self):
+        for abstained in (True, False):
+            args = self.fixture(answer="INSUFFICIENT_EVIDENCE [E1]",
+                                citations=[{"label": "E1", "id": "s_cat"}])
+            args[3]["abstained"] = abstained
+            before = copy.deepcopy(args)
+            got = attribute_answer(*args)
+            self.assertEqual(got["reactor_citations"], ["s_cat"])
+            self.assertEqual(got["reactor_citation_records"], args[3]["citations"])
+            self.assertEqual(got["final_citations"], [])
+            self.assertEqual(got["fallback_citations"], [])
+            self.assertEqual(got["supports"], [])
+            self.assertEqual(args, before)
+
     def test_invalid_supplied_citation_is_retained_but_not_finalized(self):
         for record in [{"label": "E2", "id": "s_cat"}, {"label": "E1", "id": "s_foreign"}]:
             args = self.fixture(citations=[record])
