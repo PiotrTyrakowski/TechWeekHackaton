@@ -7,6 +7,7 @@ An uncertain call stops the run rather than risking a duplicate question or rese
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import fcntl
 import hashlib
 import json
@@ -20,6 +21,28 @@ from official.reactor import client as official_client
 from official.reactor import predictions as adapter
 
 ROOT = Path(__file__).resolve().parent
+
+
+def file_sha256(path):
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+@contextmanager
+def execution_lock(base_url, agent_id):
+    lock_dir = ROOT / "runs/.agent-locks"
+    lock_dir.mkdir(parents=True, exist_ok=True)
+    identity = base_url.rstrip("/").lower() + "\n" + agent_id
+    path = lock_dir / (hashlib.sha256(identity.encode()).hexdigest() + ".lock")
+    with path.open("a") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise ValueError("another runner is executing against this Reactor agent") from exc
+        yield
 
 
 def read_jsonl(path):
@@ -121,7 +144,6 @@ def prepare(args):
     from retrieval import retrieve
 
     questions = read_jsonl(args.questions)
-    histories = {h["history_id"]: h for h in read_jsonl(args.histories)}
     if len({q["question_id"] for q in questions}) != len(questions):
         raise ValueError("duplicate question_id in questions")
     if args.question_ids:
@@ -134,6 +156,16 @@ def prepare(args):
         questions = questions[:args.limit]
     # Group by dataset history without altering within-history order.
     questions.sort(key=lambda q: q["history_id"])
+    selected_histories = {q["history_id"] for q in questions}
+    histories = {}
+    with args.histories.open(encoding="utf-8-sig") as stream:
+        for line in stream:
+            if line.strip():
+                history = json.loads(line)
+                if history["history_id"] in selected_histories:
+                    histories[history["history_id"]] = history
+    if set(histories) != selected_histories:
+        raise ValueError("selected questions reference missing histories")
     passages, sizes = {}, {}
     for q in questions:
         h = histories[q["history_id"]]
@@ -151,9 +183,9 @@ def prepare(args):
     manifest = {
         "base_url": args.base_url, "agent_id": args.agent_id,
         "method": args.method, "k": args.k, "budget": args.budget, "max_chars": args.max_chars,
-        "client_sha256": hashlib.sha256(args.client.read_bytes()).hexdigest(),
-        "questions_sha256": hashlib.sha256(args.questions.read_bytes()).hexdigest(),
-        "histories_sha256": hashlib.sha256(args.histories.read_bytes()).hexdigest(),
+        "client_sha256": file_sha256(args.client),
+        "questions_sha256": file_sha256(args.questions),
+        "histories_sha256": file_sha256(args.histories),
         "question_ids": [q["question_id"] for q in questions],
         "evidence_sha256": hashlib.sha256(json.dumps(passages, sort_keys=True).encode()).hexdigest(),
         "message_chars": sizes,
@@ -268,6 +300,9 @@ def main(argv=None):
     ap.add_argument("--execute", action="store_true", help="make the planned API calls")
     args = ap.parse_args(argv)
     try:
+        if args.execute:
+            with execution_lock(args.base_url, args.agent_id):
+                return run(args)
         return run(args)
     except (OSError, ValueError, KeyError) as exc:
         print("runtime error: " + redact(str(exc)), file=sys.stderr)

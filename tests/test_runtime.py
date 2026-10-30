@@ -1,5 +1,6 @@
 """Mock client lifecycle tests; these are not Reactor benchmark predictions."""
 import json
+from argparse import Namespace
 import os
 from pathlib import Path
 import tempfile
@@ -102,6 +103,26 @@ class RuntimeTests(unittest.TestCase):
         with patch.dict(os.environ, {"REACTOR_ACCESS_KEY": "test-key"}), patch.object(
                 runtime, "invoke", side_effect=AssertionError("must not call")):
             self.assertEqual(runtime.main(self.argv + ["--execute"]), 2)
+
+    def test_retains_only_histories_for_selected_questions(self):
+        args = Namespace(questions=self.root / "questions.jsonl", histories=self.root / "histories.jsonl",
+                         question_ids=None, limit=1, method="official", k=4, budget=12000,
+                         max_chars=16000, client=runtime.ROOT / "official/reactor/client.py",
+                         base_url="https://example.test", agent_id="test")
+        with patch.object(runtime, "read_jsonl", wraps=runtime.read_jsonl) as reader:
+            questions, histories, _, _ = runtime.prepare(args)
+            self.assertEqual(len(questions), 1)
+            self.assertEqual(set(histories), {"h1"})
+            self.assertEqual(reader.call_count, 1)  # histories must never be eagerly loaded
+
+    def test_agent_execution_lock_excludes_other_output_directories(self):
+        with patch.object(runtime, "ROOT", self.root):
+            with runtime.execution_lock("https://example.test/", "agent"):
+                with self.assertRaises(ValueError):
+                    with runtime.execution_lock("https://example.test", "agent"):
+                        self.fail("second execution lock acquired")
+                with runtime.execution_lock("https://example.test", "other-agent"):
+                    pass
 
 
 if __name__ == "__main__":

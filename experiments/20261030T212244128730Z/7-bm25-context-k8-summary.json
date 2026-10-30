@@ -1,0 +1,143 @@
+{
+  "experiment_id": "20261030T212244128730Z-7-bm25-context-k8",
+  "git": {
+    "commit": "25e8ae25ae418d08e69be69081ff486a20ec2bbb",
+    "dirty": true
+  },
+  "config": {
+    "method": "bm25-context",
+    "k": 8,
+    "budget": 12000
+  },
+  "dataset": "data/dev",
+  "split": "all",
+  "retrieval_metrics": {
+    "n": 526,
+    "answerable_n": 496,
+    "recall": 0.9528897849462366,
+    "precision": 0.21892521121351766,
+    "evidence_f1": 0.3430642162497001,
+    "any_hit": 0.9838709677419355,
+    "all_hit": 0.9092741935483871,
+    "latency_ms": 29.98762623369986,
+    "packed_chars": 10708.539923954373,
+    "unique_sessions": 7.927756653992396,
+    "latency_p95_ms": 31.07945798547007
+  },
+  "by_type": {
+    "knowledge-update": {
+      "n": 78,
+      "answerable_n": 72,
+      "recall": 0.9930555555555556,
+      "precision": 0.2482638888888889,
+      "evidence_f1": 0.39722222222222225,
+      "any_hit": 1.0,
+      "all_hit": 0.9861111111111112,
+      "latency_ms": 30.181413998854204,
+      "packed_chars": 10711.384615384615,
+      "unique_sessions": 8,
+      "latency_p95_ms": 31.564083008561283
+    },
+    "multi-session": {
+      "n": 133,
+      "answerable_n": 121,
+      "recall": 0.9068870523415978,
+      "precision": 0.2918142463597009,
+      "evidence_f1": 0.43296409742690734,
+      "any_hit": 0.9917355371900827,
+      "all_hit": 0.7851239669421488,
+      "latency_ms": 29.95287465378887,
+      "packed_chars": 10739.225563909775,
+      "unique_sessions": 7.954887218045113,
+      "latency_p95_ms": 31.033791980007663
+    },
+    "single-session-assistant": {
+      "n": 112,
+      "answerable_n": 112,
+      "recall": 1.0,
+      "precision": 0.1269451530612245,
+      "evidence_f1": 0.22504960317460315,
+      "any_hit": 1.0,
+      "all_hit": 1.0,
+      "latency_ms": 30.213129758911755,
+      "packed_chars": 11052.473214285714,
+      "unique_sessions": 7.928571428571429,
+      "latency_p95_ms": 31.128000002354383
+    },
+    "single-session-user": {
+      "n": 70,
+      "answerable_n": 64,
+      "recall": 1.0,
+      "precision": 0.15132068452380953,
+      "evidence_f1": 0.24968998015873015,
+      "any_hit": 1.0,
+      "all_hit": 1.0,
+      "latency_ms": 29.87651007133536,
+      "packed_chars": 10430.7,
+      "unique_sessions": 7.6571428571428575,
+      "latency_p95_ms": 31.458707991987467
+    },
+    "temporal-reasoning": {
+      "n": 133,
+      "answerable_n": 127,
+      "recall": 0.9086614173228347,
+      "precision": 0.24803149606299213,
+      "evidence_f1": 0.3778384345313479,
+      "any_hit": 0.9448818897637795,
+      "all_hit": 0.8582677165354331,
+      "latency_ms": 29.77731233135328,
+      "packed_chars": 10532.78947368421,
+      "unique_sessions": 8,
+      "latency_p95_ms": 30.633249989477918
+    }
+  },
+  "by_partition": {
+    "development": {
+      "n": 433,
+      "answerable_n": 408,
+      "recall": 0.9493055555555555,
+      "precision": 0.21835025676937442,
+      "evidence_f1": 0.3416160636748872,
+      "any_hit": 0.9803921568627451,
+      "all_hit": 0.9044117647058824,
+      "latency_ms": 30.00507106699101,
+      "packed_chars": 10704.993071593533,
+      "unique_sessions": 7.912240184757506,
+      "latency_p95_ms": 31.128000002354383
+    },
+    "validation": {
+      "n": 93,
+      "answerable_n": 88,
+      "recall": 0.9695075757575757,
+      "precision": 0.2215909090909091,
+      "evidence_f1": 0.3497783781874691,
+      "any_hit": 1.0,
+      "all_hit": 0.9318181818181818,
+      "latency_ms": 29.906404590527078,
+      "packed_chars": 10725.053763440861,
+      "unique_sessions": 8,
+      "latency_p95_ms": 31.033791980007663
+    }
+  },
+  "answer_metrics": null,
+  "abstention_metrics": null,
+  "reactor_call_count": 0,
+  "runtime_s": 120.21408004200202,
+  "failures": {
+    "partial_or_missing_evidence": 45,
+    "zero_evidence_hit": 8
+  },
+  "improvement_vs_baseline": {
+    "recall": 0.21663306451612907,
+    "precision": -0.3234134984639017,
+    "evidence_f1": -0.23913624457979293
+  },
+  "source_sha256": {
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/evaluate.py": "696b3597f18b205725337c67bab145c0c1ebeb7bf2368cd33a3c655bafdee438",
+    "retrieval.py": "516b5ab84d955c7aae40d36a7aaee49ea3abb124e97b2b38b7098c22fe0d169b",
+    "official/score.py": "d5081b7a3412c768d202b0ca693888d3135678c92b55a6321a24691d3e320297",
+    "data/dev/gold.jsonl": "6b6e7808f364313724ab85100adff0de765149a85b0b07b6a9808818e5ee4f9a",
+    "data/dev/questions.jsonl": "814011572fb0e873320c0f88ab99bb0e9a87c6c57c304f21f59e4393b0e24278"
+  },
+  "notes": "Metrics use unique session IDs in top-k packed passages; F1 treats all retrieved sessions as citations, not Reactor-selected citations. Unanswerable excluded from evidence metrics. Dev-large shares dev questions and is not a holdout."
+}

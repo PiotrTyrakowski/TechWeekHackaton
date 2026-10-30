@@ -44,7 +44,7 @@ Never put its value in commands, source files, logs, or chat. The runner reports
 only whether it is available. The supplied team URL/agent are the CLI defaults.
 
 ```sh
-.venv/bin/python runtime.py --questions smoke/questions.jsonl --histories data/dev/histories.jsonl --out-dir runs/smoke-official --limit 0
+.venv/bin/python runtime.py --questions smoke/questions.jsonl --histories data/dev/histories.jsonl --out-dir runs/smoke-bm25-k4 --method bm25 --k 4 --limit 0
 ```
 
 This dry run prepares evidence and reports the call plan. Five selected questions
@@ -54,8 +54,8 @@ small smoke test, repeat that command with `--execute`. The manifest locks data,
 question selection, client version, retrieval configuration, and evidence.
 
 ```sh
-.venv/bin/python evaluate.py --data data/dev --questions smoke/questions.jsonl --predictions runs/smoke-official/predictions.jsonl
-.venv/bin/python official/score.py smoke/gold.jsonl runs/smoke-official/predictions.jsonl --details runs/smoke-official/score-details.jsonl
+.venv/bin/python evaluate.py --data data/dev --questions smoke/questions.jsonl --predictions runs/smoke-bm25-k4/predictions.jsonl
+.venv/bin/python official/score.py smoke/gold.jsonl runs/smoke-bm25-k4/predictions.jsonl --details runs/smoke-bm25-k4/score-details.jsonl
 ```
 
 The five-question smoke sample includes an unanswerable case and user, assistant,

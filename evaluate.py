@@ -129,7 +129,7 @@ def main(argv=None):
         result["latency_s"] = sum(a.get("wall_s", 0) for a in attempts) if attempts is not None else None
         result["call_count_note"] = "Counts official-client invocations including resets; client-internal safe refusal retries excluded. None means no adjacent attempts.jsonl."
         result["failures"] = [a for a in attempts or [] if a.get("exit_code") != 0]
-        result["source_sha256"] = {str(p): digest(p) for p in [Path(__file__), Path("official/score.py"), args.predictions, args.data / "gold.jsonl", args.data / "histories.jsonl"]}
+        result["source_sha256"] = {str(p): digest(p) for p in [Path(__file__), Path("official/score.py"), args.predictions, args.data / "gold.jsonl", args.data / "histories.jsonl", args.questions or args.data / "questions.jsonl"]}
         write_json(experiment_dir / "answer-summary.json", result)
         with (args.out / "registry.jsonl").open("a", encoding="utf-8") as stream:
             stream.write(json.dumps(result, ensure_ascii=False) + "\n")
@@ -140,6 +140,8 @@ def main(argv=None):
                for method in args.method or ["official", "bm25"] for k in args.k or [4]]
     if any(c["k"] < 1 for c in configs) or args.budget < 1:
         raise ValueError("k and budget must be positive")
+    source_hashes = {str(p): digest(p) for p in [Path(__file__), Path("retrieval.py"), Path("official/score.py"), Path("official/reactor/examples/run_benchmark.py"), args.data / "gold.jsonl", args.data / "questions.jsonl", args.data / "histories.jsonl", args.questions or args.data / "questions.jsonl"]}
+    git_revision = revision()
     records = [[] for _ in configs]
     grouped = defaultdict(list)
     for q in questions.values():
@@ -171,13 +173,12 @@ def main(argv=None):
     if grouped:
         raise ValueError(f"{len(grouped)} question histories absent from histories.jsonl")
     baselines = {c["k"]: summarize(rows) for c, rows in zip(configs, records) if c["method"] == "official"}
-    source_hashes = {str(p): digest(p) for p in [Path(__file__), Path("retrieval.py"), Path("official/score.py"), Path("official/reactor/examples/run_benchmark.py"), args.data / "gold.jsonl", args.data / "questions.jsonl", args.data / "histories.jsonl"]}
     reports = []
     for index, (config, rows) in enumerate(zip(configs, records)):
         baseline = baselines.get(config["k"])
         experiment_id = f"{timestamp}-{index}-{config['method']}-k{config['k']}"
         summary = summarize(rows)
-        report = {"experiment_id": experiment_id, "git": revision(), "config": config,
+        report = {"experiment_id": experiment_id, "git": git_revision, "config": config,
                   "dataset": str(args.data), "split": "all", "retrieval_metrics": summary,
                   "by_type": {t: summarize([r for r in rows if r["question_type"] == t]) for t in sorted({r["question_type"] for r in rows})},
                   "by_partition": {p: summarize([r for r in rows if r["partition"] == p]) for p in ("development", "validation")},
