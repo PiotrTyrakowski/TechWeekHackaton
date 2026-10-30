@@ -1,0 +1,181 @@
+{
+  "cached_dev_large_calibrated": {
+    "all_retrieved_cited_mean_f1": 0.7283170122887865,
+    "answerable": 496,
+    "note": "Fixed source IDs only; ignores excerpt sufficiency. Full set includes fitted questions. Not Reactor performance.",
+    "oracle_selective_citation_mean_f1_ceiling": 0.8565972222222222
+  },
+  "development_cohort": {
+    "group_size_counts": {
+      "1": 414,
+      "2": 56
+    },
+    "histories": 470,
+    "pairs": 56,
+    "pairs_identical_gold_session_sets": 56,
+    "questions": 526,
+    "shared_abstentions": 0,
+    "shared_histories": 56,
+    "shared_question_types": {
+      "single-session-assistant": 112
+    },
+    "shared_questions": 112
+  },
+  "final_segment_probes": {
+    "after_marker_on_next_line": {
+      "answer": "Luna\n[E1]",
+      "citations": [
+        {
+          "id": "s_alpha",
+          "label": "E1"
+        }
+      ]
+    },
+    "before_marker": {
+      "answer": "Luna",
+      "citations": []
+    },
+    "repeated_same_ref": {
+      "answer": "new [E2]",
+      "citations": [
+        {
+          "id": "s_beta",
+          "label": "E2"
+        }
+      ]
+    }
+  },
+  "input_sha256": {
+    "data/dev/gold.jsonl": "6b6e7808f364313724ab85100adff0de765149a85b0b07b6a9808818e5ee4f9a",
+    "data/dev/questions.jsonl": "814011572fb0e873320c0f88ab99bb0e9a87c6c57c304f21f59e4393b0e24278",
+    "experiments/maximum-score-r2/dev-large-calibrated-full/20261030T223408144377Z/0-calibrated-k4-details.jsonl": "19ae52bfaaef19521471ac9bb240fd86cb9521dd2da424dca6ca263c63a9fafc",
+    "official/reactor/client.py": "99cd636b269736bfb0e7bcf0d1f1fbe7b47613753a1f9cc342aa3d0912d8a9a0",
+    "official/reactor/predictions.py": "e19fb585aaafbbd7f5311d805dea49a7251ebcb764ca72091cf9d1201e17d9cb"
+  },
+  "label_remapping": {
+    "first_call": [
+      {
+        "id": "s_alpha",
+        "label": "E1"
+      }
+    ],
+    "no_current_evidence": [
+      [],
+      [
+        "E1"
+      ]
+    ],
+    "same_session_two_passages": [
+      {
+        "id": "s_alpha",
+        "label": "E1"
+      },
+      {
+        "id": "s_alpha",
+        "label": "E2"
+      }
+    ],
+    "second_call_reordered": [
+      {
+        "id": "s_beta",
+        "label": "E1"
+      }
+    ]
+  },
+  "network_calls": 0,
+  "parser_probes": [
+    {
+      "citations": [
+        {
+          "id": "s_alpha",
+          "label": "E1"
+        },
+        {
+          "id": "s_beta",
+          "label": "E2"
+        }
+      ],
+      "stripped": "Luna",
+      "text": "Luna [E1] [E2]",
+      "unknown": []
+    },
+    {
+      "citations": [
+        {
+          "id": "s_alpha",
+          "label": "E1"
+        },
+        {
+          "id": "s_beta",
+          "label": "E2"
+        }
+      ],
+      "stripped": "Luna",
+      "text": "Luna [E1, E2]",
+      "unknown": []
+    },
+    {
+      "citations": [
+        {
+          "id": "s_alpha",
+          "label": "E1"
+        },
+        {
+          "id": "s_beta",
+          "label": "E2"
+        }
+      ],
+      "stripped": "Luna [E1/E2]",
+      "text": "Luna [E1/E2]",
+      "unknown": []
+    },
+    {
+      "citations": [
+        {
+          "id": "s_alpha",
+          "label": "E1"
+        }
+      ],
+      "stripped": "Luna [source E1]",
+      "text": "Luna [source E1]",
+      "unknown": []
+    },
+    {
+      "citations": [],
+      "stripped": "Luna [e1]",
+      "text": "Luna [e1]",
+      "unknown": []
+    },
+    {
+      "citations": [],
+      "stripped": "Luna E1",
+      "text": "Luna E1",
+      "unknown": []
+    },
+    {
+      "citations": [],
+      "stripped": "Luna [s_alpha]",
+      "text": "Luna [s_alpha]",
+      "unknown": []
+    },
+    {
+      "citations": [
+        {
+          "id": "s_alpha",
+          "label": "E1"
+        }
+      ],
+      "stripped": "Luna",
+      "text": "Luna [E01]",
+      "unknown": []
+    },
+    {
+      "citations": [],
+      "stripped": "Luna",
+      "text": "Luna [E0]",
+      "unknown": [
+        "E0"
+      ]
+    }
+  ]
+}
