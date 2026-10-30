@@ -1,0 +1,38 @@
+{
+  "eligible_n": 210,
+  "all": {
+    "bm25": 0.7523809523809524,
+    "rerank": 0.6571428571428571
+  },
+  "by_partition": {
+    "development": {
+      "n": 174,
+      "bm25": 0.7528735632183908,
+      "rerank": 0.6724137931034483
+    },
+    "validation": {
+      "n": 36,
+      "bm25": 0.75,
+      "rerank": 0.5833333333333334
+    }
+  },
+  "definition": {
+    "eligible": "exact prior-screen eligibility: non-abstain; at least one answer/alias NFKC+casefold token-normalized with length >=3 (excluding yes/no/true/false) occurs as a substring in concatenated full gold evidence session text",
+    "retained": "at least one normalized answer/alias occurs as a whole phrase using official.score.normalize and token boundaries in retrieved text restricted to passages whose session ID is in gold evidence",
+    "retrieval": "BM25 k=4 and deterministic rerank k=4, budget 12000 characters; gold is not passed to retrieval",
+    "caveat": "Literal retention proxy only; the eligibility condition selects examples with an answer string present in gold-session text and this does not measure answer accuracy."
+  },
+  "provenance": {
+    "data": "data/dev",
+    "source_sha256": {
+      "audit_retention.py": "825cee4293be63a94cf0125a254833672f9f644b08167c62914b42a9f1b31097",
+      "official/score.py": "d5081b7a3412c768d202b0ca693888d3135678c92b55a6321a24691d3e320297",
+      "retrieval.py": "dc71b0e74ada79e1d491b06447cf735c0cd968da3d56c9511bbe623b7a89b205",
+      "retrieval_rerank.py": "9ea2cfca112fe6154bb2cc4f92096f9cc65f4f3242b25c34b14c7b4215ebb6fd",
+      "questions.jsonl": "814011572fb0e873320c0f88ab99bb0e9a87c6c57c304f21f59e4393b0e24278",
+      "histories.jsonl": "f0263666b82a485afacaf7dda5ebb644cdd6e6370f32118c5bc6cccb08dba897",
+      "gold.jsonl": "6b6e7808f364313724ab85100adff0de765149a85b0b07b6a9808818e5ee4f9a"
+    },
+    "partition": "evaluate.partition SHA-256 split"
+  }
+}

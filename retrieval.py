@@ -15,7 +15,9 @@ from collections import Counter
 
 from official.reactor.examples.run_benchmark import retrieve as official_retrieve
 
-METHODS = ("official", "bm25", "bm25-context", "hybrid")
+METHODS = ("official", "bm25", "bm25-context", "hybrid", "adaptive")
+OPTIONAL_METHODS = ("dense", "dense-hybrid")
+ALL_METHODS = METHODS + OPTIONAL_METHODS
 STOPWORDS = set("a an the i me my mine we us our you your it its this that these those "
                 "is am are was were be been being do does did have has had can could "
                 "would should will shall may might must to of in on at by for with "
@@ -90,10 +92,16 @@ def retrieve(question: dict, history: dict, k: int = 4, method: str = "bm25",
     Official uses the organizer's exact fixed 12,000-character implementation;
     it rejects a smaller budget to avoid silently changing the baseline.
     """
-    if method not in METHODS:
-        raise ValueError(f"unknown method {method!r}; choose {METHODS}")
+    if method not in ALL_METHODS:
+        raise ValueError(f"unknown method {method!r}; choose {ALL_METHODS}")
     if k < 1 or budget < 1:
         raise ValueError("k and budget must be positive")
+    if method == 'adaptive':
+        from retrieval_specialized import retrieve as retrieve_specialized
+        return retrieve_specialized(question, history, k=k, method='adaptive', budget=budget)
+    if method in OPTIONAL_METHODS:
+        from retrieval_dense import retrieve as retrieve_dense
+        return retrieve_dense(question, history, k=k, method=method, budget=budget)
     if method == "official":
         if budget != 12000:
             raise ValueError("official baseline requires budget=12000")

@@ -1,0 +1,60 @@
+{
+  "scope": "Conservative message-size bound over all526 questions; actual integrated retrieval checks on first10 dataset-order questions for each of4 configurations. Not526 actual retrieval runs.",
+  "imported_modules": {
+    "retrieval": "/Users/zoga/Dev/Playground/TechWeekHackaton/retrieval.py",
+    "retrieval_specialized": "/Users/zoga/Dev/Playground/TechWeekHackaton/retrieval_specialized.py",
+    "evaluate": "/Users/zoga/Dev/Playground/TechWeekHackaton/evaluate.py",
+    "reactor_client": "/Users/zoga/Dev/Playground/TechWeekHackaton/reactor_client.py"
+  },
+  "source_sha256": {
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/retrieval.py": "6caccf19dc635d61ec7e8b4634b379afe7adc40275938ff958c15cb92b5c244e",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/retrieval_specialized.py": "a1313496ce08eb48ae67958d8bca7a4fff0c06f2130f27d8ec2738c881d93681",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/evaluate.py": "80a58dab661667d7f47173431e2d43f261471f45b9ecbff7e6c79544beddfd1a",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/reactor_client.py": "0bf508435e84cc81eb12843d441abb571d676f57a8b80c273ed12e34e4fee88e",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/runtime.py": "7e24aa890787e7a547f836159c4e060527dcc1d0fac6d28039540c697b969530"
+  },
+  "conservative_message_bound": {
+    "n": 526,
+    "passage_chars": 12000,
+    "passage_count": 16,
+    "headers": "16 repeats of longest actual ID+date header in each history; E1..E16; worst label instruction. Covers BM25k4/k8 and adaptivek4/k8 because at most16 passages.",
+    "ref": "00000000, same8-character length used by runtime.prepare",
+    "max_message_chars": 14642,
+    "min_headroom_chars": 1358,
+    "violations": []
+  },
+  "actual_sample": {
+    "bm25-k4": {
+      "n": 10,
+      "max_message_chars": 8843,
+      "max_passage_chars": 7332,
+      "violations": []
+    },
+    "bm25-k8": {
+      "n": 10,
+      "max_message_chars": 11150,
+      "max_passage_chars": 9343,
+      "violations": []
+    },
+    "adaptive-k4": {
+      "n": 10,
+      "max_message_chars": 12597,
+      "max_passage_chars": 11079,
+      "violations": []
+    },
+    "adaptive-k8": {
+      "n": 10,
+      "max_message_chars": 13231,
+      "max_passage_chars": 11452,
+      "violations": []
+    }
+  },
+  "contract_tests": {
+    "run": 10,
+    "failures": 0,
+    "errors": 0,
+    "output": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.006s\n\nOK\n"
+  },
+  "gold_independence": "Actual poisoned-extra-field equality on40 sampledconfigquestions plus source review: _rank reads only question text/history; adaptive regex reads only question text, packing reads supplied history. No gold file loaded by audit.",
+  "reactor_call_count": 0
+}

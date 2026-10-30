@@ -350,7 +350,7 @@ def run(args):
 
 
 def main(argv=None):
-    from retrieval import METHODS
+    from retrieval import ALL_METHODS
 
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--questions", type=Path, required=True)
@@ -359,7 +359,7 @@ def main(argv=None):
     ap.add_argument("--question-ids", type=Path, help="JSON array or whitespace-separated IDs")
     ap.add_argument("--limit", type=int, default=5, help="0 selects all (large batches require human approval)")
     ap.add_argument("--stop-after", type=int, default=0, help="pause after this many completed questions without changing the run manifest")
-    ap.add_argument("--method", choices=METHODS, default="official")
+    ap.add_argument("--method", choices=ALL_METHODS, default="bm25")
     ap.add_argument("--k", type=int, default=4)
     ap.add_argument("--budget", type=int, default=12000)
     ap.add_argument("--max-chars", type=int, default=16000)

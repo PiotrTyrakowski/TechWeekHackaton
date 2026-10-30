@@ -37,6 +37,39 @@ session IDs. Retrieval F1 treats all retrieved sessions as citations; actual
 Reactor citation F1 must be measured separately. Gold evidence retrieval does not
 establish that an excerpt contains the answer.
 
+## Offline parallel research results
+
+The completed research sprint is summarized in [reports/OFFLINE_SPRINT.md](reports/OFFLINE_SPRINT.md).
+BM25 remains the simple default recommendation. `adaptive` is an experimental
+broader session pool; `dense` and `dense-hybrid` are optional local MiniLM rerankers
+over a BM25 top-16-turn shortlist. Dense fusion improves the retrieval F1 proxy,
+but answer quality and actual Reactor citation F1 remain untested. The generic
+reranker was rejected and archived under `experiments/rerank-offline/`.
+
+Optional local embedding setup (Python 3.12; no paid inference service):
+
+```sh
+uv venv --python 3.12 .venv-dense
+uv pip install --python .venv-dense/bin/python -r requirements.txt -r requirements-dense.txt
+.venv-dense/bin/python experiments/dense-fetch-model.py
+DENSE_THREADS=4 DENSE_CANDIDATE_LIMIT=16 .venv-dense/bin/python evaluate.py --data data/dev --method dense-hybrid --k 4
+```
+
+Model weights are pinned and kept local. Retrieval does not download them
+automatically. `DENSE_MODEL_DIR` can point to an existing asset directory.
+Standard-library retrieval and tests require none of the optional ML packages.
+`evaluate.py --retriever-module <module>` evaluates isolated candidates without
+changing the runtime implementation. Exact comparison artifacts can be collated
+without repeating inference:
+
+```sh
+.venv/bin/python experiments/offline-sprint/compare.py
+```
+
+**All Reactor operations remain paused until exclusive team access is explicitly
+coordinated.** The earlier history invalidations likely came from simultaneous
+use of the shared agent by a teammate.
+
 ## Five-question Reactor smoke test
 
 Configure `REACTOR_ACCESS_KEY` privately in the invoking process environment.

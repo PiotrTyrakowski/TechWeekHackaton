@@ -1,5 +1,9 @@
 # Reactor t07 session invalidation — operator packet
 
+**Superseded working hypothesis:** the team identified concurrent use of this
+same agent by a teammate. This packet is retained as historical evidence; no
+operator escalation or additional Reactor requests are currently planned.
+
 Team: OpenToVibe. Agent: `agt_0c172edd3340495a`.
 Host: `https://t07.api.reactor-hackathon.rxai.dev`.
 No access key is included or needed in this packet.

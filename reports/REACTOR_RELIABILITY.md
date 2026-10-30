@@ -1,5 +1,10 @@
 # Reactor reliability investigation — 2026-10-30
 
+**Team update:** a teammate was concurrently using the same Reactor key and
+stateful agent. Shared-agent contention is now the likely explanation. The
+historical investigation below is preserved as recorded; server-side debugging
+and all Reactor operations are paused until exclusive access is coordinated.
+
 Status: local fixes implemented and tested; live validation remains blocked by
 remote history invalidation. No correctly cited live answer has yet been obtained.
 Do not launch the full benchmark.

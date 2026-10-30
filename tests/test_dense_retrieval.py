@@ -4,6 +4,7 @@ import unittest
 from unittest.mock import patch
 
 import retrieval_dense as dense
+import retrieval
 
 
 class DenseContractTests(unittest.TestCase):
@@ -36,6 +37,16 @@ class DenseContractTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 dense.retrieve(self.question, self.history, **kwargs)
         self.assertEqual(dense.retrieve(self.question, {"sessions": []}), [])
+
+    def test_optional_method_routes_without_loading_backend_until_requested(self):
+        with patch.object(dense, '_dense_rank', return_value=[(1.0, 0, 0)]):
+            result = retrieval.retrieve(self.question, self.history, method='dense-hybrid')
+            self.assertEqual(result[0]['id'], 's1')
+
+    def test_empty_lexical_shortlist_does_not_expand_to_entire_history(self):
+        with patch.dict(os.environ, {'DENSE_CANDIDATE_LIMIT': '16'}), patch.object(
+                dense, '_encoder', side_effect=AssertionError('unexpected model work')):
+            self.assertEqual(dense.retrieve({'question': 'quasar'}, self.history), [])
 
 
 if __name__ == "__main__":

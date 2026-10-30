@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib
 import json
 import statistics
 import subprocess
@@ -104,6 +105,7 @@ def main(argv=None):
     parser.add_argument("--data", type=Path, default=Path("data/dev"))
     parser.add_argument("--questions", type=Path, help="Optional question subset; reports its scope explicitly")
     parser.add_argument("--method", action="append")
+    parser.add_argument("--retriever-module", default="retrieval", help="Offline candidate module exposing retrieve(question,history,k,method,budget)")
     parser.add_argument("--k", type=int, action="append")
     parser.add_argument("--budget", type=int, default=12000)
     parser.add_argument("--out", type=Path, default=Path("experiments"))
@@ -135,12 +137,13 @@ def main(argv=None):
             stream.write(json.dumps(result, ensure_ascii=False) + "\n")
         print(json.dumps(result, indent=2))
         return 0
-    from retrieval import retrieve
+    retriever_module = importlib.import_module(args.retriever_module)
+    retrieve = retriever_module.retrieve
     configs = [{"method": method, "k": k, "budget": args.budget}
                for method in args.method or ["official", "bm25"] for k in args.k or [4]]
     if any(c["k"] < 1 for c in configs) or args.budget < 1:
         raise ValueError("k and budget must be positive")
-    source_hashes = {str(p): digest(p) for p in [Path(__file__), Path("retrieval.py"), Path("official/score.py"), Path("official/reactor/examples/run_benchmark.py"), args.data / "gold.jsonl", args.data / "questions.jsonl", args.data / "histories.jsonl", args.questions or args.data / "questions.jsonl"]}
+    source_hashes = {str(p): digest(p) for p in [Path(__file__), Path(retriever_module.__file__), Path("retrieval.py"), Path("official/score.py"), Path("official/reactor/examples/run_benchmark.py"), args.data / "gold.jsonl", args.data / "questions.jsonl", args.data / "histories.jsonl", args.questions or args.data / "questions.jsonl"]}
     git_revision = revision()
     records = [[] for _ in configs]
     grouped = defaultdict(list)
@@ -178,7 +181,7 @@ def main(argv=None):
         baseline = baselines.get(config["k"])
         experiment_id = f"{timestamp}-{index}-{config['method']}-k{config['k']}"
         summary = summarize(rows)
-        report = {"experiment_id": experiment_id, "git": git_revision, "config": config,
+        report = {"experiment_id": experiment_id, "git": git_revision, "config": {**config, "retriever_module": args.retriever_module},
                   "dataset": str(args.data), "split": "all", "retrieval_metrics": summary,
                   "by_type": {t: summarize([r for r in rows if r["question_type"] == t]) for t in sorted({r["question_type"] for r in rows})},
                   "by_partition": {p: summarize([r for r in rows if r["partition"] == p]) for p in ("development", "validation")},

@@ -21,11 +21,16 @@ _ENCODER = None
 
 class Encoder:
     def __init__(self):
-        import numpy as np
-        import onnxruntime as ort
-        from tokenizers import Tokenizer
+        try:
+            import numpy as np
+            import onnxruntime as ort
+            from tokenizers import Tokenizer
+        except ImportError as exc:
+            raise ValueError('Dense retrieval needs the optional requirements-dense.txt dependencies; use the documented Python 3.12 environment') from exc
         self.np = np
         directory = Path(os.environ.get("DENSE_MODEL_DIR", "experiments/dense-model"))
+        if not all((directory / name).is_file() for name in ('model_quantized.onnx', 'tokenizer.json')):
+            raise ValueError('Dense model assets missing: run experiments/dense-fetch-model.py or set DENSE_MODEL_DIR')
         options = ort.SessionOptions()
         options.intra_op_num_threads = int(os.environ.get("DENSE_THREADS", "2"))
         options.inter_op_num_threads = 1
@@ -74,7 +79,7 @@ def _dense_rank(question, history, lexical):
     limit = int(os.environ.get("DENSE_CANDIDATE_LIMIT", "16"))
     if limit < 0:
         raise ValueError("DENSE_CANDIDATE_LIMIT must be nonnegative")
-    if limit and lexical:
+    if limit:
         candidates = [(si, ti) for _, si, ti in lexical[:limit]]
     else:
         candidates = [(si, ti) for si, session in enumerate(history["sessions"])

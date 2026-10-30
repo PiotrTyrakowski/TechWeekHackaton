@@ -1,0 +1,20 @@
+{
+  "eligible_n": 210,
+  "all": {
+    "bm25": 0.8,
+    "rerank": 0.6952380952380952
+  },
+  "by_partition": {
+    "development": {
+      "n": 174,
+      "bm25": 0.8045977011494253,
+      "rerank": 0.7126436781609196
+    },
+    "validation": {
+      "n": 36,
+      "bm25": 0.7777777777777778,
+      "rerank": 0.6111111111111112
+    }
+  },
+  "limitation": "Literal exact answer/alias retention only among non-abstain questions whose gold session full text contains an answer string; it is not answer accuracy."
+}

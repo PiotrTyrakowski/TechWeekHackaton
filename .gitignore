@@ -1,4 +1,7 @@
 .venv/
+.venv-*/
+experiments/dense-model/*.onnx
+experiments/dense-model/tokenizer.json
 __pycache__/
 *.pyc
 .env
