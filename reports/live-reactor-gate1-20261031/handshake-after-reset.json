@@ -1,0 +1,9 @@
+{
+  "operation": "websocket_handshake_diagnostic",
+  "started_at": "2026-10-30T23:57:14.998520+00:00",
+  "history_id": "c75769ef07a4419f83bc4b0e669a192c",
+  "question_sent": false,
+  "reset": false,
+  "status": "connected",
+  "wall_s": 0.5685506660083774
+}

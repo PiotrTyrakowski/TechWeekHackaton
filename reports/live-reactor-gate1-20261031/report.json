@@ -1,0 +1,315 @@
+{
+  "created_at": "2026-10-30T23:59:35.392990+00:00",
+  "scope": {
+    "questions": 8,
+    "completed": 0,
+    "missing": 8,
+    "complete": false
+  },
+  "completed_only_metrics": {},
+  "citation_diagnostics": {
+    "nonabstained_answerable_completed": 0,
+    "final_answer_citation_coverage": null,
+    "results_with_unknown_labels": 0,
+    "note": "Coverage is presence of actual submitted citations, not proof of support; official Evidence F1 includes false abstentions."
+  },
+  "attribution_diagnostics": {
+    "records": 0,
+    "with_reactor_citations": 0,
+    "with_verified_fallback": 0,
+    "with_unresolved_claims": 0,
+    "note": "Effective prediction citations and raw Reactor-supplied citations are distinct; fallback does not change Reactor answer text."
+  },
+  "successful_answer_latency_s": {
+    "n": 0,
+    "p50": null,
+    "p95": null,
+    "note": "Client answer latency, excluding retrieval, resets and preload. p95 uses nearest rank; small samples are descriptive."
+  },
+  "full_scope_note": "Metrics cover completed predictions only. Missing/pending questions are reported as incomplete, not final wrong answers.",
+  "scoring_note": "Official score.py functions provide local automatic matching and evidence F1. Unmatched answers remain unjudged; this report does not run an official LLM judge.",
+  "operations": {
+    "history_reset_attempts": 1,
+    "question_attempts": 2,
+    "preload_attempts": 0,
+    "failed_client_invocations": 2,
+    "client_invocation_failure_rate": 0.6666666666666666,
+    "client_invocations": 3,
+    "internal_retries": 0,
+    "total_api_operations_observed": 3,
+    "count_note": "Observed completed client invocations plus reported internal retries; an in-flight/unlogged call cannot be counted from this snapshot.",
+    "total_attempt_latency_s": 2.1648826250457205,
+    "errors": [
+      {
+        "operation": "question",
+        "question_id": "q_d4ead82e5cad",
+        "status": "error",
+        "code": null,
+        "exit_code": 2
+      },
+      {
+        "operation": "question",
+        "question_id": "q_d4ead82e5cad",
+        "status": "refused",
+        "code": "history_changed",
+        "exit_code": 4
+      }
+    ]
+  },
+  "per_question": [
+    {
+      "question_id": "q_1773242b1801",
+      "question": "What is the name of my hamster?",
+      "question_type": "single-session-user",
+      "status": "not_attempted",
+      "pending_in_checkpoint": false,
+      "prediction": null,
+      "gold_answer": "You did not mention this information. You mentioned your cat Luna but not your hamster.",
+      "gold_abstain": true,
+      "citations": null,
+      "gold_sessions": [],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "evidence_precision": null,
+      "evidence_recall": null,
+      "unknown_labels": [],
+      "attribution": null,
+      "reactor_supplied_evidence_f1": null,
+      "fallback_only_evidence_f1": null,
+      "question_attempts": 0,
+      "total_attempt_latency_s": 0,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_d4ead82e5cad",
+      "question": "What is the name of my cat?",
+      "question_type": "single-session-user",
+      "status": "refused",
+      "pending_in_checkpoint": true,
+      "prediction": null,
+      "gold_answer": "Luna",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_8a377a1e6a80"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "evidence_precision": null,
+      "evidence_recall": null,
+      "unknown_labels": [],
+      "attribution": null,
+      "reactor_supplied_evidence_f1": null,
+      "fallback_only_evidence_f1": null,
+      "question_attempts": 2,
+      "total_attempt_latency_s": 1.333555958030047,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_e2cc79359e15",
+      "question": "What refining processes run at CITGO's Lake Charles Refinery?",
+      "question_type": "single-session-assistant",
+      "status": "not_attempted",
+      "pending_in_checkpoint": false,
+      "prediction": null,
+      "gold_answer": "Atmospheric distillation, fluid catalytic cracking (FCC), alkylation, and hydrotreating.",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_4ce9668e7224"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "evidence_precision": null,
+      "evidence_recall": null,
+      "unknown_labels": [],
+      "attribution": null,
+      "reactor_supplied_evidence_f1": null,
+      "fallback_only_evidence_f1": null,
+      "question_attempts": 0,
+      "total_attempt_latency_s": 0,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_6eaf85dde884",
+      "question": "How many online courses have I completed in total?",
+      "question_type": "multi-session",
+      "status": "not_attempted",
+      "pending_in_checkpoint": false,
+      "prediction": null,
+      "gold_answer": "5",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_8adc485146ac",
+        "s_1a6769d03923"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "evidence_precision": null,
+      "evidence_recall": null,
+      "unknown_labels": [],
+      "attribution": null,
+      "reactor_supplied_evidence_f1": null,
+      "fallback_only_evidence_f1": null,
+      "question_attempts": 0,
+      "total_attempt_latency_s": 0,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_61a19ce280f4",
+      "question": "Is my mom using the same grocery list method as me?",
+      "question_type": "knowledge-update",
+      "status": "not_attempted",
+      "pending_in_checkpoint": false,
+      "prediction": null,
+      "gold_answer": "Yes.",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_e983d0ba00e7",
+        "s_24a6fcdbdab6"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "evidence_precision": null,
+      "evidence_recall": null,
+      "unknown_labels": [],
+      "attribution": null,
+      "reactor_supplied_evidence_f1": null,
+      "fallback_only_evidence_f1": null,
+      "question_attempts": 0,
+      "total_attempt_latency_s": 0,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_4e61f6554795",
+      "question": "I'm planning my trip to Speyer again and I wanted to confirm, what's the phone number of the Speyer tourism board that you provided me earlier?",
+      "question_type": "single-session-assistant",
+      "status": "not_attempted",
+      "pending_in_checkpoint": false,
+      "prediction": null,
+      "gold_answer": "+49 (0) 62 32 / 14 23 - 0",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_d53b7f6c1547"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "evidence_precision": null,
+      "evidence_recall": null,
+      "unknown_labels": [],
+      "attribution": null,
+      "reactor_supplied_evidence_f1": null,
+      "fallback_only_evidence_f1": null,
+      "question_attempts": 0,
+      "total_attempt_latency_s": 0,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_8a42fbe85acc",
+      "question": "What's the phone number of the Speyer tourism board?",
+      "question_type": "single-session-assistant",
+      "status": "not_attempted",
+      "pending_in_checkpoint": false,
+      "prediction": null,
+      "gold_answer": "+49 (0) 62 32 / 14 23 - 0",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_d53b7f6c1547"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "evidence_precision": null,
+      "evidence_recall": null,
+      "unknown_labels": [],
+      "attribution": null,
+      "reactor_supplied_evidence_f1": null,
+      "fallback_only_evidence_f1": null,
+      "question_attempts": 0,
+      "total_attempt_latency_s": 0,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_53ebfc7819cf",
+      "question": "How many weeks had passed since I recovered from the flu when I went on my 10th jog outdoors?",
+      "question_type": "temporal-reasoning",
+      "status": "not_attempted",
+      "pending_in_checkpoint": false,
+      "prediction": null,
+      "gold_answer": "15",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_4135de74602d",
+        "s_87c7da57fc7b"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "evidence_precision": null,
+      "evidence_recall": null,
+      "unknown_labels": [],
+      "attribution": null,
+      "reactor_supplied_evidence_f1": null,
+      "fallback_only_evidence_f1": null,
+      "question_attempts": 0,
+      "total_attempt_latency_s": 0,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    }
+  ],
+  "source_run": "runs/live-reactor-gates-20261031-v2/run",
+  "archive_sha256": {
+    "predictions.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "attribution.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "attempts.jsonl": "299d7a536aada8047beed3aa7d664bbedf9d952d0ec69a787bcdd37dd3fce766",
+    "plan.json": "afd3b7aea80fd90150d6acd183ecbd736460d7248c86d6920d675b4d28daadcf",
+    "recovery.jsonl": "341541728538d9a59027c4a1872ec5635d7411182268544b9a634f707c54ebc3",
+    "checkpoint.json": "295dce3583f80509376a1fe973796223b44a302a67fd0aad43319857bcc1b677",
+    "access-windows.jsonl": "710ac19ed057040175a61b691cf23fb04591009fb6bc361da56484d9cf9f32ce",
+    "questions.jsonl": "479de13f051ab09065461a93748063ce1095e0560d8d9bede8471526c85bc75b",
+    "gold.jsonl": "5669b04873faea03e62bf03314be8569b7b0b2b7ff7b9db1b70bd421ee03e804"
+  },
+  "report_script_sha256": "d115d31db3a48eed3177447038e13573c16d601944ce2b5c4ad90a4ec16e8db5"
+}

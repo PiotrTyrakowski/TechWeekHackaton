@@ -3,16 +3,33 @@
 Updated 2026-10-31. Organizer clarifications supplied by the user override older
 policy assumptions in the historical reports.
 
-Live execution is now the sole next milestone. Fresh prepared manifest/commands:
+**Latest real Gate 1: executed, failed on session invalidation.** One unique
+question had two client attempts; zero answers completed. The reset succeeded,
+then chat upgrade returned HTTP 403. A later same-history connection succeeded,
+but asking was refused with `history_changed`, `forwarded=false`, close 4409.
+Only one reset was issued by this runner; the server's current history differed
+from the returned ID. External teammate reset versus server initialization/restart
+cannot be distinguished from this trace. No foreign history was adopted.
+
+Measured: **3 benchmark operations** (1 reset, 2 question attempts), **1 separate
+handshake diagnostic**, zero internal retries, **2.165s** benchmark client time,
+**315.86s** elapsed through diagnosis/archive. Gold is `Luna`; no Reactor answer
+exists to score, so accuracy/citation F1/abstention are NOT MEASURED for this run.
+Larger execution is halted. [Actual scoreboard](live-reactor-gate1-20261031/gate1-scoreboard.json)
+and [raw archive](live-reactor-gate1-20261031/report.json).
+
+Prepared manifest/commands:
 `runs/live-reactor-gates-20261031-v2/ready.json`. The eight-question smoke adds
 temporal question `q_53ebfc7819cf` and covers all six requested categories plus
 a natural sequential pair. Gate 1 remains two initial operations; Gate 2 adds
-13, for 15 total. No request has been made. Exact blockers: cross-machine
-exclusivity unconfirmed and `REACTOR_ACCESS_KEY` absent in the lead environment.
-Both have been requested from the user; other agents are offline only.
+13, for 15 total. The credential is privately configured. Lead p1 executed the
+minimal gate on the user's explicit instruction; remote exclusivity was not
+independently observable. Other agents remain offline only. The current blocker
+is the observed remote history replacement, requiring actual access coordination
+and/or organizer investigation before another reset.
 
-**OFFLINE ONLY until explicit cross-machine exclusivity.** No live runner is
-appointed. Zero new Reactor calls; no full-test execution is scheduled.
+**Further calls halted after history invalidation.** Lead p1 is the sole runner;
+no full-test execution is scheduled.
 Lead is the single integration owner; four Herdr workstreams have distinct files.
 
 ## Immediate organizer-policy update
@@ -144,3 +161,4 @@ Never reset between same-user questions. A timeout is not cancellation.
 | D07 | No hosted auxiliary AI inference. Benchmark belongs inside Harness 4; no unsupported judging score. |
 | D08 | Freeze after P0/smoke, reserve first full-run window; further ablations must not endanger complete coverage. |
 | D09 | P0 integrated: 179 guarded tests; actual saved-answer F1 0→1 under automatic fallback (n=1), raw archive unchanged; five current dry-run commands pass. Gate 1 still awaits exclusive access. |
+| D10 | Actual Gate 1 ran: HTTP 403 then `history_changed`, 0 answers, 3 benchmark operations +1 handshake diagnostic. Preserve checkpoint/logs, do not adopt foreign history or expand. Source of replacement remains unverified. |
