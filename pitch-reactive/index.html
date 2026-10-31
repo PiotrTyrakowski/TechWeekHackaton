@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Fieldbook — Reactive team pitch, TechWeek hackathon." />
-  <title>Fieldbook</title>
+  <meta name="description" content="OpenToVibe — Reactive team pitch, TechWeek hackathon." />
+  <title>OpenToVibe</title>
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="engine.css" />
   <link rel="stylesheet" href="styles.css" />
@@ -18,10 +18,10 @@
   <main class="deck" aria-live="polite">
 
     <!-- 1 · Cover -->
-    <section class="slide cover active" data-title="Fieldbook" aria-hidden="false">
+    <section class="slide cover active" data-title="OpenToVibe" aria-hidden="false">
       <div class="cover-lockup">
         <img class="brand-icon" src="assets/icon.svg" alt="" />
-        <h1>FIELDBOOK</h1>
+        <h1>OPENTOVIBE</h1>
         <p class="cover-line">Cleans your company’s data.<br />Then acts on it.</p>
       </div>
       <div class="hero" aria-hidden="true">
@@ -33,8 +33,8 @@
       </div>
       <p class="cover-foot">Team Reactive · TechWeek Hackathon 2026</p>
       <aside class="notes">
-        <p>Hi, we're Reactive. This is Fieldbook — a working name.</p>
-        <p>One line: a small business's data is all over the place. Fieldbook cleans it into one job file you can trust — and because the file is clean, the agent can act on it before anyone asks. We're Reactive, and we built a proactive agent.</p>
+        <p>Hi, we're Reactive. This is OpenToVibe.</p>
+        <p>One line: a small business's data is all over the place. OpenToVibe cleans it into one job file you can trust — and because the file is clean, the agent can act on it before anyone asks. We're Reactive, and we built a proactive agent.</p>
       </aside>
     </section>
 
@@ -45,20 +45,11 @@
         <h2>IT’S ALL OVER<br />THE PLACE.</h2>
       </div>
       <div class="pile" aria-label="Files and messages scattered across the business">
-        <div class="file f1"><em>XLSX</em><span>zlecenia_2026_FINAL_v3.xlsx</span><i class="sheet" aria-hidden="true"></i></div>
-        <div class="file f2"><em>Email</em><span>Re: Re: Fwd: faktura Nowak</span></div>
-        <div class="file f3"><em>PDF</em><span>cennik_InterCars_X.pdf</span></div>
-        <div class="file f4"><em>WhatsApp</em><span>any news about my car?</span></div>
-        <div class="file f5"><em>JPG</em><span>IMG_4821.jpg</span></div>
-        <div class="file f6"><em>Voice note</em><span>0:38 · Kuba</span></div>
-        <div class="file f7"><em>XLSX</em><span>klienci_stary.xlsx</span></div>
-        <div class="file f8"><em>SMS</em><span>1,450 PLN all in. OK?</span></div>
-        <div class="file f9"><em>Paper</em><span>order sheet, coffee stain</span></div>
-        <div class="file f10"><em>Email</em><span>Zamówienie #88213 potwierdzone</span></div>
-        <div class="file f11"><em>Call</em><span>missed · 08:05</span></div>
-        <div class="file f12"><em>DOCX</em><span>gwarancja_wzor (2).docx</span></div>
-        <div class="file f13"><em>XLSX</em><span>magazyn.xlsx</span></div>
-        <div class="file f14"><em>Calendar</em><span>Golf WX 4821K?</span></div>
+        <div class="file m1"><em>Excel</em><span>zlecenia_2026_FINAL_v3.xlsx</span><i class="sheet" aria-hidden="true"></i></div>
+        <div class="file m2"><em>Email</em><span>Re: Re: Fwd: faktura Nowak</span></div>
+        <div class="file m3"><em>WhatsApp</em><span>any news about my car?</span></div>
+        <div class="file m4"><em>Voice note</em><span>0:38 · Kuba</span></div>
+        <div class="file m5"><em>Paper</em><span>order sheet, coffee stain</span></div>
       </div>
       <aside class="notes">
         <p>This is what a small business actually runs on: spreadsheets nobody else can open, email threads with five "Re:"s, supplier PDFs, photos of parts, WhatsApp, SMS, voice notes, missed calls, and paper order sheets.</p>
@@ -68,78 +59,62 @@
       </aside>
     </section>
 
-    <!-- 3 · The question -->
-    <section class="slide question-slide" data-title="Any news?" aria-hidden="true">
-      <div class="bubble-in">
-        <span class="kicker">WhatsApp · Thu 08:12 · Anna Nowak</span>
-        <h2>“Good morning, any news about my car?”</h2>
+    <!-- 3 · It never stops -->
+    <section class="slide stream-slide" data-title="It never stops" aria-hidden="true">
+      <div class="stream-copy">
+        <span class="kicker">Every minute, something new</span>
+        <h2>AND IT<br />NEVER STOPS.</h2>
+        <ul class="hurt">
+          <li class="fragment" data-step="1"><b>Workers</b> stop to answer.</li>
+          <li class="fragment" data-step="2"><b>The owner</b> loses track.</li>
+          <li class="fragment" data-step="3"><b>The agent</b> reads old news.</li>
+        </ul>
       </div>
-      <p class="fragment answer-gap" data-step="1">Marek is under a car. Kuba has the answer.</p>
+      <div class="feed" aria-label="New messages arriving">
+        <div class="feed-track">
+          <div class="feed-item"><time>08:01</time><em>WhatsApp</em><span>Anna: any news about my car?</span></div>
+          <div class="feed-item"><time>08:02</time><em>Email</em><span>InterCars: order #88213 shipped</span></div>
+          <div class="feed-item"><time>08:03</time><em>SMS</em><span>Mr Lis: can you do Saturday?</span></div>
+          <div class="feed-item"><time>08:04</time><em>Voice note</em><span>Kuba · 0:38</span></div>
+          <div class="feed-item"><time>08:05</time><em>Excel</em><span>zlecenia_v4.xlsx changed</span></div>
+          <div class="feed-item"><time>08:06</time><em>Call</em><span>missed · Mrs Zając</span></div>
+          <div class="feed-item" aria-hidden="true"><time>08:01</time><em>WhatsApp</em><span>Anna: any news about my car?</span></div>
+          <div class="feed-item" aria-hidden="true"><time>08:02</time><em>Email</em><span>InterCars: order #88213 shipped</span></div>
+          <div class="feed-item" aria-hidden="true"><time>08:03</time><em>SMS</em><span>Mr Lis: can you do Saturday?</span></div>
+          <div class="feed-item" aria-hidden="true"><time>08:04</time><em>Voice note</em><span>Kuba · 0:38</span></div>
+          <div class="feed-item" aria-hidden="true"><time>08:05</time><em>Excel</em><span>zlecenia_v4.xlsx changed</span></div>
+          <div class="feed-item" aria-hidden="true"><time>08:06</time><em>Call</em><span>missed · Mrs Zając</span></div>
+        </div>
+      </div>
       <aside class="notes">
-        <p>The simplest question a client can ask — and nobody can answer it without phoning Kuba or scrolling back through four days of messages.</p>
-        <p>More than half of customers expect a reply within the hour; only one business in five manages it. (jury-deck source)</p>
-        <p>Click: Marek is under a car. Kuba has the answer — in his head.</p>
-        <p>One job, G-118, Anna Nowak's Golf: a phone call Monday, Kuba's voice note, Marek's SMS with the price (1,450 PLN), Anna's "ok go ahead, I need the car before the weekend!!", a paper order sheet Tuesday, and this WhatsApp Thursday. Five channels, no file.</p>
+        <p>And the pile keeps growing. A new message, file or call lands every minute — on top of everything already there.</p>
+        <p>Click 1: the mechanics stop work to answer "any news?". Click 2: the owner can't keep it all in his head. Click 3: even an AI agent gets it wrong if it reads Tuesday's "ETA Thursday" after Thursday's "the parts came in".</p>
+        <p>One job, G-118, Anna Nowak's Golf: a phone call Monday, Kuba's voice note, Marek's SMS with the price (1,450 PLN), Anna's "I need the car before the weekend!!", a paper order sheet Tuesday, and "any news about my car?" on WhatsApp Thursday. Five channels, no file. The feed on screen is illustrative.</p>
       </aside>
     </section>
 
-    <!-- 4 · Fieldbook cleans it -->
+    <!-- 4 · It cleans it -->
     <section class="slide clean-slide" data-title="It cleans the mess" aria-hidden="true">
-      <div class="clean-copy">
-        <span class="kicker">What Fieldbook does</span>
-        <h2>IT CLEANS<br />THE MESS.</h2>
-      </div>
-      <div class="raw" aria-label="Raw sources">
-        <div class="msg-raw w1"><b>Paper · Tue</b>belt kit + pump, ETA Thu</div>
-        <div class="msg-raw w2"><b>SMS · Mon</b>I need the car before the weekend!!</div>
-        <div class="msg-raw w3"><b>Voice note · Thu</b>the parts came in this morning</div>
-      </div>
-      <div class="clean-arrow" aria-hidden="true">→</div>
-      <div class="facts">
-        <header><b>G-118</b><span>Cleaned · dated · cited</span></header>
-        <div class="fact c1">
-          <span class="label">Parts</span>
-          <span class="value"><s>ETA Thu</s> Arrived Thu morning</span>
-          <span class="src"><i>Newest wins</i> Voice note · Thu</span>
-        </div>
-        <div class="fact c2">
-          <span class="label">Deadline</span>
-          <span class="value">Before the weekend</span>
-          <span class="src">SMS · Mon</span>
-        </div>
-        <div class="fact c3">
-          <span class="label">Price</span>
-          <span class="value">1,450 PLN, accepted</span>
-          <span class="src">SMS · Mon</span>
-        </div>
+      <h2>IT CLEANS <span class="accent">THE MESS.</span></h2>
+      <div class="shots">
+        <figure class="shot shot-raw">
+          <img src="assets/app/messages.png" alt="The app's Messages view: raw messages from WhatsApp, SMS and voice notes" />
+          <figcaption>193 messages</figcaption>
+        </figure>
+        <div class="shot-arrow" aria-hidden="true">→</div>
+        <figure class="shot shot-clean">
+          <img src="assets/app/jobs.png" alt="The app's Jobs view: each customer, job, amount and next action" />
+          <figcaption>20 jobs · every fact quoted</figcaption>
+        </figure>
       </div>
       <aside class="notes">
-        <p>This is the product. Fieldbook collects every source for a job — spreadsheets, emails, SMS, WhatsApp, paper, voice notes — and cleans them into one file.</p>
-        <p>Every fact gets a date and the source it came from. When two sources disagree, the newest wins: Tuesday's paper said the parts arrive Thursday; Thursday's voice note says they came in this morning.</p>
-        <p>And nothing gets lost: Anna's "before the weekend" from Monday's SMS is still on the file.</p>
+        <p>This is the product, in the app. Left: everything that came in — 193 raw messages from WhatsApp, SMS and voice notes, in no order. Right: what OpenToVibe makes of it — 20 jobs, each with the customer, the job, the current amount and the next action.</p>
+        <p>Every fact gets a date and the words it came from. When two sources disagree, the newest wins (Tuesday's "ETA Thursday" loses to Thursday's "the parts came in this morning"), and nothing said earlier gets lost.</p>
+        <p>Screens from the live app with its synthetic demo data (a renovation firm); the same engine runs Marek's garage.</p>
       </aside>
     </section>
 
-    <!-- 5 · Anna gets an answer -->
-    <section class="slide reply-slide" data-title="Anna gets an answer" aria-hidden="true">
-      <span class="kicker">From the clean file</span>
-      <h2>Anna gets an answer.</h2>
-      <div class="reply">
-        <p>Good morning Mrs Nowak. The parts have arrived. Your Golf will be ready tomorrow around 12:00, <span class="nowrap"><mark>in time for the weekend</mark>.</span></p>
-        <footer>
-          <span class="play"><i></i> Read out by ElevenLabs</span>
-          <span class="sig">— Marek’s Garage</span>
-        </footer>
-      </div>
-      <p class="remember fragment" data-step="1"><span>↑</span> She said that on Monday. It remembered.</p>
-      <aside class="notes">
-        <p>The reply is drafted from the updated card, not from the raw messages. Marek checks it and sends it; ElevenLabs can read it out.</p>
-        <p>Click: "in time for the weekend" — Anna said that on Monday, by SMS. Four days and four channels later, it's still there.</p>
-        <p>The full draft also asks for the company name and tax ID for the invoice. This is the expected reply from the scripted run.</p>
-      </aside>
-    </section>
-
-    <!-- 6 · Proactive -->
+    <!-- 5 · Proactive -->
     <section class="slide proactive-slide" data-title="It doesn’t wait to be asked" aria-hidden="true">
       <div class="pro-copy">
         <span class="kicker">Reactive. But proactive.</span>
@@ -159,78 +134,38 @@
       </aside>
     </section>
 
-    <!-- 7 · Plus · voice -->
+    <!-- 6 · Plus · voice -->
     <section class="slide talk-slide" data-title="Plus: just talk" aria-hidden="true">
       <div class="talk-copy">
         <span class="kicker">Plus</span>
         <h2>NO TYPING.<br />JUST TALK.</h2>
-        <p class="muted">Hands busy? A voice note is one more source. ElevenLabs writes it down.</p>
+        <p class="muted">Tap, talk, done. The job updates itself.</p>
       </div>
-      <div class="phone" aria-label="Voice app">
-        <div class="phone-top"><i></i></div>
-        <p class="phone-ask">What happened on the job?</p>
-        <div class="wave" aria-hidden="true">
-          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-        </div>
-        <p class="transcript">
-          <span>So, uh, Nowak’s Golf.</span>
-          <span>The parts came in this morning,</span>
-          <span>I’m putting the belt in now,</span>
-          <span>should be ready tomorrow around noon.</span>
-          <span>Oh and she wants the invoice on her company.</span>
-        </p>
-        <div class="mic" aria-hidden="true"><i></i></div>
-      </div>
+      <figure class="phone phone-video" aria-label="The voice app on a phone">
+        <video data-autoplay-once muted playsinline preload="auto" poster="assets/video/voice-app-poster.jpg" src="assets/video/voice-app.mp4"></video>
+        <figcaption>Recorded from the app · replayed reading</figcaption>
+      </figure>
       <aside class="notes">
         <p>Voice is an extra way in, not the product. The product is the clean file.</p><p>Thursday 09:30. Kuba taps once and talks — that's the note the card quoted. No form, no typing.</p>
-        <p>ElevenLabs speech-to-text turns the voice note into text on the phone.</p>
+        <p>The video is the phone app as it runs: tap, talk, ElevenLabs writes it down, the context layer reads it against the job — price, contact date, the conflict with the old price, what's still unknown, and a follow-up waiting for approval.</p><p>Honest label: the screen recording replays a real earlier reading of the app's sample note, so no paid calls ran during the recording. Synthetic demo data (renovation firm).</p>
       </aside>
     </section>
 
-    <!-- 8 · How it works -->
-    <section class="slide flow-slide" data-title="How it works" aria-hidden="true">
-      <h2 class="flow-title"><span class="accent">MESSY IN.</span> CLEAN OUT.</h2>
-      <div class="flow">
-        <div class="flow-line" aria-hidden="true"><i></i></div>
-        <article class="tile t1">
-          <svg class="glyph" viewBox="0 0 96 96" aria-hidden="true"><rect x="22" y="30" width="34" height="42" rx="6" transform="rotate(-10 39 51)" /><rect x="40" y="24" width="34" height="42" rx="6" transform="rotate(8 57 45)" /><path class="hl" d="M48 40h16M48 50h12" transform="rotate(8 57 45)" /></svg>
-          <h3>Collect</h3>
-          <p>Files, emails, chats<br />+ voice notes (ElevenLabs)</p>
-        </article>
-        <article class="tile t2 dark">
-          <svg class="glyph" viewBox="0 0 96 96" aria-hidden="true"><path d="M30 38c0-6 4-10 10-10M30 38v10h10V38H30M54 38c0-6 4-10 10-10M54 38v10h10V38H54" /><path class="hl" d="M26 66h44" /></svg>
-          <h3>Clean</h3>
-          <p>Dated, cited, newest wins<br />Reactor reads only what answers</p>
-        </article>
-        <article class="tile t3">
-          <svg class="glyph" viewBox="0 0 96 96" aria-hidden="true"><rect x="24" y="22" width="48" height="52" rx="8" /><path d="M34 36h28M34 48h18M34 60h22" /><path class="hl" d="M34 48h18" /></svg>
-          <h3>Act</h3>
-          <p>Flags, next steps, client reply<br />Before anyone asks</p>
-        </article>
-      </div>
-      <aside class="notes">
-        <p>Collect: every source for a job lands in one history — files, emails, chats, and voice notes from the phone app (ElevenLabs speech-to-text).</p>
-        <p>Clean: each fact is dated and cited; newest wins. Our retrieval picks only the lines that answer, and the reader (a hosted model today, the team's Reactor agent next) writes the update. Before any line reaches the card we check it: the quote must be in the source, UNCHANGED keeps the field, INSUFFICIENT_EVIDENCE changes nothing.</p>
-        <p>Act: the agent flags clashes and gaps, proposes the next step, and drafts the client reply (read out by ElevenLabs text-to-speech). Marek's workshop board updates live with the words behind each field. Marek approves before anything is sent.</p>
-      </aside>
-    </section>
-
-    <!-- 9 · The app -->
+    <!-- 7 · The app -->
     <section class="slide demo-slide" data-title="Plug it in" aria-hidden="true">
       <h2>PLUG IT IN. <span class="accent">IT ORGANIZES.</span></h2>
       <div class="plug">
+        <figure class="app-frame">
+          <div class="app-bar" aria-hidden="true"><i></i><i></i><i></i><span>opentovibe · overview</span></div>
+          <img src="assets/app/overview.png" alt="The app's overview: messy inputs turned into verified facts, jobs and next steps waiting for approval" />
+        </figure>
         <ul class="sources" aria-label="Sources">
           <li class="src s1"><b class="ic">@</b>Emails</li>
-          <li class="src s2"><b class="ic xls">X</b>Excel sheets</li>
+          <li class="src s2"><b class="ic xls">X</b>Excel</li>
           <li class="src s3"><b class="ic">✎</b>Notes</li>
           <li class="src s4"><b class="ic">◐</b>WhatsApp · SMS</li>
           <li class="src s5"><b class="ic accent-ic">≋</b>Voice notes</li>
         </ul>
-        <div class="plug-line" aria-hidden="true"><i></i></div>
-        <figure class="app-frame">
-          <div class="app-bar" aria-hidden="true"><i></i><i></i><i></i></div>
-          <img src="assets/app/overview.png" alt="The Fieldbook app: messy inputs turned into verified facts, jobs and next steps waiting for approval" />
-        </figure>
       </div>
       <p class="plug-note">The live app · synthetic data · email and Excel connectors next</p>
       <aside class="notes">
@@ -240,7 +175,7 @@
       </aside>
     </section>
 
-    <!-- 10 · Reactor reads less -->
+    <!-- 8 · Reactor reads less -->
     <section class="slide number-slide" data-title="147× less to read" aria-hidden="true">
       <span class="kicker">Behind the card · Memory Retrieval Challenge</span>
       <p class="big-number">147<span>×</span></p>
@@ -256,7 +191,7 @@
       </aside>
     </section>
 
-    <!-- 11 · Idea · Harness · Application -->
+    <!-- 9 · Idea · Harness · Application -->
     <section class="slide recap-slide" data-title="Idea, harness, application" aria-hidden="true">
       <h2>Idea. Harness. <span class="accent">Application.</span></h2>
       <div class="recap">
@@ -296,11 +231,11 @@
       </aside>
     </section>
 
-    <!-- 12 · Close -->
+    <!-- 10 · Close -->
     <section class="slide close" data-title="Thank you" aria-hidden="true">
       <div class="close-lockup">
         <img class="brand-icon" src="assets/icon.svg" alt="" />
-        <span>FIELDBOOK</span>
+        <span>OPENTOVIBE</span>
       </div>
       <h2>Clean data. <span class="accent">Proactive agent.</span></h2>
       <p class="muted">Thank you · Team Reactive</p>
@@ -401,7 +336,7 @@
   <nav class="deck-nav" aria-label="Deck controls">
     <button class="nav-button" id="prev" aria-label="Previous slide">←</button>
     <div class="progress-track" aria-hidden="true"><i id="progress"></i></div>
-    <span id="counter" aria-label="Slide number">01 / 12</span>
+    <span id="counter" aria-label="Slide number">01 / 10</span>
     <button class="nav-button" id="next" aria-label="Next slide">→</button>
   </nav>
   <button class="help-button" id="help" aria-label="Show keyboard shortcuts">?</button>

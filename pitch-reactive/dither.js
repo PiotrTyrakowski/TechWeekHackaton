@@ -10,7 +10,7 @@
 (() => {
   "use strict";
 
-  const RAMP = ["#fafaf9", "#eaeae7", "#d9d9d4", "#c9c9c4"];
+  const RAMP = ["#f3f5ef", "#e7ece1", "#dbe3d3", "#cfd9c6"];
   const GRAIN_OPACITY = 0.05;
   // Frozen frame shown under prefers-reduced-motion — an arbitrary but fixed
   // moment of the drift, chosen so the field isn't the t=0 degenerate frame.

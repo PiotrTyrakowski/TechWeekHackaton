@@ -62,63 +62,63 @@
 {"question_id": "q_4f4389802423", "abstain": false, "answer": "Scotiabank", "citations": ["s_3256f6b7da17"]}
 {"question_id": "q_4d44a760b75b", "abstain": false, "answer": "43 days", "citations": ["s_e6c9f13ea0b5", "s_2c34acd1f4cc"]}
 {"question_id": "q_22ab86c83e4c", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_d8597704a027", "abstain": true, "answer": "", "citations": []}
+{"question_id": "q_d8597704a027", "abstain": false, "answer": "5 days", "citations": ["s_e1f222b68f0f", "s_fb89989e119d"]}
 {"question_id": "q_33cd29d8e252", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_976e9c69229f", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_ae313330ed3d", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_8e098a44c205", "abstain": true, "answer": "", "citations": []}
+{"question_id": "q_976e9c69229f", "abstain": false, "answer": "Manon", "citations": ["s_0212608ef9bb"]}
+{"question_id": "q_ae313330ed3d", "abstain": false, "answer": "73 days", "citations": ["s_9a341842ca7a", "s_4c166de08c8b"]}
+{"question_id": "q_8e098a44c205", "abstain": false, "answer": "Masters Swim Club at the Toronto Pan Am Sports Centre", "citations": ["s_6447a9cc444f"]}
 {"question_id": "q_962a82f81f3a", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_bad53f86da03", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_f46f10460ac8", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_05c51b87253c", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_8e9be6f580d2", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_dcb32bcaff37", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_bada40a29d8a", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_91ff2fbd8bd6", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_bc91651664c8", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_6a3d4c6ff3c4", "abstain": true, "answer": "", "citations": []}
+{"question_id": "q_bad53f86da03", "abstain": false, "answer": "Coach Miriam", "citations": ["s_dfdd379dd740"]}
+{"question_id": "q_f46f10460ac8", "abstain": false, "answer": "Ferreira Immigration Law", "citations": ["s_d7d50ed51233"]}
+{"question_id": "q_05c51b87253c", "abstain": false, "answer": "100 days", "citations": ["s_8c34565cb319", "s_63c36c3352d9"]}
+{"question_id": "q_8e9be6f580d2", "abstain": false, "answer": "Marrakech Market", "citations": ["s_2a6a3eabb791", "s_5d33d4c0fd17"]}
+{"question_id": "q_dcb32bcaff37", "abstain": false, "answer": "Riverdale Park East", "citations": ["s_cd98f38cfed3"]}
+{"question_id": "q_bada40a29d8a", "abstain": false, "answer": "21 days", "citations": ["s_22c0cde26eb9", "s_b2320b570618"]}
+{"question_id": "q_91ff2fbd8bd6", "abstain": false, "answer": "77 days", "citations": ["s_ede8caefcb6a", "s_2def4021619d"]}
+{"question_id": "q_bc91651664c8", "abstain": false, "answer": "BEVA 371", "citations": ["s_f96b6f0b43e9"]}
+{"question_id": "q_6a3d4c6ff3c4", "abstain": false, "answer": "21", "citations": ["s_4541449a1b69", "s_bb9e08560ed6", "s_0e15becddd97"]}
 {"question_id": "q_4483117bcef2", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_eeee9fea968c", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_1d7f43897caa", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_be699a99e8ae", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_2f121a243f4b", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_b7053d97740b", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_a54f3880de36", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_d52f60bba453", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_1b638b1afb30", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_25e9a4b961d7", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_c445bb1b8206", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_74c6d5125665", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_f14893711b1a", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_7a0b603e6a97", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_4efca781adeb", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_6d1f42a4c0a8", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_c69bf7b912e9", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_562eb5155a9d", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_6819894f8375", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_47d195184991", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_e064d6de4ba0", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_96398554b4e0", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_c3323b671e67", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_e356369542da", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_7f6339e4b699", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_da3b8ae767ff", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_8933b400c72a", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_9eceb818d18c", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_cd53d3a105e4", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_6fa4f8620294", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_4ac3e8f02425", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_057d4ff49dcb", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_dbd9da8ff9a6", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_24028b381273", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_077981c7eecc", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_59e9b0aab70e", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_7040872842c8", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_4b0e37d9cd0c", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_5bf8400d0361", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_e3fb401aa669", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_4b90388e1220", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_2eb1ff9b6496", "abstain": true, "answer": "", "citations": []}
+{"question_id": "q_eeee9fea968c", "abstain": false, "answer": "108 days", "citations": ["s_0b956b108cef", "s_185f60a958e3"]}
+{"question_id": "q_1d7f43897caa", "abstain": false, "answer": "Gazelle", "citations": ["s_3640f091cd5c", "s_486ea74c5256"]}
+{"question_id": "q_be699a99e8ae", "abstain": false, "answer": "46 days", "citations": ["s_894040884a3a", "s_b6f5234fda52"]}
+{"question_id": "q_2f121a243f4b", "abstain": false, "answer": "9", "citations": ["s_4c2920e3829d", "s_3fda60b95b8e"]}
+{"question_id": "q_b7053d97740b", "abstain": false, "answer": "Caffè Gilli", "citations": ["s_da52acbb5b7c"]}
+{"question_id": "q_a54f3880de36", "abstain": false, "answer": "Rifugio San Francesco", "citations": ["s_f774154686cf", "s_f9e6c0aa751f"]}
+{"question_id": "q_d52f60bba453", "abstain": false, "answer": "16", "citations": ["s_2e89c90bc416", "s_d35454b437d5"]}
+{"question_id": "q_1b638b1afb30", "abstain": false, "answer": "Kreuzberg", "citations": ["s_ecb4f2063267", "s_46bbc4e9327b"]}
+{"question_id": "q_25e9a4b961d7", "abstain": false, "answer": "8", "citations": ["s_412dc03b9790", "s_15d8da57c778"]}
+{"question_id": "q_c445bb1b8206", "abstain": false, "answer": "Café Blau", "citations": ["s_63e331338c54"]}
+{"question_id": "q_74c6d5125665", "abstain": false, "answer": "Marta", "citations": ["s_6805e721fa49"]}
+{"question_id": "q_f14893711b1a", "abstain": false, "answer": "September 16", "citations": ["s_4b82d548a1c1", "s_4b9098e4b8be"]}
+{"question_id": "q_7a0b603e6a97", "abstain": false, "answer": "Skipper", "citations": ["s_a1f41783a2cc"]}
+{"question_id": "q_4efca781adeb", "abstain": false, "answer": "14 days", "citations": ["s_3131aafe9c48", "s_a782caf886ee"]}
+{"question_id": "q_6d1f42a4c0a8", "abstain": false, "answer": "Amici", "citations": ["s_5a438a7aae42", "s_0127bc6041b2"]}
+{"question_id": "q_c69bf7b912e9", "abstain": false, "answer": "Dr. Vogel", "citations": ["s_fbf12ec5f82c"]}
+{"question_id": "q_562eb5155a9d", "abstain": false, "answer": "51 days", "citations": ["s_106c92d04fda", "s_feb4ef7c558b"]}
+{"question_id": "q_6819894f8375", "abstain": false, "answer": "134 days", "citations": ["s_99fba7e33210", "s_eddca32132e6"]}
+{"question_id": "q_47d195184991", "abstain": false, "answer": "XO by XLN Audio", "citations": ["s_5311f6512474"]}
+{"question_id": "q_e064d6de4ba0", "abstain": false, "answer": "99 days", "citations": ["s_5137d2b9feb3", "s_8cdeaf08db49"]}
+{"question_id": "q_96398554b4e0", "abstain": false, "answer": "101 days", "citations": ["s_f9c776ac4e80", "s_c4d5ba9768c2"]}
+{"question_id": "q_c3323b671e67", "abstain": false, "answer": "Sidechain Diaries", "citations": ["s_6caa9c031aaf"]}
+{"question_id": "q_e356369542da", "abstain": false, "answer": "Shure SM58", "citations": ["s_a46cde3f74b9"]}
+{"question_id": "q_7f6339e4b699", "abstain": false, "answer": "28 days", "citations": ["s_c06025646f11", "s_94222dadbf7a"]}
+{"question_id": "q_da3b8ae767ff", "abstain": false, "answer": "Beyerdynamic DT 770 Pro", "citations": ["s_36e8696eb404"]}
+{"question_id": "q_8933b400c72a", "abstain": false, "answer": "Flat White", "citations": ["s_774400ddc6de", "s_6295be2557d9"]}
+{"question_id": "q_9eceb818d18c", "abstain": false, "answer": "Caro-Kann Defense", "citations": ["s_753da420cfdb", "s_ea4f71cb6119"]}
+{"question_id": "q_cd53d3a105e4", "abstain": false, "answer": "25 kg", "citations": ["s_bc9aa1dc3111", "s_8b0c9450ad9b"]}
+{"question_id": "q_6fa4f8620294", "abstain": false, "answer": "Van Nelle Factory", "citations": ["s_d8b1a3729067", "s_4f0c81753f46"]}
+{"question_id": "q_4ac3e8f02425", "abstain": false, "answer": "RouteXL", "citations": ["s_55060358992c"]}
+{"question_id": "q_057d4ff49dcb", "abstain": false, "answer": "The Goal", "citations": ["s_0c6d92f828c2"]}
+{"question_id": "q_dbd9da8ff9a6", "abstain": false, "answer": "7 days", "citations": ["s_b08725ecc4cf", "s_d739f4328bd4"]}
+{"question_id": "q_24028b381273", "abstain": false, "answer": "14 days", "citations": ["s_daea5c52ffdc", "s_339f0ddad09e"]}
+{"question_id": "q_077981c7eecc", "abstain": false, "answer": "De Werkbij", "citations": ["s_cfe3cc0ef88a"]}
+{"question_id": "q_59e9b0aab70e", "abstain": false, "answer": "Marloes Fotografie", "citations": ["s_fbb5f7af1fea"]}
+{"question_id": "q_7040872842c8", "abstain": false, "answer": "14 days", "citations": ["s_e31bc6df430a", "s_9b8f2b4e4b46"]}
+{"question_id": "q_4b0e37d9cd0c", "abstain": false, "answer": "Peach saison", "citations": ["s_9c4dc842da3d"]}
+{"question_id": "q_5bf8400d0361", "abstain": false, "answer": "35 days", "citations": ["s_44b94903de0a", "s_e80b63b6b5c4"]}
+{"question_id": "q_e3fb401aa669", "abstain": false, "answer": "The Civil War: A Narrative by Shelby Foote", "citations": ["s_527519621ef9"]}
+{"question_id": "q_4b90388e1220", "abstain": false, "answer": "Octane Coffee", "citations": ["s_c097fe03bc6d"]}
+{"question_id": "q_2eb1ff9b6496", "abstain": false, "answer": "50", "citations": ["s_133ae23d9b9a", "s_8227744dbba2"]}
 {"question_id": "q_b3b5d7c68d27", "abstain": true, "answer": "", "citations": []}
 {"question_id": "q_f363e101e02b", "abstain": true, "answer": "", "citations": []}
 {"question_id": "q_a5599a726aef", "abstain": true, "answer": "", "citations": []}

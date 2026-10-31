@@ -223,7 +223,7 @@
 
     document.body.dataset.mode = mode;
     const title = list[current]?.dataset.title;
-    document.title = title ? `${title} — Fieldbook` : "Fieldbook";
+    document.title = (title && title !== "OpenToVibe" ? `${title} — OpenToVibe` : "OpenToVibe");
     if (updateHash) {
       history.replaceState(null, "", mode === "qa" ? `#q${iQa + 1}` : `#${iMain + 1}`);
     }
