@@ -1,0 +1,56 @@
+/* The context layer's panels, in the dashboard's own tokens (style.css / premium.css). */
+.workflow{margin-bottom:22px}
+.stages{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:13px;overflow:hidden}
+.stage{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;padding:18px 20px 18px 22px;background:#fff;border-right:1px solid var(--line);min-width:0}
+.stage:last-child{border-right:0}
+.stage:not(:last-child)::after{content:'';position:absolute;right:-7px;top:50%;width:12px;height:12px;background:#fff;border-top:1px solid var(--line);border-right:1px solid var(--line);transform:translateY(-50%) rotate(45deg);z-index:1}
+.stage[data-goto]:hover{background:#f7faf4}
+.stage:nth-child(2){background:#f3f8ee}
+.stage:nth-child(2)::after{background:#f3f8ee}
+.stage:nth-child(4){background:var(--green);color:#fff}
+.stage:nth-child(4):hover{background:var(--green);filter:brightness(1.08)}
+.stage-n{display:grid;place-items:center;width:20px;height:20px;border-radius:6px;background:var(--lime);color:var(--green);font-size:11px;font-weight:700;margin-bottom:6px}
+.stage-title{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.stage:nth-child(4) .stage-title,.stage:nth-child(4) small,.stage:nth-child(4) .stage-label{color:#dfe9d8}
+.stage strong{font-family:Manrope,sans-serif;font-size:30px;letter-spacing:-1px;line-height:1.1;margin-top:6px}
+.stage-label{font-size:12px;color:var(--ink)}
+.stage small{font-size:11px;color:var(--muted);margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+
+.latest{margin-bottom:22px}
+.latest .panel-heading{margin-bottom:14px}
+.latest .panel-heading p{margin:4px 0 0;font-size:12px}
+.latest blockquote{margin:0 0 16px;padding:14px 16px;border-left:3px solid var(--lime);background:#f8faf5;border-radius:0 10px 10px 0;font-size:15px;line-height:1.6}
+.latest mark{background:var(--lime);color:var(--green);border-radius:4px;padding:1px 3px;font-weight:600}
+.facts{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.facts li{display:flex;flex-direction:column;gap:2px;border:1px solid var(--line);border-radius:10px;padding:9px 13px;min-width:110px}
+.facts span{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+.facts strong{font-size:14px}
+.finding{margin:0 0 8px;font-size:13px;line-height:1.5}
+.finding b{font-size:10px;letter-spacing:.5px;text-transform:uppercase;margin-right:8px}
+.finding.conflict b{color:var(--orange)}
+.finding.unknown b,.finding.rejected b{color:var(--muted)}
+.reading{color:var(--green);margin:0}
+.reading::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:8px;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.failed{color:var(--orange);margin:0}
+
+.action{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px 12px;margin-top:14px;padding:13px 14px;border-radius:11px;background:#f3f8ee;border:1px solid #e0ead6}
+.action .kind{font-size:10px;letter-spacing:.5px;text-transform:uppercase;background:var(--green);color:#fff;padding:4px 7px;border-radius:5px}
+.action strong{font-size:13px}
+.action .reply{grid-column:1/-1;margin:2px 0 0;font-size:13px;color:var(--muted);line-height:1.5}
+.action-buttons{display:flex;gap:8px;grid-column:3;grid-row:1}
+.action-buttons button{padding:8px 13px}
+.action .decided{grid-column:3;grid-row:1;font-size:12px;color:var(--green);font-weight:600}
+.action.dismissed{opacity:.6}
+.action.dismissed .decided{color:var(--muted)}
+.proposal{padding:12px 0;border-top:1px solid var(--line)}
+.proposal small{color:var(--muted);font-size:11px}
+.proposal .action{margin-top:6px}
+#proposals{margin-bottom:22px}
+
+.voice-link{display:flex;align-items:center;gap:13px;margin-top:18px;padding:12px;border-radius:8px;background:var(--lime);color:var(--green);font-weight:600;font-size:13px}
+.voice-link:hover{filter:brightness(.97)}
+.status-dot.off{background:var(--orange)}
+
+@media (max-width:900px){.stages{grid-template-columns:1fr 1fr}.stage{border-bottom:1px solid var(--line)}.stage::after{display:none}.action{grid-template-columns:1fr}.action-buttons,.action .decided{grid-column:1;grid-row:auto}}
+@media (prefers-reduced-motion:reduce){.reading::before{animation:none}}

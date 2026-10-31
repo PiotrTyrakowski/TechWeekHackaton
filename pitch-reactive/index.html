@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Fieldbook — Reactive team pitch, TechWeek hackathon." />
+  <title>Fieldbook</title>
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="engine.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="bg" aria-hidden="true">
+    <div class="bg-veil"></div>
+    <div class="bg-grain"></div>
+  </div>
+
+  <main class="deck" aria-live="polite">
+
+    <!-- 1 · Cover -->
+    <section class="slide cover active" data-title="Fieldbook" aria-hidden="false">
+      <div class="cover-lockup">
+        <img class="brand-icon" src="assets/icon.svg" alt="" />
+        <h1>FIELDBOOK</h1>
+        <p class="cover-line">Cleans your company’s data.<br />Then acts on it.</p>
+      </div>
+      <div class="hero" aria-hidden="true">
+        <div class="hero-orbit orbit-a"><i></i><i></i><i></i></div>
+        <div class="hero-orbit orbit-b"><i></i><i></i><i></i><i></i></div>
+        <div class="hero-core"><span></span><span></span><span></span><span></span><span></span></div>
+        <span class="hero-pulse pulse-a"></span>
+        <span class="hero-pulse pulse-b"></span>
+      </div>
+      <p class="cover-foot">Team Reactive · TechWeek Hackathon 2026</p>
+      <aside class="notes">
+        <p>Hi, we're Reactive. This is Fieldbook — a working name.</p>
+        <p>One line: a small business's data is all over the place. Fieldbook cleans it into one job file you can trust — and because the file is clean, the agent can act on it before anyone asks. We're Reactive, and we built a proactive agent.</p>
+      </aside>
+    </section>
+
+    <!-- 2 · Messy company data -->
+    <section class="slide mess-slide" data-title="All over the place" aria-hidden="true">
+      <div class="mess-copy">
+        <span class="kicker">Inside a small garage</span>
+        <h2>IT’S ALL OVER<br />THE PLACE.</h2>
+      </div>
+      <div class="pile" aria-label="Files and messages scattered across the business">
+        <div class="file f1"><em>XLSX</em><span>zlecenia_2026_FINAL_v3.xlsx</span><i class="sheet" aria-hidden="true"></i></div>
+        <div class="file f2"><em>Email</em><span>Re: Re: Fwd: faktura Nowak</span></div>
+        <div class="file f3"><em>PDF</em><span>cennik_InterCars_X.pdf</span></div>
+        <div class="file f4"><em>WhatsApp</em><span>any news about my car?</span></div>
+        <div class="file f5"><em>JPG</em><span>IMG_4821.jpg</span></div>
+        <div class="file f6"><em>Voice note</em><span>0:38 · Kuba</span></div>
+        <div class="file f7"><em>XLSX</em><span>klienci_stary.xlsx</span></div>
+        <div class="file f8"><em>SMS</em><span>1,450 PLN all in. OK?</span></div>
+        <div class="file f9"><em>Paper</em><span>order sheet, coffee stain</span></div>
+        <div class="file f10"><em>Email</em><span>Zamówienie #88213 potwierdzone</span></div>
+        <div class="file f11"><em>Call</em><span>missed · 08:05</span></div>
+        <div class="file f12"><em>DOCX</em><span>gwarancja_wzor (2).docx</span></div>
+        <div class="file f13"><em>XLSX</em><span>magazyn.xlsx</span></div>
+        <div class="file f14"><em>Calendar</em><span>Golf WX 4821K?</span></div>
+      </div>
+      <aside class="notes">
+        <p>This is what a small business actually runs on: spreadsheets nobody else can open, email threads with five "Re:"s, supplier PDFs, photos of parts, WhatsApp, SMS, voice notes, missed calls, and paper order sheets.</p>
+        <p>The answer to any client question is somewhere in there. Finding it means asking whoever was there.</p>
+        <p>The file names are illustrative — not from a real customer.</p>
+        <p>Garages first. Then plumbers, electricians, installers, renovation crews. The people who fix things don't file things: their hands are busy and the owner is usually under a car.</p>
+      </aside>
+    </section>
+
+    <!-- 3 · The question -->
+    <section class="slide question-slide" data-title="Any news?" aria-hidden="true">
+      <div class="bubble-in">
+        <span class="kicker">WhatsApp · Thu 08:12 · Anna Nowak</span>
+        <h2>“Good morning, any news about my car?”</h2>
+      </div>
+      <p class="fragment answer-gap" data-step="1">Marek is under a car. Kuba has the answer.</p>
+      <aside class="notes">
+        <p>The simplest question a client can ask — and nobody can answer it without phoning Kuba or scrolling back through four days of messages.</p>
+        <p>More than half of customers expect a reply within the hour; only one business in five manages it. (jury-deck source)</p>
+        <p>Click: Marek is under a car. Kuba has the answer — in his head.</p>
+        <p>One job, G-118, Anna Nowak's Golf: a phone call Monday, Kuba's voice note, Marek's SMS with the price (1,450 PLN), Anna's "ok go ahead, I need the car before the weekend!!", a paper order sheet Tuesday, and this WhatsApp Thursday. Five channels, no file.</p>
+      </aside>
+    </section>
+
+    <!-- 4 · Fieldbook cleans it -->
+    <section class="slide clean-slide" data-title="It cleans the mess" aria-hidden="true">
+      <div class="clean-copy">
+        <span class="kicker">What Fieldbook does</span>
+        <h2>IT CLEANS<br />THE MESS.</h2>
+      </div>
+      <div class="raw" aria-label="Raw sources">
+        <div class="msg-raw w1"><b>Paper · Tue</b>belt kit + pump, ETA Thu</div>
+        <div class="msg-raw w2"><b>SMS · Mon</b>I need the car before the weekend!!</div>
+        <div class="msg-raw w3"><b>Voice note · Thu</b>the parts came in this morning</div>
+      </div>
+      <div class="clean-arrow" aria-hidden="true">→</div>
+      <div class="facts">
+        <header><b>G-118</b><span>Cleaned · dated · cited</span></header>
+        <div class="fact c1">
+          <span class="label">Parts</span>
+          <span class="value"><s>ETA Thu</s> Arrived Thu morning</span>
+          <span class="src"><i>Newest wins</i> Voice note · Thu</span>
+        </div>
+        <div class="fact c2">
+          <span class="label">Deadline</span>
+          <span class="value">Before the weekend</span>
+          <span class="src">SMS · Mon</span>
+        </div>
+        <div class="fact c3">
+          <span class="label">Price</span>
+          <span class="value">1,450 PLN, accepted</span>
+          <span class="src">SMS · Mon</span>
+        </div>
+      </div>
+      <aside class="notes">
+        <p>This is the product. Fieldbook collects every source for a job — spreadsheets, emails, SMS, WhatsApp, paper, voice notes — and cleans them into one file.</p>
+        <p>Every fact gets a date and the source it came from. When two sources disagree, the newest wins: Tuesday's paper said the parts arrive Thursday; Thursday's voice note says they came in this morning.</p>
+        <p>And nothing gets lost: Anna's "before the weekend" from Monday's SMS is still on the file.</p>
+      </aside>
+    </section>
+
+    <!-- 5 · Anna gets an answer -->
+    <section class="slide reply-slide" data-title="Anna gets an answer" aria-hidden="true">
+      <span class="kicker">From the clean file</span>
+      <h2>Anna gets an answer.</h2>
+      <div class="reply">
+        <p>Good morning Mrs Nowak. The parts have arrived. Your Golf will be ready tomorrow around 12:00, <span class="nowrap"><mark>in time for the weekend</mark>.</span></p>
+        <footer>
+          <span class="play"><i></i> Read out by ElevenLabs</span>
+          <span class="sig">— Marek’s Garage</span>
+        </footer>
+      </div>
+      <p class="remember fragment" data-step="1"><span>↑</span> She said that on Monday. It remembered.</p>
+      <aside class="notes">
+        <p>The reply is drafted from the updated card, not from the raw messages. Marek checks it and sends it; ElevenLabs can read it out.</p>
+        <p>Click: "in time for the weekend" — Anna said that on Monday, by SMS. Four days and four channels later, it's still there.</p>
+        <p>The full draft also asks for the company name and tax ID for the invoice. This is the expected reply from the scripted run.</p>
+      </aside>
+    </section>
+
+    <!-- 6 · Proactive -->
+    <section class="slide proactive-slide" data-title="It doesn’t wait to be asked" aria-hidden="true">
+      <div class="pro-copy">
+        <span class="kicker">Reactive. But proactive.</span>
+        <h2>IT DOESN’T WAIT TO BE ASKED.</h2>
+        <p class="pro-line fragment" data-step="1">Clean data makes it safe to act.</p>
+      </div>
+      <div class="pings">
+        <article class="ping p1"><span class="ping-tag">Spotted</span><p>Card says ETA Thursday. Kuba says the parts are here.</p></article>
+        <article class="ping p2"><span class="ping-tag">Missing</span><p>Company name and tax ID for Anna’s invoice.</p></article>
+        <article class="ping p3 accent-ping"><span class="ping-tag">Next step</span><p>Tell Anna: ready tomorrow around 12:00.</p></article>
+      </div>
+      <aside class="notes">
+        <p>Anna had to ask. Next time she shouldn't have to. Because every fact is clean, dated and quoted, the agent can look at the file and act on its own.</p>
+        <p>After Kuba's note it does three things nobody asked for: it spots the clash with the card (ETA Thursday vs "the parts came in this morning"), it names what's still missing (company name and tax ID for the invoice), and it proposes the next step — tell Anna it's ready tomorrow around noon.</p>
+        <p>These are the backend's real output fields — conflict, unknown, next action (work order, schedule, order parts or follow-up). Wording here is the expected output from the scripted run. Marek approves before anything goes out.</p>
+        <p>Click: this is why the cleaning comes first. A proactive agent on messy data just spams people with wrong guesses.</p>
+      </aside>
+    </section>
+
+    <!-- 7 · Plus · voice -->
+    <section class="slide talk-slide" data-title="Plus: just talk" aria-hidden="true">
+      <div class="talk-copy">
+        <span class="kicker">Plus</span>
+        <h2>NO TYPING.<br />JUST TALK.</h2>
+        <p class="muted">Hands busy? A voice note is one more source. ElevenLabs writes it down.</p>
+      </div>
+      <div class="phone" aria-label="Voice app">
+        <div class="phone-top"><i></i></div>
+        <p class="phone-ask">What happened on the job?</p>
+        <div class="wave" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <p class="transcript">
+          <span>So, uh, Nowak’s Golf.</span>
+          <span>The parts came in this morning,</span>
+          <span>I’m putting the belt in now,</span>
+          <span>should be ready tomorrow around noon.</span>
+          <span>Oh and she wants the invoice on her company.</span>
+        </p>
+        <div class="mic" aria-hidden="true"><i></i></div>
+      </div>
+      <aside class="notes">
+        <p>Voice is an extra way in, not the product. The product is the clean file.</p><p>Thursday 09:30. Kuba taps once and talks — that's the note the card quoted. No form, no typing.</p>
+        <p>ElevenLabs speech-to-text turns the voice note into text on the phone.</p>
+      </aside>
+    </section>
+
+    <!-- 8 · How it works -->
+    <section class="slide flow-slide" data-title="How it works" aria-hidden="true">
+      <h2 class="flow-title"><span class="accent">MESSY IN.</span> CLEAN OUT.</h2>
+      <div class="flow">
+        <div class="flow-line" aria-hidden="true"><i></i></div>
+        <article class="tile t1">
+          <svg class="glyph" viewBox="0 0 96 96" aria-hidden="true"><rect x="22" y="30" width="34" height="42" rx="6" transform="rotate(-10 39 51)" /><rect x="40" y="24" width="34" height="42" rx="6" transform="rotate(8 57 45)" /><path class="hl" d="M48 40h16M48 50h12" transform="rotate(8 57 45)" /></svg>
+          <h3>Collect</h3>
+          <p>Files, emails, chats<br />+ voice notes (ElevenLabs)</p>
+        </article>
+        <article class="tile t2 dark">
+          <svg class="glyph" viewBox="0 0 96 96" aria-hidden="true"><path d="M30 38c0-6 4-10 10-10M30 38v10h10V38H30M54 38c0-6 4-10 10-10M54 38v10h10V38H54" /><path class="hl" d="M26 66h44" /></svg>
+          <h3>Clean</h3>
+          <p>Dated, cited, newest wins<br />Reactor reads only what answers</p>
+        </article>
+        <article class="tile t3">
+          <svg class="glyph" viewBox="0 0 96 96" aria-hidden="true"><rect x="24" y="22" width="48" height="52" rx="8" /><path d="M34 36h28M34 48h18M34 60h22" /><path class="hl" d="M34 48h18" /></svg>
+          <h3>Act</h3>
+          <p>Flags, next steps, client reply<br />Before anyone asks</p>
+        </article>
+      </div>
+      <aside class="notes">
+        <p>Collect: every source for a job lands in one history — files, emails, chats, and voice notes from the phone app (ElevenLabs speech-to-text).</p>
+        <p>Clean: each fact is dated and cited; newest wins. Our retrieval picks only the lines that answer, and the reader (a hosted model today, the team's Reactor agent next) writes the update. Before any line reaches the card we check it: the quote must be in the source, UNCHANGED keeps the field, INSUFFICIENT_EVIDENCE changes nothing.</p>
+        <p>Act: the agent flags clashes and gaps, proposes the next step, and drafts the client reply (read out by ElevenLabs text-to-speech). Marek's workshop board updates live with the words behind each field. Marek approves before anything is sent.</p>
+      </aside>
+    </section>
+
+    <!-- 9 · The app -->
+    <section class="slide demo-slide" data-title="Plug it in" aria-hidden="true">
+      <h2>PLUG IT IN. <span class="accent">IT ORGANIZES.</span></h2>
+      <div class="plug">
+        <ul class="sources" aria-label="Sources">
+          <li class="src s1"><b class="ic">@</b>Emails</li>
+          <li class="src s2"><b class="ic xls">X</b>Excel sheets</li>
+          <li class="src s3"><b class="ic">✎</b>Notes</li>
+          <li class="src s4"><b class="ic">◐</b>WhatsApp · SMS</li>
+          <li class="src s5"><b class="ic accent-ic">≋</b>Voice notes</li>
+        </ul>
+        <div class="plug-line" aria-hidden="true"><i></i></div>
+        <figure class="app-frame">
+          <div class="app-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+          <img src="assets/app/overview.png" alt="The Fieldbook app: messy inputs turned into verified facts, jobs and next steps waiting for approval" />
+        </figure>
+      </div>
+      <p class="plug-note">The live app · synthetic data · email and Excel connectors next</p>
+      <aside class="notes">
+        <p>This is the app as it runs today. Plug in everything the business already has — emails, Excel sheets, notes, chats, voice notes — and it organizes it: 193 messy inputs become 20 known jobs, every fact quoted, and next steps that wait for the owner's OK.</p>
+        <p>On screen: the owner's voice note re-prices a bathroom job. The agent spots the conflict with the old price (4,650 vs 4,300), says what's still unknown (whether Anna accepts), and proposes the follow-up: call Anna tomorrow. One click to approve.</p>
+        <p>Honest status: the app imports chats, SMS, voice notes and JSON exports today; email and Excel connectors are next. The data is synthetic (a renovation firm in the demo data); the same engine runs Marek's garage.</p>
+      </aside>
+    </section>
+
+    <!-- 10 · Reactor reads less -->
+    <section class="slide number-slide" data-title="147× less to read" aria-hidden="true">
+      <span class="kicker">Behind the card · Memory Retrieval Challenge</span>
+      <p class="big-number">147<span>×</span></p>
+      <p class="big-caption">less text for Reactor to read per question.</p>
+      <div class="bars" aria-hidden="true">
+        <div class="bar full"><i></i><span>Whole history · ~1.6M characters</span></div>
+        <div class="bar picked"><i></i><span>What Reactor reads · ~11k</span></div>
+      </div>
+      <aside class="notes">
+        <p>Behind the card: our retrieval picks only the lines that answer, from the whole job history, and Reactor writes the answer.</p>
+        <p>Median per question: about 11k characters instead of about 1.6M, over the 146 Memory Retrieval Challenge test questions. Measured from the messages our pipeline builds — not a scored run.</p>
+        <p>Partial dev check, not for the slide: 14 of 15 judged answers right, "I don't know" handled 2 of 2, evidence F1 0.86. Small sample.</p>
+      </aside>
+    </section>
+
+    <!-- 11 · Idea · Harness · Application -->
+    <section class="slide recap-slide" data-title="Idea, harness, application" aria-hidden="true">
+      <h2>Idea. Harness. <span class="accent">Application.</span></h2>
+      <div class="recap">
+        <article class="col fragment" data-step="1">
+          <span class="col-num">01 · Idea</span>
+          <h3>Unconventional</h3>
+          <ul>
+            <li>Cleans messy company data</li>
+            <li>Then acts on it, proactively</li>
+            <li>Not said → not changed</li>
+          </ul>
+        </article>
+        <article class="col dark fragment" data-step="2">
+          <span class="col-num">02 · Harness</span>
+          <h3>Reactor, used where it counts</h3>
+          <ul>
+            <li>147× less text to read</li>
+            <li>Every line checked before the card</li>
+            <li>Never stalls: cache + fallback</li>
+          </ul>
+        </article>
+        <article class="col fragment" data-step="3">
+          <span class="col-num">03 · Application</span>
+          <h3>A real use case</h3>
+          <ul>
+            <li>Live board + client reply</li>
+            <li>Voice in and out (ElevenLabs)</li>
+            <li>18–24k Polish garages first</li>
+          </ul>
+        </article>
+      </div>
+      <aside class="notes">
+        <p>One slide for the three things you're judging. Click once per column.</p>
+        <p>Idea: not another form or chatbot that waits for questions. It cleans a small business's scattered data into one file that only says what it can quote, then acts on it proactively: clashes, gaps, next steps. Not said → not changed. Voice is an easy extra way in.</p>
+        <p>Harness: our retrieval picks the lines that answer, so Reactor reads a median ~11k characters instead of ~1.6M (146 challenge test questions, measured, not a scored run). Our code checks every line Reactor returns: the quote must be in the note, status one of three, UNCHANGED keeps the field, INSUFFICIENT_EVIDENCE changes nothing. Answers are logged and cached, and the app falls back to its own rules if Reactor is busy, so the demo never stalls.</p>
+        <p>Application: a live workshop board for the owner, a reply for the client read out by ElevenLabs, and a voice app for the mechanic. Business: Polish trades first — about 18–24k car workshops and about 90,000 installers.</p>
+      </aside>
+    </section>
+
+    <!-- 12 · Close -->
+    <section class="slide close" data-title="Thank you" aria-hidden="true">
+      <div class="close-lockup">
+        <img class="brand-icon" src="assets/icon.svg" alt="" />
+        <span>FIELDBOOK</span>
+      </div>
+      <h2>Clean data. <span class="accent">Proactive agent.</span></h2>
+      <p class="muted">Thank you · Team Reactive</p>
+      <aside class="notes">
+        <p>All over the place, cleaned into one file. Anna's "any news?" got a correct answer — and next time the agent tells her before she asks.</p>
+        <p>Thank you. Questions? (Press Q for prepared answers.)</p>
+      </aside>
+    </section>
+
+    <!-- Appendix: prepared answers (Q) -->
+    <section class="slide appendix card-slide" data-title="Quote or keep" data-question="How do you know a change on the card is right?" aria-hidden="true">
+      <span class="qa-chip">Q&amp;A</span>
+      <div class="card-copy">
+        <span class="kicker">Kuba’s note, Thu 09:30</span>
+        <h2>IT ONLY WRITES WHAT IT CAN QUOTE.</h2>
+      </div>
+      <div class="job-card">
+        <header><b>G-118</b><span>Anna Nowak · VW Golf VII</span></header>
+        <div class="row r1">
+          <span class="label">Status</span>
+          <span class="value"><s>Waiting for parts</s> In progress</span>
+          <q>I’m putting the belt in now</q>
+        </div>
+        <div class="row r2">
+          <span class="label">Parts</span>
+          <span class="value"><s>Arriving Thu</s> Arrived this morning</span>
+          <q>The parts came in this morning</q>
+        </div>
+        <div class="row r3">
+          <span class="label">Ready</span>
+          <span class="value">Tomorrow ~12:00</span>
+          <q>should be ready tomorrow around noon</q>
+        </div>
+        <div class="row r4">
+          <span class="label">Invoice</span>
+          <span class="value">Company invoice</span>
+          <q>she wants the invoice on her company</q>
+        </div>
+        <div class="row r5 kept">
+          <span class="label">Price</span>
+          <span class="value">1,450 PLN</span>
+          <span class="kept-chip">Not in the note, so it stays</span>
+        </div>
+      </div>
+      <aside class="notes">
+        <p>The reader gets the job card and Kuba's note and answers one question: which fields does this note change?</p>
+        <p>Every change carries the exact words from the note. If the quote isn't in the note, the line is rejected and never touches the card. Status must be one of three. Anything the note doesn't mention stays — the price stays at 1,450 PLN.</p>
+        <p>Today the reader is a hosted model; next it's Reactor.</p>
+        <p>The rules, in our code, after the model answers: the quoted words must be in the note; not mentioned → the field stays; status is one of three; not sure (INSUFFICIENT_EVIDENCE) → nothing changes. A rejected line is logged and never touches the card.</p>
+      </aside>
+    </section>
+
+    <section class="slide appendix bigger-slide" data-title="Bigger than garages" data-question="Is this only for garages?" aria-hidden="true">
+      <span class="qa-chip">Q&amp;A</span>
+      <h2>Every AI agent needs a memory <span class="accent">it can trust.</span></h2>
+      <div class="steps">
+        <span class="pill fragment" data-step="1">Trades</span>
+        <span class="arrow fragment" data-step="2">→</span>
+        <span class="pill fragment" data-step="2">Distributors</span>
+        <span class="arrow fragment" data-step="3">→</span>
+        <span class="pill fragment" data-step="3">Personal assistants</span>
+      </div>
+      <aside class="notes">
+        <p>Same problem everywhere: facts arrive over time, from many channels, and the newest one wins.</p>
+        <p>We start with Polish trades — about 18–24k car workshops and about 90,000 installers. Then distributors and manufacturers. Then personal AI assistants.</p>
+        <p>One layer underneath: date it, cite it, pick what matters.</p>
+      </aside>
+    </section>
+
+    <section class="slide appendix qa-slide" data-title="Market" data-question="How big is the first market?" aria-hidden="true">
+      <span class="qa-chip">Q&amp;A</span>
+      <span class="kicker">Poland, first</span>
+      <div class="market">
+        <div><p class="market-num">18–24k</p><p>car workshops</p></div>
+        <div><p class="market-num">~90,000</p><p>installers</p></div>
+      </div>
+      <p class="source">Sources: Auto Świat (17.7k independent), SDCM via PAP (24k); GUS via BOŚ Bank, Oct 2024 (PKD 43.2).</p>
+      <aside class="notes">
+        <p>Pricing per business per month is not decided yet — don't quote a number.</p>
+      </aside>
+    </section>
+
+    <section class="slide appendix qa-slide" data-title="Why Reactor" data-question="Why not just give the model the whole history?" aria-hidden="true">
+      <span class="qa-chip">Q&amp;A</span>
+      <span class="kicker">Why not read everything?</span>
+      <h2>Old and new get mixed up.</h2>
+      <p class="qa-lead muted">“Arriving Thu” and “arrived this morning” are both in the history. Newest wins.</p>
+      <aside class="notes">
+        <p>Three steps before Reactor reads a word: collect, clean (newest wins), pick only the lines that answer.</p>
+        <p>Cheaper: fewer tokens. Faster: a short prompt comes back sooner. Honest: newest facts first, and "I don't know" instead of a guess.</p>
+      </aside>
+    </section>
+
+  </main>
+
+  <div class="notes-panel" id="notes" aria-live="polite"></div>
+
+  <nav class="deck-nav" aria-label="Deck controls">
+    <button class="nav-button" id="prev" aria-label="Previous slide">←</button>
+    <div class="progress-track" aria-hidden="true"><i id="progress"></i></div>
+    <span id="counter" aria-label="Slide number">01 / 12</span>
+    <button class="nav-button" id="next" aria-label="Next slide">→</button>
+  </nav>
+  <button class="help-button" id="help" aria-label="Show keyboard shortcuts">?</button>
+  <dialog id="help-dialog">
+    <button class="dialog-close" aria-label="Close">×</button>
+    <h3>Controls</h3>
+    <dl>
+      <div><dt>Next / previous</dt><dd>← → · Space · Page Up / Down</dd></div>
+      <div><dt>First / last</dt><dd>Home · End</dd></div>
+      <div><dt>Speaker notes</dt><dd>N</dd></div>
+      <div><dt>Fullscreen</dt><dd>F</dd></div>
+      <div><dt>Overview</dt><dd>O</dd></div>
+      <div><dt>Prepared answers (Q&amp;A)</dt><dd>Q · then a digit</dd></div>
+      <div><dt>Back from Q&amp;A</dt><dd>Q · Escape</dd></div>
+      <div><dt>Video play / pause</dt><dd>V · click</dd></div>
+    </dl>
+  </dialog>
+  <dialog id="qa-dialog">
+    <button class="dialog-close" aria-label="Close">×</button>
+    <h3>Prepared answers</h3>
+    <ol></ol>
+  </dialog>
+  <script src="dither.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>

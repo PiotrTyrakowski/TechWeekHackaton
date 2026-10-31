@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f3f5ef">
+<title>Fieldbook · Voice note</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="/context.css">
+<style>
+:root{--bg:#f3f5ef;--ink:#1d3227;--muted:#5d6b5c;--line:#e2e8dc;--green:#234f36;--lime:#d4f28c;--orange:#94561f;--panel:#fff}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:15px/1.5 'DM Sans',sans-serif}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid #8cbcaf;outline-offset:3px}
+main{max-width:460px;margin:0 auto;min-height:100dvh;padding:calc(18px + env(safe-area-inset-top)) 18px calc(28px + env(safe-area-inset-bottom));display:flex;flex-direction:column}
+header{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;font-family:Manrope,sans-serif;font-size:21px;font-weight:800;letter-spacing:-.8px}
+.brand-icon{display:grid;place-items:center;width:30px;height:30px;background:var(--green);color:#fff;border-radius:10px;margin-right:9px;font:italic 26px Georgia,serif}
+.brand-dot{color:var(--green)}
+#link{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
+#link i{width:6px;height:6px;border-radius:50%;background:var(--green)}
+#link.off i{background:var(--orange)}
+.hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px 0 20px}
+#prompt{font-family:Manrope,sans-serif;font-size:26px;letter-spacing:-.8px;line-height:1.15;margin:0 0 8px;max-width:300px}
+#hint{color:var(--muted);margin:0 0 30px;min-height:22px;font-size:14px}
+#mic{--level:1;position:relative;width:148px;height:148px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;box-shadow:0 14px 34px #234f3633;transition:transform .15s}
+#mic::before{content:'';position:absolute;inset:-12px;border-radius:50%;border:2px solid var(--lime);transform:scale(var(--level));transition:transform .08s;opacity:0}
+#mic svg{width:50px;height:50px}
+.recording #mic{background:var(--orange)}
+.recording #mic::before{opacity:1}
+.busy #mic{opacity:.55;pointer-events:none}
+#mic:active{transform:scale(.97)}
+#timer{font-variant-numeric:tabular-nums;color:var(--orange);font-weight:600;height:22px;margin-top:16px}
+#wave{display:flex;gap:3px;align-items:center;height:40px;margin-top:4px}
+#wave span{width:4px;height:4px;border-radius:2px;background:var(--green);opacity:.5}
+.links{display:flex;gap:18px;justify-content:center;font-size:13px;margin-top:6px}
+.links button{color:var(--green);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:18px;box-shadow:0 6px 24px #23492a08;margin-top:14px;text-align:left}
+.card h2{font:700 16px Manrope,sans-serif;letter-spacing:-.3px;margin:0}
+.card .muted{color:var(--muted);font-size:12px;margin:3px 0 12px}
+#typed textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px;font:inherit;resize:vertical;min-height:110px;background:#fbfcf9}
+.row{display:flex;gap:8px;margin-top:10px}
+.primary{background:var(--green);color:#fff;padding:12px 18px;border-radius:9px;font-weight:600}
+.quiet{background:#fff;border:1px solid var(--line);padding:12px 16px;border-radius:9px}
+.play{margin-top:10px;background:var(--lime);color:var(--green);padding:10px 15px;border-radius:9px;font-weight:600}
+.latest blockquote{font-size:14px}
+.panel-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.panel-heading p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.mini-label{font-size:9px;color:var(--green);background:#eef5e8;padding:5px 7px;border-radius:5px;letter-spacing:.8px;white-space:nowrap}
+</style>
+</head>
+<body>
+<main>
+ <header><div class="brand"><span class="brand-icon">f</span>fieldbook<span class="brand-dot">.</span></div><span id="link" class="off"><i></i><span>Connecting…</span></span></header>
+ <section class="hero">
+  <h1 id="prompt">Say what happened on the job.</h1>
+  <p id="hint">One note: who, where, what changed.</p>
+  <button id="mic" aria-label="Start recording"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+  <div id="timer"></div><div id="wave"></div>
+  <div class="links"><button id="type">Type instead</button><button id="sample">Use a sample note</button></div>
+ </section>
+ <form id="typed" class="card" hidden><h2>Type the note</h2><p class="muted" id="typed-why">It goes through the same context layer.</p><textarea id="typed-text" required></textarea><div class="row"><button class="primary" type="submit">Send</button><button class="quiet" type="button" id="typed-cancel">Cancel</button></div></form>
+ <section id="result" class="card latest" hidden></section>
+</main>
+<script type="module">
+import {compute,dedupe} from '/engine.js';
+import * as ctx from '/context.js';
+const $=s=>document.querySelector(s);
+const SAMPLE='Lipowa five, Nowak: I re-measured the bathroom, new price four thousand six hundred fifty. I will call her tomorrow.';
+const MAX_S=60;
+let base=[],server=[],date='2026-10-30',model=null,link=null,mine=null,recorder=null,chunks=[],started=0,tick=null,audio=null,raf=null,player=null;
+const bars=Array.from({length:24},()=>{const s=document.createElement('span');$('#wave').append(s);return s;});
+const set=(cls,prompt,hint)=>{document.body.className=cls;if(prompt!=null)$('#prompt').textContent=prompt;if(hint!=null)$('#hint').textContent=hint;};
+
+// The phone sees the same jobs as the dashboard: the firm's messages plus every input taken in since.
+function recompute(){const last=server.map(r=>r.sent_at.slice(0,10)).sort().pop();if(last>date)date=last;model=compute(dedupe([...base,...server]),date+'T23:59:59+01:00');}
+
+function show(){
+ const row=server.find(r=>r.source_id===mine);if(!row)return;
+ ctx.latest($('#result'),[row],model);
+ const st=row.reading?.status;
+ if(st==='reading')set('busy','Reading it…','Checking it against the job history.');
+ else if(st==='failed')set('','Saved as a message.','It was not read: the context layer is off.');
+ else{
+  const n=Object.keys(row.reading.facts||{}).length;
+  set('',n?'Job updated.':row.job_context?'Saved to the job.':'Which job was that?',n?`${n} fact${n>1?'s':''} changed · every one quoted from you.`:'Tap to record the next one.');
+  if(row.reading.reply){const b=document.createElement('button');b.className='play';b.id='play';b.textContent='▶ Listen to the reply';$('#result').append(b);}
+ }
+}
+
+async function send(text){
+ set('busy','Sending…','');$('#typed').hidden=true;
+ try{const row=await ctx.send(text,model,{date,author_role:'owner',channel:'voice note'});mine=row.source_id;server=[...server.filter(r=>r.source_id!==mine),row];recompute();show();}
+ catch(e){set('','Couldn’t send it.',e.message);}
+}
+
+function pickType(){for(const t of['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'])if(window.MediaRecorder?.isTypeSupported?.(t))return t;return'';}
+async function start(){
+ if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder){typed('This browser can’t record here (a phone needs https). Type the note instead.');return;}
+ let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});}catch{typed('Microphone blocked. Allow it, or type the note.');return;}
+ const type=pickType();recorder=new MediaRecorder(stream,type?{mimeType:type}:undefined);chunks=[];
+ recorder.ondataavailable=e=>e.data.size&&chunks.push(e.data);
+ recorder.onstop=()=>{stream.getTracks().forEach(t=>t.stop());finish(new Blob(chunks,{type:recorder.mimeType||type||'audio/webm'}));};
+ recorder.start();started=Date.now();$('#result').hidden=true;$('#typed').hidden=true;
+ set('recording','Listening…','Tap again when you’re done.');$('#mic').setAttribute('aria-label','Stop recording');
+ tick=setInterval(()=>{const s=Math.floor((Date.now()-started)/1000);$('#timer').textContent=`0:${String(s).padStart(2,'0')}`;if(s>=MAX_S)stop();},250);
+ audio=new(window.AudioContext||window.webkitAudioContext)();const an=audio.createAnalyser();an.fftSize=64;audio.createMediaStreamSource(stream).connect(an);
+ const data=new Uint8Array(an.frequencyBinCount);
+ const draw=()=>{an.getByteFrequencyData(data);let sum=0;bars.forEach((b,i)=>{const v=data[i+2]/255;sum+=v;b.style.height=`${4+v*36}px`;});$('#mic').style.setProperty('--level',1+Math.min(sum/bars.length,.5)*.5);raf=requestAnimationFrame(draw);};draw();
+}
+function stop(){clearInterval(tick);cancelAnimationFrame(raf);audio?.close();audio=null;bars.forEach(b=>b.style.height='4px');$('#mic').setAttribute('aria-label','Start recording');if(recorder?.state==='recording')recorder.stop();}
+async function finish(blob){
+ $('#timer').textContent='';
+ if(Date.now()-started<700||blob.size<1000){set('','Too short. Try again.','Hold on a second longer.');return;}
+ set('busy','Writing it down…','ElevenLabs is turning your voice into text.');
+ try{const r=await fetch('/transcribe',{method:'POST',body:blob,headers:{'Content-Type':blob.type.split(';')[0]}});const body=await r.json().catch(()=>({}));
+  if(!r.ok)throw Object.assign(Error(body.error||'HTTP '+r.status),{status:r.status});
+  if(!body.text){set('','Didn’t catch that.','Try again a bit closer to the phone.');return;}send(body.text);}
+ catch(e){typed((e.status===503?'Voice isn’t set up on the server (no ElevenLabs key).':'Couldn’t write it down: '+e.message)+' Type it instead.');}
+}
+function typed(why){set('','Type it instead.',why);$('#typed-why').textContent=why;$('#typed').hidden=false;$('#typed-text').focus();}
+async function play(){
+ const b=$('#play'),reply=server.find(r=>r.source_id===mine)?.reading?.reply;if(!b||!reply)return;b.disabled=true;b.textContent='Loading voice…';
+ try{const r=await ctx.speak(reply);if(!r.ok)throw Object.assign(Error(),{status:r.status});player?.pause();player=new Audio(URL.createObjectURL(await r.blob()));
+  b.textContent='■ Playing';player.onended=()=>{b.textContent='▶ Listen again';b.disabled=false;};await player.play();}
+ catch(e){b.textContent=e.status===503?'No ElevenLabs key yet':'Can’t play it';}
+}
+
+$('#mic').onclick=()=>recorder?.state==='recording'?stop():start();
+$('#type').onclick=()=>typed('It goes through the same context layer.');
+$('#sample').onclick=()=>send(SAMPLE);
+$('#typed-cancel').onclick=()=>{$('#typed').hidden=true;set('','Say what happened on the job.','One note: who, where, what changed.');};
+$('#typed').onsubmit=e=>{e.preventDefault();const t=$('#typed-text').value.trim();if(t){$('#typed-text').value='';send(t);}};
+document.addEventListener('click',e=>{if(e.target.closest('#play'))play();const d=e.target.closest('[data-decide]');if(d){d.disabled=true;ctx.decide(d.dataset.id,d.dataset.decide).then(row=>{server=server.map(r=>r.source_id===row.source_id?row:r);show();}).catch(()=>{d.disabled=false;});}});
+
+try{base=(await (await fetch('/demo.json')).json()).messages;}catch{}
+recompute();link=await ctx.health();
+$('#link').className=link?.ready?'':'off';$('#link span').textContent=link?(link.ready?'Context layer ready':'Context layer not ready'):'Backend offline';
+if(link)ctx.follow(rows=>{server=rows;recompute();if(mine)show();});
+</script>
+</body>
+</html>
