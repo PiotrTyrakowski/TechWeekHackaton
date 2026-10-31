@@ -1,0 +1,17 @@
+{
+  "active_phase_elapsed_s": 1290.331923,
+  "duration_definition": "Successful Gate1 elapsed plus continuation through final durable attempt; excludes user gap between stages; includes startup waits and recovery/diagnosis.",
+  "benchmark_client_wall_s": 630.1559204590158,
+  "startup_wait_s": 240,
+  "accepted_answer_latency_s": {
+    "n": 7,
+    "min": 11.02,
+    "median": 42.91,
+    "max": 204.4
+  },
+  "successful_question_client_wall_s": {
+    "n": 7,
+    "median": 43.228739625017624,
+    "max": 317.05372362499475
+  }
+}

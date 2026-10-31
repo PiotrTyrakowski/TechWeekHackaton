@@ -1,0 +1,8 @@
+1 questions without a prediction, scored as wrong
+type                          n  correct  unjudged  abstention_n  abstention_recall  false_abstention  evidence_f1
+knowledge-update              1    1.000     0.000             0                  -             0.000        0.667
+multi-session                 1    1.000     0.000             0                  -             0.000        1.000
+single-session-assistant      3    1.000     0.000             0                  -             0.000        1.000
+single-session-user           2    1.000     0.000             1              1.000             0.000        1.000
+temporal-reasoning            1    0.000     0.000             0                  -             0.000        0.000
+all                           8    0.875     0.000             1              1.000             0.000        0.810

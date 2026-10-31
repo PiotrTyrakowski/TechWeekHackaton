@@ -1,0 +1,213 @@
+{
+  "kind": "real-Reactor-development-smoke",
+  "created_at": "2026-10-31T08:25:49.569096+00:00",
+  "question_ids": [
+    "q_1773242b1801",
+    "q_d4ead82e5cad",
+    "q_e2cc79359e15",
+    "q_6eaf85dde884",
+    "q_61a19ce280f4",
+    "q_4e61f6554795",
+    "q_8a42fbe85acc",
+    "q_53ebfc7819cf"
+  ],
+  "planned": 8,
+  "unique_questions_attempted": 8,
+  "question_client_invocations": 10,
+  "completed": 7,
+  "correct_completed": 7,
+  "unjudged_completed": 0,
+  "wrong_completed": 0,
+  "missing_ids": [
+    "q_53ebfc7819cf"
+  ],
+  "completed_only_official_local": {
+    "knowledge-update": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.6666666666666666
+    },
+    "multi-session": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 1.0
+    },
+    "single-session-assistant": {
+      "n": 3,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 1.0
+    },
+    "single-session-user": {
+      "n": 2,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 1,
+      "abstention_recall": 1.0,
+      "false_abstention": 0.0,
+      "evidence_f1": 1.0
+    },
+    "all": {
+      "n": 7,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 1,
+      "abstention_recall": 1.0,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.9444444444444445
+    }
+  },
+  "full_planned_official_local_submission_equivalent": {
+    "knowledge-update": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.6666666666666666
+    },
+    "multi-session": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 1.0
+    },
+    "single-session-assistant": {
+      "n": 3,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 1.0
+    },
+    "single-session-user": {
+      "n": 2,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 1,
+      "abstention_recall": 1.0,
+      "false_abstention": 0.0,
+      "evidence_f1": 1.0
+    },
+    "temporal-reasoning": {
+      "n": 1,
+      "correct": 0.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.0
+    },
+    "all": {
+      "n": 8,
+      "correct": 0.875,
+      "unjudged": 0.0,
+      "abstention_n": 1,
+      "abstention_recall": 1.0,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.8095238095238095
+    }
+  },
+  "scoring": "Official local dev gold matcher/evidence F1; missing predictions penalized only in full-planned view. No organizer-side LLM judge or hidden gold.",
+  "categories": {
+    "unanswerable": {
+      "planned": 1,
+      "completed": 1,
+      "correct": 1,
+      "unjudged": 0,
+      "wrong": 0,
+      "citation_f1_completed": null
+    },
+    "single-session-user": {
+      "planned": 1,
+      "completed": 1,
+      "correct": 1,
+      "unjudged": 0,
+      "wrong": 0,
+      "citation_f1_completed": 1.0
+    },
+    "single-session-assistant": {
+      "planned": 3,
+      "completed": 3,
+      "correct": 3,
+      "unjudged": 0,
+      "wrong": 0,
+      "citation_f1_completed": 1.0
+    },
+    "multi-session": {
+      "planned": 1,
+      "completed": 1,
+      "correct": 1,
+      "unjudged": 0,
+      "wrong": 0,
+      "citation_f1_completed": 1.0
+    },
+    "knowledge-update": {
+      "planned": 1,
+      "completed": 1,
+      "correct": 1,
+      "unjudged": 0,
+      "wrong": 0,
+      "citation_f1_completed": 0.6666666666666666
+    },
+    "temporal-reasoning": {
+      "planned": 1,
+      "completed": 0,
+      "correct": 0,
+      "unjudged": 0,
+      "wrong": 0,
+      "citation_f1_completed": null
+    }
+  },
+  "history_resets": 8,
+  "client_invocations": 18,
+  "internal_safe_refusal_retries": 11,
+  "benchmark_api_operations": 29,
+  "failed_client_invocations": 3,
+  "benchmark_client_wall_s": 630.1559204590158,
+  "outputs_with_Reactor_citations": 6,
+  "outputs_with_verified_fallback": 0,
+  "outputs_with_policy_unresolved_forms": 5,
+  "same_user_pair": {
+    "ids": [
+      "q_4e61f6554795",
+      "q_8a42fbe85acc"
+    ],
+    "server_histories": [
+      "87a959b854e24fa79d75124ce92cd678",
+      "87a959b854e24fa79d75124ce92cd678"
+    ],
+    "second_question_client_wall_s": 317.05372362499475,
+    "second_question_internal_retries": 11
+  },
+  "local_runner_process_ids_detected_after_stop": [],
+  "local_process_audit_limit": "Named runner processes only; cannot exclude arbitrary clients or another machine.",
+  "ready_for_larger_execution": false,
+  "stop_reason": "Temporal question closed; same-history retry history_changed; one whole-history restart also history_changed. No further reset loop or foreign-history adoption.",
+  "prepared_not_executed_next_cohort": "runs/live-expansion-20261031/plan.json",
+  "public_test_preflight": {
+    "questions": 146,
+    "histories": 15,
+    "max_message_chars": 13185,
+    "API_requests": 0,
+    "hidden_gold_accessed": false
+  },
+  "submission_requirements_source": "https://github.com/RxAI-dev/memory-challenge#submission",
+  "support_source": "setup_discord_thread.txt"
+}

@@ -1,0 +1,19 @@
+{
+  "active_dataset_history": "h_ffd255f5e52d",
+  "reactor_history": "fc32a3d0e4b54f3b964383f5faaa4d90",
+  "pending": {
+    "operation": "question",
+    "question_id": "q_53ebfc7819cf",
+    "dataset_history": "h_ffd255f5e52d",
+    "request_id": "e4f274d4141c6240f9ce92c0"
+  },
+  "completed_histories": [
+    "h_12968e55565d",
+    "h_34aaf10cf930",
+    "h_888675116505",
+    "h_8b84e8fc842e",
+    "h_d9c4d3316a8c",
+    "h_f6f7d9fa009c"
+  ],
+  "memory_completed": 0
+}

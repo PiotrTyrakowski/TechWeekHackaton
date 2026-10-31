@@ -1,0 +1,7 @@
+{
+  "driver_sha256": "1760e1a2ffc4aea76c382df63926cf9cfc4a1a0aac7c1e02af65f26a112608d9",
+  "startup_delay_after_each_reset_seconds": 30,
+  "same_user_questions_reset": false,
+  "source_files_modified": false,
+  "started_at": "2026-10-31T07:59:36.661852+00:00"
+}

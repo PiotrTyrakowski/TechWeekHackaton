@@ -1,0 +1,8 @@
+{"question_id": "q_1773242b1801", "question_type": "single-session-user", "gold_abstain": true, "answer": "correct", "abstain_ok": true, "evidence_f1": null}
+{"question_id": "q_d4ead82e5cad", "question_type": "single-session-user", "gold_abstain": false, "answer": "correct", "abstain_ok": true, "evidence_f1": 1.0}
+{"question_id": "q_e2cc79359e15", "question_type": "single-session-assistant", "gold_abstain": false, "answer": "correct", "abstain_ok": true, "evidence_f1": 1.0}
+{"question_id": "q_6eaf85dde884", "question_type": "multi-session", "gold_abstain": false, "answer": "correct", "abstain_ok": true, "evidence_f1": 1.0}
+{"question_id": "q_61a19ce280f4", "question_type": "knowledge-update", "gold_abstain": false, "answer": "correct", "abstain_ok": true, "evidence_f1": 0.6666666666666666}
+{"question_id": "q_4e61f6554795", "question_type": "single-session-assistant", "gold_abstain": false, "answer": "correct", "abstain_ok": true, "evidence_f1": 1.0}
+{"question_id": "q_8a42fbe85acc", "question_type": "single-session-assistant", "gold_abstain": false, "answer": "correct", "abstain_ok": true, "evidence_f1": 1.0}
+{"question_id": "q_53ebfc7819cf", "question_type": "temporal-reasoning", "gold_abstain": false, "answer": "wrong", "abstain_ok": true, "evidence_f1": 0.0}

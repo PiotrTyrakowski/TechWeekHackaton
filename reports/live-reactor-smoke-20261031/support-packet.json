@@ -1,0 +1,14 @@
+{
+  "team": "OpenToVibe",
+  "slot": "t07",
+  "agent_id": "agt_0c172edd3340495a",
+  "initial_temporal_history": "3b13a4688588425cb9011a7179518035",
+  "subsequent_server_history": "a0c0367fbf2543ceb8d0613839f939be",
+  "fresh_restart_returned_history": "fc32a3d0e4b54f3b964383f5faaa4d90",
+  "fresh_restart_started_at_UTC": "2026-10-31T08:19:21.696120+00:00",
+  "history_after_30s_wait": "c6a52a07b13149918ad52bb3c6afd62d",
+  "last_refusal": "history_changed, forwarded=false, close4409, no ack",
+  "local_named_runner_processes_after_stop": 0,
+  "local_audit_limit": "Cannot exclude arbitrary clients or another machine. Only this lead issued benchmark requests in this workstream; other Herdr agents were read-only.",
+  "request_for_operator": "Identify client/IP or server lifecycle operation that created replacement histories; if no authorized team client, investigate/rotate access privately. No credential is included."
+}

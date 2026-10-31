@@ -1,0 +1,659 @@
+{
+  "created_at": "2026-10-31T08:25:49.530128+00:00",
+  "scope": {
+    "questions": 8,
+    "completed": 7,
+    "missing": 1,
+    "complete": false
+  },
+  "completed_only_metrics": {
+    "knowledge-update": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.6666666666666666
+    },
+    "multi-session": {
+      "n": 1,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 1.0
+    },
+    "single-session-assistant": {
+      "n": 3,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 0,
+      "abstention_recall": null,
+      "false_abstention": 0.0,
+      "evidence_f1": 1.0
+    },
+    "single-session-user": {
+      "n": 2,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 1,
+      "abstention_recall": 1.0,
+      "false_abstention": 0.0,
+      "evidence_f1": 1.0
+    },
+    "all": {
+      "n": 7,
+      "correct": 1.0,
+      "unjudged": 0.0,
+      "abstention_n": 1,
+      "abstention_recall": 1.0,
+      "false_abstention": 0.0,
+      "evidence_f1": 0.9444444444444445
+    }
+  },
+  "citation_diagnostics": {
+    "nonabstained_answerable_completed": 6,
+    "final_answer_citation_coverage": 1.0,
+    "results_with_unknown_labels": 0,
+    "note": "Coverage is presence of actual submitted citations, not proof of support; official Evidence F1 includes false abstentions."
+  },
+  "attribution_diagnostics": {
+    "records": 7,
+    "with_reactor_citations": 6,
+    "with_verified_fallback": 0,
+    "with_unresolved_claims": 5,
+    "note": "Effective prediction citations and raw Reactor-supplied citations are distinct; fallback does not change Reactor answer text."
+  },
+  "successful_answer_latency_s": {
+    "n": 7,
+    "p50": 42.91,
+    "p95": 204.4,
+    "note": "Client answer latency, excluding retrieval, resets and preload. p95 uses nearest rank; small samples are descriptive."
+  },
+  "full_scope_note": "Metrics cover completed predictions only. Missing/pending questions are reported as incomplete, not final wrong answers.",
+  "scoring_note": "Official score.py functions provide local automatic matching and evidence F1. Unmatched answers remain unjudged; this report does not run an official LLM judge.",
+  "operations": {
+    "history_reset_attempts": 8,
+    "question_attempts": 10,
+    "preload_attempts": 0,
+    "failed_client_invocations": 3,
+    "client_invocation_failure_rate": 0.16666666666666666,
+    "client_invocations": 18,
+    "internal_retries": 11,
+    "total_api_operations_observed": 29,
+    "count_note": "Observed completed client invocations plus reported internal retries; an in-flight/unlogged call cannot be counted from this snapshot.",
+    "total_attempt_latency_s": 630.1559204590158,
+    "errors": [
+      {
+        "operation": "question",
+        "question_id": "q_53ebfc7819cf",
+        "status": "closed",
+        "code": null,
+        "exit_code": 5
+      },
+      {
+        "operation": "question",
+        "question_id": "q_53ebfc7819cf",
+        "status": "refused",
+        "code": "history_changed",
+        "exit_code": 4
+      },
+      {
+        "operation": "question",
+        "question_id": "q_53ebfc7819cf",
+        "status": "refused",
+        "code": "history_changed",
+        "exit_code": 4
+      }
+    ]
+  },
+  "per_question": [
+    {
+      "question_id": "q_1773242b1801",
+      "question": "What is the name of my hamster?",
+      "question_type": "single-session-user",
+      "status": "completed",
+      "pending_in_checkpoint": false,
+      "prediction": {
+        "question_id": "q_1773242b1801",
+        "abstain": true,
+        "answer": "",
+        "citations": []
+      },
+      "gold_answer": "You did not mention this information. You mentioned your cat Luna but not your hamster.",
+      "gold_abstain": true,
+      "citations": [],
+      "gold_sessions": [],
+      "official_local_result": {
+        "question_id": "q_1773242b1801",
+        "question_type": "single-session-user",
+        "gold_abstain": true,
+        "answer": "correct",
+        "abstain_ok": true,
+        "evidence_f1": null
+      },
+      "evidence_f1": null,
+      "evidence_precision": null,
+      "evidence_recall": null,
+      "unknown_labels": [],
+      "attribution": {
+        "policy_version": "verified-direct-v1",
+        "reactor_citations": [],
+        "reactor_citation_records": [],
+        "fallback_citations": [],
+        "unresolved_claims": [],
+        "supports": [],
+        "final_citations": [],
+        "question_id": "q_1773242b1801",
+        "dataset_history": "h_34aaf10cf930",
+        "reactor_history": "c9aff878a67a4459be3b320e63865eb9",
+        "raw_final_answer": "INSUFFICIENT_EVIDENCE"
+      },
+      "reactor_supplied_evidence_f1": null,
+      "fallback_only_evidence_f1": null,
+      "question_attempts": 1,
+      "total_attempt_latency_s": 11.309901583997998,
+      "successful_answer_latency_s": 11.02,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_d4ead82e5cad",
+      "question": "What is the name of my cat?",
+      "question_type": "single-session-user",
+      "status": "completed",
+      "pending_in_checkpoint": false,
+      "prediction": {
+        "question_id": "q_d4ead82e5cad",
+        "abstain": false,
+        "answer": "Luna",
+        "citations": [
+          "s_8a377a1e6a80"
+        ]
+      },
+      "gold_answer": "Luna",
+      "gold_abstain": false,
+      "citations": [
+        "s_8a377a1e6a80"
+      ],
+      "gold_sessions": [
+        "s_8a377a1e6a80"
+      ],
+      "official_local_result": {
+        "question_id": "q_d4ead82e5cad",
+        "question_type": "single-session-user",
+        "gold_abstain": false,
+        "answer": "correct",
+        "abstain_ok": true,
+        "evidence_f1": 1.0
+      },
+      "evidence_f1": 1.0,
+      "evidence_precision": 1.0,
+      "evidence_recall": 1.0,
+      "unknown_labels": [],
+      "attribution": {
+        "policy_version": "verified-direct-v1",
+        "reactor_citations": [
+          "s_8a377a1e6a80"
+        ],
+        "reactor_citation_records": [
+          {
+            "label": "E1",
+            "id": "s_8a377a1e6a80"
+          }
+        ],
+        "fallback_citations": [],
+        "unresolved_claims": [],
+        "supports": [
+          {
+            "claim": "Luna",
+            "source_id": "s_8a377a1e6a80",
+            "evidence_index": 0,
+            "role": "user",
+            "span": "my cat's name is Luna",
+            "start": 3959,
+            "end": 3980,
+            "rule": "direct_name_v1"
+          }
+        ],
+        "final_citations": [
+          "s_8a377a1e6a80"
+        ],
+        "question_id": "q_d4ead82e5cad",
+        "dataset_history": "h_12968e55565d",
+        "reactor_history": "7311b444ce5a454d842dae534d66f30d",
+        "raw_final_answer": "Luna [E1]"
+      },
+      "reactor_supplied_evidence_f1": 1.0,
+      "fallback_only_evidence_f1": 0.0,
+      "question_attempts": 1,
+      "total_attempt_latency_s": 43.296136250020936,
+      "successful_answer_latency_s": 42.91,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_e2cc79359e15",
+      "question": "What refining processes run at CITGO's Lake Charles Refinery?",
+      "question_type": "single-session-assistant",
+      "status": "completed",
+      "pending_in_checkpoint": false,
+      "prediction": {
+        "question_id": "q_e2cc79359e15",
+        "abstain": false,
+        "answer": "The refining processes at CITGO's Lake Charles Refinery include atmospheric distillation, fluid catalytic cracking (FCC), alkylation, and hydrotreating.",
+        "citations": [
+          "s_4ce9668e7224"
+        ]
+      },
+      "gold_answer": "Atmospheric distillation, fluid catalytic cracking (FCC), alkylation, and hydrotreating.",
+      "gold_abstain": false,
+      "citations": [
+        "s_4ce9668e7224"
+      ],
+      "gold_sessions": [
+        "s_4ce9668e7224"
+      ],
+      "official_local_result": {
+        "question_id": "q_e2cc79359e15",
+        "question_type": "single-session-assistant",
+        "gold_abstain": false,
+        "answer": "correct",
+        "abstain_ok": true,
+        "evidence_f1": 1.0
+      },
+      "evidence_f1": 1.0,
+      "evidence_precision": 1.0,
+      "evidence_recall": 1.0,
+      "unknown_labels": [],
+      "attribution": {
+        "policy_version": "verified-direct-v1",
+        "reactor_citations": [
+          "s_4ce9668e7224"
+        ],
+        "reactor_citation_records": [
+          {
+            "label": "E1",
+            "id": "s_4ce9668e7224"
+          }
+        ],
+        "fallback_citations": [],
+        "unresolved_claims": [
+          {
+            "claim": "The refining processes at CITGO's Lake Charles Refinery include atmospheric distillation, fluid catalytic cracking (FCC), alkylation, and hydrotreating.",
+            "reason": "unsupported_question_or_answer_form"
+          }
+        ],
+        "supports": [],
+        "final_citations": [
+          "s_4ce9668e7224"
+        ],
+        "question_id": "q_e2cc79359e15",
+        "dataset_history": "h_888675116505",
+        "reactor_history": "509f1304fd114242ab5c49b510aa690e",
+        "raw_final_answer": "The refining processes at CITGO's Lake Charles Refinery include atmospheric distillation, fluid catalytic cracking (FCC), alkylation, and hydrotreating. [E1]"
+      },
+      "reactor_supplied_evidence_f1": 1.0,
+      "fallback_only_evidence_f1": 0.0,
+      "question_attempts": 1,
+      "total_attempt_latency_s": 43.228739625017624,
+      "successful_answer_latency_s": 42.94,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_6eaf85dde884",
+      "question": "How many online courses have I completed in total?",
+      "question_type": "multi-session",
+      "status": "completed",
+      "pending_in_checkpoint": false,
+      "prediction": {
+        "question_id": "q_6eaf85dde884",
+        "abstain": false,
+        "answer": "Five online courses in total — three completed on Coursera plus two completed on edX.",
+        "citations": [
+          "s_8adc485146ac",
+          "s_1a6769d03923"
+        ]
+      },
+      "gold_answer": "5",
+      "gold_abstain": false,
+      "citations": [
+        "s_8adc485146ac",
+        "s_1a6769d03923"
+      ],
+      "gold_sessions": [
+        "s_8adc485146ac",
+        "s_1a6769d03923"
+      ],
+      "official_local_result": {
+        "question_id": "q_6eaf85dde884",
+        "question_type": "multi-session",
+        "gold_abstain": false,
+        "answer": "correct",
+        "abstain_ok": true,
+        "evidence_f1": 1.0
+      },
+      "evidence_f1": 1.0,
+      "evidence_precision": 1.0,
+      "evidence_recall": 1.0,
+      "unknown_labels": [],
+      "attribution": {
+        "policy_version": "verified-direct-v1",
+        "reactor_citations": [
+          "s_8adc485146ac",
+          "s_1a6769d03923"
+        ],
+        "reactor_citation_records": [
+          {
+            "label": "E1",
+            "id": "s_8adc485146ac"
+          },
+          {
+            "label": "E2",
+            "id": "s_1a6769d03923"
+          }
+        ],
+        "fallback_citations": [],
+        "unresolved_claims": [
+          {
+            "claim": "Five online courses in total — three completed on Coursera  plus two completed on edX .",
+            "reason": "unsupported_question_or_answer_form"
+          }
+        ],
+        "supports": [],
+        "final_citations": [
+          "s_8adc485146ac",
+          "s_1a6769d03923"
+        ],
+        "question_id": "q_6eaf85dde884",
+        "dataset_history": "h_8b84e8fc842e",
+        "reactor_history": "abc10710cd7a427d8994e4bc0d6686da",
+        "raw_final_answer": "Five online courses in total — three completed on Coursera [E1] plus two completed on edX [E2]."
+      },
+      "reactor_supplied_evidence_f1": 1.0,
+      "fallback_only_evidence_f1": 0.0,
+      "question_attempts": 1,
+      "total_attempt_latency_s": 37.291535916010616,
+      "successful_answer_latency_s": 37.01,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_61a19ce280f4",
+      "question": "Is my mom using the same grocery list method as me?",
+      "question_type": "knowledge-update",
+      "status": "completed",
+      "pending_in_checkpoint": false,
+      "prediction": {
+        "question_id": "q_61a19ce280f4",
+        "abstain": false,
+        "answer": "Yes, your mom is using the same grocery list method as you — the same shared grocery list app.",
+        "citations": [
+          "s_24a6fcdbdab6"
+        ]
+      },
+      "gold_answer": "Yes.",
+      "gold_abstain": false,
+      "citations": [
+        "s_24a6fcdbdab6"
+      ],
+      "gold_sessions": [
+        "s_e983d0ba00e7",
+        "s_24a6fcdbdab6"
+      ],
+      "official_local_result": {
+        "question_id": "q_61a19ce280f4",
+        "question_type": "knowledge-update",
+        "gold_abstain": false,
+        "answer": "correct",
+        "abstain_ok": true,
+        "evidence_f1": 0.6666666666666666
+      },
+      "evidence_f1": 0.6666666666666666,
+      "evidence_precision": 1.0,
+      "evidence_recall": 0.5,
+      "unknown_labels": [],
+      "attribution": {
+        "policy_version": "verified-direct-v1",
+        "reactor_citations": [
+          "s_24a6fcdbdab6"
+        ],
+        "reactor_citation_records": [
+          {
+            "label": "E1",
+            "id": "s_24a6fcdbdab6"
+          }
+        ],
+        "fallback_citations": [],
+        "unresolved_claims": [
+          {
+            "claim": "Yes, your mom is using the same grocery list method as you — the same shared grocery list app.",
+            "reason": "unsupported_question_or_answer_form"
+          }
+        ],
+        "supports": [],
+        "final_citations": [
+          "s_24a6fcdbdab6"
+        ],
+        "question_id": "q_61a19ce280f4",
+        "dataset_history": "h_f6f7d9fa009c",
+        "reactor_history": "e46fbf8e932d4c93a4f9148aafda7886",
+        "raw_final_answer": "Yes, your mom is using the same grocery list method as you — the same shared grocery list app. [E1]"
+      },
+      "reactor_supplied_evidence_f1": 0.6666666666666666,
+      "fallback_only_evidence_f1": 0.0,
+      "question_attempts": 1,
+      "total_attempt_latency_s": 59.0107272080204,
+      "successful_answer_latency_s": 58.68,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_4e61f6554795",
+      "question": "I'm planning my trip to Speyer again and I wanted to confirm, what's the phone number of the Speyer tourism board that you provided me earlier?",
+      "question_type": "single-session-assistant",
+      "status": "completed",
+      "pending_in_checkpoint": false,
+      "prediction": {
+        "question_id": "q_4e61f6554795",
+        "abstain": false,
+        "answer": "+49 (0) 62 32 / 14 23 - 0",
+        "citations": [
+          "s_d53b7f6c1547"
+        ]
+      },
+      "gold_answer": "+49 (0) 62 32 / 14 23 - 0",
+      "gold_abstain": false,
+      "citations": [
+        "s_d53b7f6c1547"
+      ],
+      "gold_sessions": [
+        "s_d53b7f6c1547"
+      ],
+      "official_local_result": {
+        "question_id": "q_4e61f6554795",
+        "question_type": "single-session-assistant",
+        "gold_abstain": false,
+        "answer": "correct",
+        "abstain_ok": true,
+        "evidence_f1": 1.0
+      },
+      "evidence_f1": 1.0,
+      "evidence_precision": 1.0,
+      "evidence_recall": 1.0,
+      "unknown_labels": [],
+      "attribution": {
+        "policy_version": "verified-direct-v1",
+        "reactor_citations": [
+          "s_d53b7f6c1547"
+        ],
+        "reactor_citation_records": [
+          {
+            "label": "E1",
+            "id": "s_d53b7f6c1547"
+          }
+        ],
+        "fallback_citations": [],
+        "unresolved_claims": [
+          {
+            "claim": "+49 (0) 62 32 / 14 23 - 0",
+            "reason": "unsupported_question_or_answer_form"
+          }
+        ],
+        "supports": [],
+        "final_citations": [
+          "s_d53b7f6c1547"
+        ],
+        "question_id": "q_4e61f6554795",
+        "dataset_history": "h_d9c4d3316a8c",
+        "reactor_history": "87a959b854e24fa79d75124ce92cd678",
+        "raw_final_answer": "+49 (0) 62 32 / 14 23 - 0 [E1]"
+      },
+      "reactor_supplied_evidence_f1": 1.0,
+      "fallback_only_evidence_f1": 0.0,
+      "question_attempts": 1,
+      "total_attempt_latency_s": 14.483867458999157,
+      "successful_answer_latency_s": 14.25,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_8a42fbe85acc",
+      "question": "What's the phone number of the Speyer tourism board?",
+      "question_type": "single-session-assistant",
+      "status": "completed",
+      "pending_in_checkpoint": false,
+      "prediction": {
+        "question_id": "q_8a42fbe85acc",
+        "abstain": false,
+        "answer": "+49 (0) 62 32 / 14 23 - 0",
+        "citations": [
+          "s_d53b7f6c1547"
+        ]
+      },
+      "gold_answer": "+49 (0) 62 32 / 14 23 - 0",
+      "gold_abstain": false,
+      "citations": [
+        "s_d53b7f6c1547"
+      ],
+      "gold_sessions": [
+        "s_d53b7f6c1547"
+      ],
+      "official_local_result": {
+        "question_id": "q_8a42fbe85acc",
+        "question_type": "single-session-assistant",
+        "gold_abstain": false,
+        "answer": "correct",
+        "abstain_ok": true,
+        "evidence_f1": 1.0
+      },
+      "evidence_f1": 1.0,
+      "evidence_precision": 1.0,
+      "evidence_recall": 1.0,
+      "unknown_labels": [],
+      "attribution": {
+        "policy_version": "verified-direct-v1",
+        "reactor_citations": [
+          "s_d53b7f6c1547"
+        ],
+        "reactor_citation_records": [
+          {
+            "label": "E1",
+            "id": "s_d53b7f6c1547"
+          }
+        ],
+        "fallback_citations": [],
+        "unresolved_claims": [
+          {
+            "claim": "+49 (0) 62 32 / 14 23 - 0",
+            "reason": "unsupported_question_or_answer_form"
+          }
+        ],
+        "supports": [],
+        "final_citations": [
+          "s_d53b7f6c1547"
+        ],
+        "question_id": "q_8a42fbe85acc",
+        "dataset_history": "h_d9c4d3316a8c",
+        "reactor_history": "87a959b854e24fa79d75124ce92cd678",
+        "raw_final_answer": "+49 (0) 62 32 / 14 23 - 0 [E1]"
+      },
+      "reactor_supplied_evidence_f1": 1.0,
+      "fallback_only_evidence_f1": 0.0,
+      "question_attempts": 1,
+      "total_attempt_latency_s": 317.05372362499475,
+      "successful_answer_latency_s": 204.4,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    },
+    {
+      "question_id": "q_53ebfc7819cf",
+      "question": "How many weeks had passed since I recovered from the flu when I went on my 10th jog outdoors?",
+      "question_type": "temporal-reasoning",
+      "status": "refused",
+      "pending_in_checkpoint": true,
+      "prediction": null,
+      "gold_answer": "15",
+      "gold_abstain": false,
+      "citations": null,
+      "gold_sessions": [
+        "s_4135de74602d",
+        "s_87c7da57fc7b"
+      ],
+      "official_local_result": null,
+      "evidence_f1": null,
+      "evidence_precision": null,
+      "evidence_recall": null,
+      "unknown_labels": [],
+      "attribution": null,
+      "reactor_supplied_evidence_f1": null,
+      "fallback_only_evidence_f1": null,
+      "question_attempts": 3,
+      "total_attempt_latency_s": 98.58644099996309,
+      "successful_answer_latency_s": null,
+      "manual_review": {
+        "required": false,
+        "official_judge": false,
+        "note": "Unjudged means local matching did not decide; no official LLM judge has run."
+      }
+    }
+  ],
+  "source_run": "runs/live-reactor-gate1-retry-20261031/run",
+  "archive_sha256": {
+    "results.jsonl": "d13247b14c309de0aa120b6e1beeeef2422163dedaa31a90e2cf5fee077b8de0",
+    "predictions.jsonl": "aa602b341d98037c24a6eb16b317ae208640bb653951d598ea2743babeb9a515",
+    "attribution.jsonl": "d7a6769135c0348930ae0cd94ee1ece8d1e47616934221f64f755eac11738b79",
+    "attempts.jsonl": "d0d8b03d46fa1f27cf7ac03625cbe1d6a053adee0496b0499dc2a1af6cedb351",
+    "plan.json": "afd3b7aea80fd90150d6acd183ecbd736460d7248c86d6920d675b4d28daadcf",
+    "recovery.jsonl": "ac157060ad7bbec18e71ee6018f028702e01c42119aa59d65097a35bd03aefa9",
+    "checkpoint.json": "ab01b683ed747742bea429d9d3abd8d8cf08ea5b03883e948d5e3870f1c6130b",
+    "access-windows.jsonl": "9b2ff967a5ab39f7a3e0fb0211093d9320eb109d528070791f2b1bf5354e2a5a",
+    "questions.jsonl": "479de13f051ab09065461a93748063ce1095e0560d8d9bede8471526c85bc75b",
+    "gold.jsonl": "5669b04873faea03e62bf03314be8569b7b0b2b7ff7b9db1b70bd421ee03e804"
+  },
+  "report_script_sha256": "d115d31db3a48eed3177447038e13573c16d601944ce2b5c4ad90a4ec16e8db5"
+}

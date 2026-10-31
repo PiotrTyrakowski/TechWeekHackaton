@@ -1,49 +1,56 @@
 # OpenToVibe — current status and decisions
 
-Updated 2026-10-31. Organizer clarifications supplied by the user override older
-policy assumptions in the historical reports.
+Updated 2026-10-31. **Real Reactor results are now the primary record.**
+[Full actual run, answers, category scores and failures](live-reactor-smoke-20261031/README.md).
 
-**Latest real Gate 1 retry PASSED.** Actual Reactor final: `Luna [E1]`; gold:
-`Luna`. Official local dev matching: **correct**, submitted Evidence F1 **1.0**.
-Citation came directly from Reactor and maps to `s_8a377a1e6a80`; no fallback
-or unresolved claim. One reset + one question = **2 benchmark operations**,
-zero retries/failures, answer latency **42.91s**, complete execution **74.484s**
-including a recorded 30s post-reset wait. Independent read-only evaluation
-verified the current ref, matching ack cycle 2/reply cycle 3, original source,
-official adapter/scorer, hashes, and checkpoint pending=null.
-[Passed live scoreboard](live-reactor-gate1-retry-20261031/gate1-scoreboard.json).
-This is one known diagnostic question, not representative accuracy. The seven
-remaining smoke questions were intentionally unattempted. Full146 is unvalidated.
+| Metric | Actual eight-question development sample |
+| --- | --- |
+| Completion | **7/8**; temporal blocked by session replacement |
+| Correct | **7 locally matched; zero observed wrong/unjudged answers** |
+| Accuracy, full planned / completed | **7/8 (87.5%) / 7/7** |
+| Actual citation F1, full planned / completed | **0.809524 / 0.944444** |
+| Abstention | **1/1** correct unanswerable; false abstention **0/6** observed |
+| Failures | **3** failed temporal invocations; **11** safe normal pending retries |
+| Operations | **29**: 8 resets, 10 question-client attempts, 11 internal retries |
+| Timing | **21m30s** across active stages, including waits/recovery; **630.16s** client time |
+| Provenance | Six Reactor-cited outputs; zero fallback additions; no answers edited |
 
-**Previous live Gate 1 attempt failed on session invalidation.** One unique
-question had two client attempts; zero answers completed. The reset succeeded,
-then chat upgrade returned HTTP 403. A later same-history connection succeeded,
-but asking was refused with `history_changed`, `forwarded=false`, close 4409.
-Only one reset was issued by this runner; the server's current history differed
-from the returned ID. External teammate reset versus server initialization/restart
-cannot be distinguished from this trace. No foreign history was adopted.
+Official scoring is the provided **local dev matcher/session F1**, not organizer
+LLM judging or hidden test gold. Missing temporal output is penalized in the
+full-planned view; it is a transport failure, not an observed wrong model answer.
+This is a small development diagnostic with earlier exposure, not final-test
+generalization.
 
-Measured: **3 benchmark operations** (1 reset, 2 question attempts), **1 separate
-handshake diagnostic**, zero internal retries, **2.165s** benchmark client time,
-**315.86s** elapsed through diagnosis/archive. Gold is `Luna`; no Reactor answer
-exists to score, so accuracy/citation F1/abstention are NOT MEASURED for this run.
-Previous failure preserved: [scoreboard](live-reactor-gate1-20261031/gate1-scoreboard.json)
-and [raw archive](live-reactor-gate1-20261031/report.json).
+The same-user pair completed in one Reactor history. Its follow-up took 204.4s
+after acceptance and 317.05s overall with 11 safe pending retries. Knowledge-update
+answering was correct, but one of two gold sources was omitted (item F1 0.666667).
+No older source was blindly appended to match gold.
 
-Prepared manifest/commands:
-Current successful run: `runs/live-reactor-gate1-retry-20261031/run/`;
-its frozen command is in `command.json` beside it. The eight-question smoke adds
-temporal question `q_53ebfc7819cf` and covers all six requested categories plus
-a natural sequential pair. Gate 1 remains two initial operations; Gate 2 adds
-13, for 15 total. The credential is privately configured. Lead p1 executed the
-minimal gate on the user's explicit instruction; remote exclusivity was not
-independently observable. Other agents remain offline only. The later fresh
-attempt succeeded with the same configured credential; the previous replacement's
-cause and any benefit caused by the 30s wait remain unproven.
+**Execution stopped at the restart cap.** Temporal history `3b13a468…` was
+replaced; its same-history retry was refused. One whole-user restart returned
+`fc32a3d0…` at 08:19:21 UTC, but after the 30s startup wait the server reported
+`c6a52a07…`. No foreign history was adopted. Only this lead ran API requests in
+this workstream; no named local runner processes remained after stopping.
+Another machine/arbitrary client or server lifecycle activity cannot be excluded.
+[Credential-free operator packet](live-reactor-smoke-20261031/support-packet.json).
 
-**Stopped after the one authorized retry.** Lead p1 is the sole runner. Next is
-the controlled representative smoke; no full-test execution is scheduled.
-Lead is the single integration owner; four Herdr workstreams have distinct files.
+Lead p1 remains the only designated runner. Other agents are read-only.
+Next requirement is genuine exclusive t07 control or operator investigation of
+the replacement histories. Do not start another collision loop.
+
+Ready after that blocker clears: 12 new stratified questions (24 initial
+calibrated operations), six predeclared matched BM25 controls (12 more), and a
+possible two-pair memory comparison (14). Selection is frozen in
+`runs/live-expansion-20261031/plan.json`; **none of these has been executed**.
+
+Final public test inputs are checksum-verified: **146 questions / 15 histories**.
+Dry-run preflight passed, max prompt 13,185 characters; no hidden gold accessed.
+No test API run has been launched. The exact submission deadline remains
+unconfirmed; the official README leaves it to kickoff announcements.
+
+Previous Gate-1 archives remain unchanged:
+[failed attempt](live-reactor-gate1-20261031/gate1-scoreboard.json),
+[successful retry](live-reactor-gate1-retry-20261031/gate1-scoreboard.json).
 
 ## Immediate organizer-policy update
 
@@ -176,3 +183,4 @@ Never reset between same-user questions. A timeout is not cancellation.
 | D09 | P0 integrated: 179 guarded tests; actual saved-answer F1 0→1 under automatic fallback (n=1), raw archive unchanged; five current dry-run commands pass. Gate 1 still awaits exclusive access. |
 | D10 | Actual Gate 1 ran: HTTP 403 then `history_changed`, 0 answers, 3 benchmark operations +1 handshake diagnostic. Preserve checkpoint/logs, do not adopt foreign history or expand. Source of replacement remains unverified. |
 | D11 | User-authorized fresh retry passed: actual `Luna [E1]`, gold `Luna`, local correct/F1=1, 2 operations/0 failures, 42.91s answer. Preserve prior failures separately; n=1 does not establish general accuracy or startup-delay causality. |
+| D12 | Real eight-question smoke: seven completed/correct, planned accuracy7/8, full-scope citation F1 .809524 (completed .944444), genuine abstention1/1, same-user follow-up317s. Temporal failed closed then two history_changed refusals; one bounded whole-history restart failed. Stop at cap, preserve all29operations and resolve shared-agent interference before scaling. |
