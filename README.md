@@ -222,20 +222,33 @@ Local `score.py` automatically matches some answers; other answers remain
 **unjudged**, not proven wrong or correct. Official scoring uses an LLM judge.
 Evidence F1 counts on every answerable question, including abstentions.
 
-## Test submission (requires approval before the large API batch)
+## Final test submission
 
 ```sh
 python3 bootstrap.py --split test
-.venv/bin/python runtime.py --questions data/test/questions.jsonl --histories data/test/histories.jsonl --out-dir runs/test-v1 --method bm25 --k 4 --limit 0
+.venv/bin/python final_run.py
 ```
 
-Choose a configuration from measured dev results before execution. The public
-test description reports 146 questions across 15 histories: approximately 161
-initial API operations; the actual dry run is authoritative. Review the plan,
-obtain approval and exclusive access, then use
-`--execute --exclusive-access --access-window runs/agreed-window.json`. Completion checks exact selected question
-coverage and per-history citations. Keep the raw results, manifest, checkpoint,
-code revision, and final predictions together for reproducibility.
+The final launcher freezes Calibrated-4, verified attribution, evidence-only
+context, a 600-second timeout and a persistent 30-second post-reset startup wait.
+It prepares all **146 questions across 15 histories**, requiring **161 initial
+API operations**, plus retries. It never reads test gold.
+
+Once all other machines have stopped using t07 and the access-window file records
+the actual agreement and end time, the single lead runner executes:
+
+```sh
+.venv/bin/python final_run.py --execute --access-window runs/agreed-window.json
+```
+
+The launcher privately loads the ignored `.env` only during execution. Outputs
+and checkpoints are retained in `runs/final-test-20261031/`; repeat the same
+command to resume completed work. An uncertain request stops for inspection;
+retry flags require explicit diagnosis. Never reset an answered dataset history
+or adopt a foreign server history. `coverage.json` tracks every history and must
+report `submission_ready: true` before copying `predictions.jsonl` for submission.
+Coverage is not hidden-test accuracy. Keep raw results, attribution, manifest,
+checkpoint, and code revision with the submission.
 
 Official sources: [rules and scoring](https://github.com/RxAI-dev/memory-challenge),
 [participant kit](https://github.com/RxAI-dev/memory-challenge/tree/main/reactor),

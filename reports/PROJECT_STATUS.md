@@ -38,15 +38,21 @@ Lead p1 remains the only designated runner. Other agents are read-only.
 Next requirement is genuine exclusive t07 control or operator investigation of
 the replacement histories. Do not start another collision loop.
 
-Ready after that blocker clears: 12 new stratified questions (24 initial
-calibrated operations), six predeclared matched BM25 controls (12 more), and a
-possible two-pair memory comparison (14). Selection is frozen in
-`runs/live-expansion-20261031/plan.json`; **none of these has been executed**.
+**Priority changed to final test execution.** Further development comparisons
+are deferred; the frozen `runs/live-expansion-20261031/plan.json` is unexecuted.
 
 Final public test inputs are checksum-verified: **146 questions / 15 histories**.
 Dry-run preflight passed, max prompt 13,185 characters; no hidden gold accessed.
-No test API run has been launched. The exact submission deadline remains
-unconfirmed; the official README leaves it to kickoff announcements.
+No test API run has been launched: **0/146 predictions**, with no nonempty test
+predictions found across the 12 local worktrees. `final_run.py` is ready for the
+single lead runner: calibrated k4, verified attribution, evidence-only, 600s,
+persistent 30s startup pacing, checkpoints and per-history coverage. Its full
+146/15 dry preflight passes without network access. Launch requires explicit
+cross-machine sole-runner confirmation and the agreed window end time. If a
+teammate already owns the final run, collect and validate their output instead
+of resetting t07. Initial budget is 161 operations plus retries; reserve 4–5h.
+The exact submission deadline remains unconfirmed; the official README leaves
+it to kickoff announcements. Hidden test accuracy/F1 cannot be scored locally.
 
 Previous Gate-1 archives remain unchanged:
 [failed attempt](live-reactor-gate1-20261031/gate1-scoreboard.json),
