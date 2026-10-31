@@ -1,8 +1,8 @@
 # Reactor calls: results and checks
 
-Generated 2026-10-31 09:16 by `python report.py` from `runs/*/results.jsonl`: every line is one call to our Reactor agent (team OpenToVibe, slot t07) through the kit's `client.py`, exactly as the client returned it. Rows for every call are also in `reactor_calls.json`.
+Generated 2026-10-31 10:45 by `python report.py` from `runs/*/results.jsonl`: every line is one call to our Reactor agent (team OpenToVibe, slot t07) through the kit's `client.py`, exactly as the client returned it. Rows for every call are also in `reactor_calls.json`.
 
-**Test coverage:** 63 of 146 test questions have a Reactor answer (83 still to ask).
+**Test coverage:** 116 of 146 test questions have a Reactor answer (30 still to ask).
 
 ## Summary per run
 
@@ -13,26 +13,26 @@ Generated 2026-10-31 09:16 by `python report.py` from `runs/*/results.jsonl`: ev
 | dev3 | dev (testing) | 1 | 1 | 1 | 0 | 74 s | 74 s | 0 | 0 |
 | smoke | test (testing) | 3 | 3 | 3 | 0 | 69 s | 71 s | 5 | 0 |
 | test | submission | 55 | 55 | 55 | 4 | 72 s | 165 s | 230 | 1 |
-| test2 | submission | 18 | 11 | 11 | 2 | 78 s | 141 s | 31 | 0 |
+| test2 | submission | 72 | 64 | 64 | 5 | 73 s | 212 s | 248 | 0 |
 
-**All runs:** 106 calls, 99 answered, 99 pass every check.
+**All runs:** 160 calls, 152 answered, 152 pass every check.
 
 ## Checks
 
 | check | meaning | calls failing |
 |---|---|---|
-| answered | client status `answered` (no timeout, refusal, closed chat or error) | 7: test2#9, test2#10, test2#11, test2#12, test2#14, test2#15, test2#16 |
-| ref | the reply's `# FINAL ANSWER [ref:…]` line carries this question's ref, so it answers this message | 7: test2#9, test2#10, test2#11, test2#12, test2#14, test2#15, test2#16 |
-| citations | every cited `[E#]` label is one we sent, and maps to a real session of that history | 7: test2#9, test2#10, test2#11, test2#12, test2#14, test2#15, test2#16 |
-| cited | an answer that is not an abstention cites at least one excerpt | 7: test2#9, test2#10, test2#11, test2#12, test2#14, test2#15, test2#16 |
+| answered | client status `answered` (no timeout, refusal, closed chat or error) | 8: test2#9, test2#10, test2#11, test2#12, test2#14, test2#15, test2#16, test2#19 |
+| ref | the reply's `# FINAL ANSWER [ref:…]` line carries this question's ref, so it answers this message | 8: test2#9, test2#10, test2#11, test2#12, test2#14, test2#15, test2#16, test2#19 |
+| citations | every cited `[E#]` label is one we sent, and maps to a real session of that history | 8: test2#9, test2#10, test2#11, test2#12, test2#14, test2#15, test2#16, test2#19 |
+| cited | an answer that is not an abstention cites at least one excerpt | 8: test2#9, test2#10, test2#11, test2#12, test2#14, test2#15, test2#16, test2#19 |
 | size | the message we sent was within the 31,000-character limit | 0 |
-| abstention | abstained exactly when the answer is `INSUFFICIENT_EVIDENCE` | 7: test2#9, test2#10, test2#11, test2#12, test2#14, test2#15, test2#16 |
+| abstention | abstained exactly when the answer is `INSUFFICIENT_EVIDENCE` | 8: test2#9, test2#10, test2#11, test2#12, test2#14, test2#15, test2#16, test2#19 |
 
 A *late reply* is a final answer to the previous question that arrived while the next one was being asked. The client reports it separately and never takes it as the current answer: test#26 (q_7b0aefc8ba1b).
 
 ## Reactor and the second reader
 
-62 submission calls carried a DeepSeek draft. Reactor's final answer matches the draft (ignoring labels, case and punctuation) in 57 and differs in 5; Reactor checks the draft against the evidence and does not copy it.
+115 submission calls carried a DeepSeek draft. Reactor's final answer matches the draft (ignoring labels, case and punctuation) in 110 and differs in 5; Reactor checks the draft against the evidence and does not copy it.
 
 | run | question | draft | Reactor |
 |---|---|---|---|
@@ -126,6 +126,60 @@ A *late reply* is a final answer to the previous question that arrived while the
 | test2 | 16 | How many different vegetable varieties have I planted in my… |  | 0 | - | ✗ answered, ref, citations, cited, abstention |  |
 | test2 | 17 | What output tube cathode resistor value did I end up using … | 180 ohms [E6][E17][E25] | 3 | 127 s | ✓ | ✓ |
 | test2 | 18 | How many times did my systolic reading exceed 130 in August? | 4 [E31][E35][E37][E41] | 4 | 74 s | ✓ | ✓ |
+| test2 | 19 | How many days after my pre-departure medical check-up did I… |  | 0 | - | ✗ answered, ref, citations, cited, abstention |  |
+| test2 | 20 | How many days after my last day of school before summer did… | 5 days [E28] [E30] | 2 | 93 s | ✓ | ✓ |
+| test2 | 21 | How many days after getting my sourdough starter did I bake… | INSUFFICIENT_EVIDENCE | 0 | 112 s | ✓ | ✓ |
+| test2 | 22 | What was the name of my language exchange partner from Queb… | Manon [E22] | 1 | 68 s | ✓ | ✓ |
+| test2 | 23 | How many days apart were my Toronto Marathon and the big Mo… | 73 days [E1][E20] | 2 | 54 s | ✓ | ✓ |
+| test2 | 24 | What was the name of the swim club you recommended for cros… | Masters Swim Club at the Toronto Pan Am Sports Ce… | 1 | 67 s | ✓ | ✓ |
+| test2 | 25 | What was the name of the physiotherapist I saw after the To… | INSUFFICIENT_EVIDENCE | 0 | 116 s | ✓ | ✓ |
+| test2 | 26 | What was the name of the coach you recommended for my speed… | Coach Miriam [E6] | 1 | 88 s | ✓ | ✓ |
+| test2 | 27 | What is the name of the immigration law firm where I work? | Ferreira Immigration Law [E4] | 1 | 70 s | ✓ | ✓ |
+| test2 | 28 | How many days apart were the community potluck where I made… | 100 days [E4][E27] | 2 | 63 s | ✓ | ✓ |
+| test2 | 29 | What is the name of the store where I currently buy Morocca… | Marrakech Market [E9][E22] | 2 | 116 s | ✓ | ✓ |
+| test2 | 30 | What was the name of the park you recommended for hill repe… | Riverdale Park East [E3] | 1 | 95 s | ✓ | ✓ |
+| test2 | 31 | How many days apart were my visit to the Aga Khan Museum an… | 21 days [E10][E12] | 2 | 83 s | ✓ | ✓ |
+| test2 | 32 | How many days apart were the immigration law conference I a… | 77 days [E8][E22] | 2 | 83 s | ✓ | ✓ |
+| test2 | 33 | What was the name of that adhesive you recommended for repa… | BEVA 371 [E6] | 1 | 47 s | ✓ | ✓ |
+| test2 | 34 | How many animals at the shelter where I volunteer are not F… | 21 [E5] [E18] [E31] | 3 | 59 s | ✓ | ✓ |
+| test2 | 35 | What is the name of the museum where I work? | INSUFFICIENT_EVIDENCE | 0 | 63 s | ✓ | ✓ |
+| test2 | 36 | How many days after I registered for my part-time PhD did I… | 108 days [E4] [E28] | 2 | 88 s | ✓ | ✓ |
+| test2 | 37 | What brand is the bicycle I ride to work? | Gazelle [E2][E15] | 2 | 212 s | ✓ | ✓ |
+| test2 | 38 | How many days after I attended the fresco conservation work… | 46 days [E5][E14] | 2 | 58 s | ✓ | ✓ |
+| test2 | 39 | How many books have I read for my PhD literature review sin… | 9 [E15][E34] | 2 | 98 s | ✓ | ✓ |
+| test2 | 40 | What is the name of the café where I usually stop for a cap… | Caffè Gilli [E2] | 1 | 84 s | ✓ | ✓ |
+| test2 | 41 | What is the name of the animal shelter where I volunteer? | Rifugio San Francesco [E2][E18] | 2 | 64 s | ✓ | ✓ |
+| test2 | 42 | What was the combined attendance at the March and June book… | 16 [E3][E28] | 2 | 67 s | ✓ | ✓ |
+| test2 | 43 | Which Berlin neighborhood is my new apartment in? | Kreuzberg [E11][E25] | 2 | 83 s | ✓ | ✓ |
+| test2 | 44 | How many people are on my UX team now? | 8 [E3][E27] | 2 | 63 s | ✓ | ✓ |
+| test2 | 45 | What was the name of the café you recommended for my remote… | Café Blau [E10] | 1 | 74 s | ✓ | ✓ |
+| test2 | 46 | What is the name of my sailing instructor? | Marta [E20] | 1 | 57 s | ✓ | ✓ |
+| test2 | 47 | What is my move date? | September 16 [E6][E25] | 2 | 79 s | ✓ | ✓ |
+| test2 | 48 | What is the name of my brother's new dog? | Skipper [E7] | 1 | 57 s | ✓ | ✓ |
+| test2 | 49 | How many days after my introductory pottery workshop is the… | 14 days [E1][E5] | 2 | 47 s | ✓ | ✓ |
+| test2 | 50 | What is the name of the restaurant I booked for my birthday… | Amici [E11][E17] | 2 | 51 s | ✓ | ✓ |
+| test2 | 51 | What is the name of the dentist you recommended for my chec… | Dr. Vogel [E12] | 1 | 60 s | ✓ | ✓ |
+| test2 | 52 | How many days after the skate shop grand opening was my aud… | 51 days [E5][E17] | 2 | 41 s | ✓ | ✓ |
+| test2 | 53 | How many days after I passed my driver's written test did I… | 134 days [E3][E23] | 2 | 44 s | ✓ | ✓ |
+| test2 | 54 | What was the name of the plugin you recommended for organiz… | XO by XLN Audio [E11] | 1 | 43 s | ✓ | ✓ |
+| test2 | 55 | How many days after my latte art throwdown did I finish mix… | 99 days [E2][E17] | 2 | 77 s | ✓ | ✓ |
+| test2 | 56 | How many days after my first open mic set did I finish inst… | 101 days [E6][E20] | 2 | 54 s | ✓ | ✓ |
+| test2 | 57 | What did I name my new podcast? | Sidechain Diaries [E6] | 1 | 55 s | ✓ | ✓ |
+| test2 | 58 | What was the name of the microphone you recommended for rec… | Shure SM58 [E2] | 1 | 89 s | ✓ | ✓ |
+| test2 | 59 | How many days after the synthesizer workshop did I buy my f… | 28 days [E9][E13] | 2 | 66 s | ✓ | ✓ |
+| test2 | 60 | What was the name of the studio headphones you recommended … | Beyerdynamic DT 770 Pro [E5] | 1 | 77 s | ✓ | ✓ |
+| test2 | 61 | What is my skateboard's name now? | Flat White [E3][E29] | 2 | 81 s | ✓ | ✓ |
+| test2 | 62 | What opening did you recommend I try against 1.e4? I forgot… | Caro-Kann Defense [E3][E19] | 2 | 85 s | ✓ | ✓ |
+| test2 | 63 | How much honey did I harvest in total from my two hives thi… | 25 kg [E30][E31] | 2 | 104 s | ✓ | ✓ |
+| test2 | 64 | What venue did I book for my daughter's wedding reception? … | Van Nelle Factory [E9][E24] | 2 | 62 s | ✓ | ✓ |
+| test2 | 65 | What was the name of the route planning software you recomm… | RouteXL [E3] | 1 | 98 s | ✓ | ✓ |
+| test2 | 66 | What was the title of that book you recommended about impro… | The Goal [E6] | 1 | 65 s | ✓ | ✓ |
+| test2 | 67 | How many days apart were my daughter's wedding dress fittin… | 7 days [E5][E7] | 2 | 76 s | ✓ | ✓ |
+| test2 | 68 | How many days apart were my first hive inspection and the v… | 14 days [E1][E3] | 2 | 117 s | ✓ | ✓ |
+| test2 | 69 | What was the name of the shop where I bought my new bee smo… | De Werkbij [E12] | 1 | 62 s | ✓ | ✓ |
+| test2 | 70 | What was the name of the photographer I booked for my daugh… | Marloes Fotografie [E18] | 1 | 89 s | ✓ | ✓ |
+| test2 | 71 | How many days apart were my car's tire change appointment a… | 14 days [E12][E14] | 2 | 55 s | ✓ | ✓ |
+| test2 | 72 | What was the style of the last beer I mentioned I'd kegged? | Peach saison [E23] | 1 | 66 s | ✓ | ✓ |
 
 ## Every dev call
 
