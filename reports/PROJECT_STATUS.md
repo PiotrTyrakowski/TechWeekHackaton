@@ -3,7 +3,19 @@
 Updated 2026-10-31. Organizer clarifications supplied by the user override older
 policy assumptions in the historical reports.
 
-**Latest real Gate 1: executed, failed on session invalidation.** One unique
+**Latest real Gate 1 retry PASSED.** Actual Reactor final: `Luna [E1]`; gold:
+`Luna`. Official local dev matching: **correct**, submitted Evidence F1 **1.0**.
+Citation came directly from Reactor and maps to `s_8a377a1e6a80`; no fallback
+or unresolved claim. One reset + one question = **2 benchmark operations**,
+zero retries/failures, answer latency **42.91s**, complete execution **74.484s**
+including a recorded 30s post-reset wait. Independent read-only evaluation
+verified the current ref, matching ack cycle 2/reply cycle 3, original source,
+official adapter/scorer, hashes, and checkpoint pending=null.
+[Passed live scoreboard](live-reactor-gate1-retry-20261031/gate1-scoreboard.json).
+This is one known diagnostic question, not representative accuracy. The seven
+remaining smoke questions were intentionally unattempted. Full146 is unvalidated.
+
+**Previous live Gate 1 attempt failed on session invalidation.** One unique
 question had two client attempts; zero answers completed. The reset succeeded,
 then chat upgrade returned HTTP 403. A later same-history connection succeeded,
 but asking was refused with `history_changed`, `forwarded=false`, close 4409.
@@ -15,21 +27,22 @@ Measured: **3 benchmark operations** (1 reset, 2 question attempts), **1 separat
 handshake diagnostic**, zero internal retries, **2.165s** benchmark client time,
 **315.86s** elapsed through diagnosis/archive. Gold is `Luna`; no Reactor answer
 exists to score, so accuracy/citation F1/abstention are NOT MEASURED for this run.
-Larger execution is halted. [Actual scoreboard](live-reactor-gate1-20261031/gate1-scoreboard.json)
+Previous failure preserved: [scoreboard](live-reactor-gate1-20261031/gate1-scoreboard.json)
 and [raw archive](live-reactor-gate1-20261031/report.json).
 
 Prepared manifest/commands:
-`runs/live-reactor-gates-20261031-v2/ready.json`. The eight-question smoke adds
+Current successful run: `runs/live-reactor-gate1-retry-20261031/run/`;
+its frozen command is in `command.json` beside it. The eight-question smoke adds
 temporal question `q_53ebfc7819cf` and covers all six requested categories plus
 a natural sequential pair. Gate 1 remains two initial operations; Gate 2 adds
 13, for 15 total. The credential is privately configured. Lead p1 executed the
 minimal gate on the user's explicit instruction; remote exclusivity was not
-independently observable. Other agents remain offline only. The current blocker
-is the observed remote history replacement, requiring actual access coordination
-and/or organizer investigation before another reset.
+independently observable. Other agents remain offline only. The later fresh
+attempt succeeded with the same configured credential; the previous replacement's
+cause and any benefit caused by the 30s wait remain unproven.
 
-**Further calls halted after history invalidation.** Lead p1 is the sole runner;
-no full-test execution is scheduled.
+**Stopped after the one authorized retry.** Lead p1 is the sole runner. Next is
+the controlled representative smoke; no full-test execution is scheduled.
 Lead is the single integration owner; four Herdr workstreams have distinct files.
 
 ## Immediate organizer-policy update
@@ -162,3 +175,4 @@ Never reset between same-user questions. A timeout is not cancellation.
 | D08 | Freeze after P0/smoke, reserve first full-run window; further ablations must not endanger complete coverage. |
 | D09 | P0 integrated: 179 guarded tests; actual saved-answer F1 0→1 under automatic fallback (n=1), raw archive unchanged; five current dry-run commands pass. Gate 1 still awaits exclusive access. |
 | D10 | Actual Gate 1 ran: HTTP 403 then `history_changed`, 0 answers, 3 benchmark operations +1 handshake diagnostic. Preserve checkpoint/logs, do not adopt foreign history or expand. Source of replacement remains unverified. |
+| D11 | User-authorized fresh retry passed: actual `Luna [E1]`, gold `Luna`, local correct/F1=1, 2 operations/0 failures, 42.91s answer. Preserve prior failures separately; n=1 does not establish general accuracy or startup-delay causality. |

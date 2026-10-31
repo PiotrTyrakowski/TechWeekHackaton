@@ -1,0 +1,68 @@
+{
+  "scope": "Fresh real Gate1 retry only; previous failed run and historical saved answer excluded",
+  "created_at": "2026-10-31T07:51:56.481335+00:00",
+  "gate1": "passed",
+  "question_id": "q_d4ead82e5cad",
+  "question": "What is the name of my cat?",
+  "unique_questions_attempted": 1,
+  "question_client_invocations": 1,
+  "completed_answers": 1,
+  "correct_answers": 1,
+  "answer_accuracy": 1,
+  "official_local_result": {
+    "question_id": "q_d4ead82e5cad",
+    "question_type": "single-session-user",
+    "gold_abstain": false,
+    "answer": "correct",
+    "abstain_ok": true,
+    "evidence_f1": 1.0
+  },
+  "scoring": "Official local dev gold matching and session evidence F1; no organizer-side LLM judge run",
+  "reactor_answer": "Luna [E1]",
+  "reactor_full_reply": "# FINAL ANSWER [ref:bce53b2b]: Luna [E1]",
+  "gold_answer": "Luna",
+  "submitted_prediction": {
+    "question_id": "q_d4ead82e5cad",
+    "abstain": false,
+    "answer": "Luna",
+    "citations": [
+      "s_8a377a1e6a80"
+    ]
+  },
+  "reactor_citations": [
+    "s_8a377a1e6a80"
+  ],
+  "verified_fallback_citations": [],
+  "unresolved_claims": [],
+  "official_evidence_f1": 1.0,
+  "false_abstentions": 0,
+  "answerable_denominator": 1,
+  "unanswerable_denominator": 0,
+  "abstention_recall": null,
+  "failed_question_invocations": 0,
+  "history_resets": 1,
+  "internal_refusal_retries": 0,
+  "benchmark_api_operations": 2,
+  "diagnostic_network_operations": 0,
+  "answer_latency_s": 42.91,
+  "question_client_wall_s": 43.296136250020936,
+  "benchmark_client_wall_s": 44.108492250030395,
+  "startup_wait_s": 30,
+  "execution_elapsed_s": 74.484367,
+  "finished_at": "2026-10-31T07:49:32.316049+00:00",
+  "same_returned_history_used": true,
+  "pending_checkpoint": null,
+  "ready_for_representative_smoke": true,
+  "ready_for_full146": false,
+  "limitations": "One known diagnostic question; does not establish general accuracy, abstention, multi-session/update/temporal quality, same-user sequence reliability or memory benefit. A 30s startup delay was used; cause of previous failures is not established.",
+  "cumulative_this_live_round_including_prior_failed_gate": {
+    "unique_question_ids": 1,
+    "completed_answers": 1,
+    "question_client_invocations": 3,
+    "failed_question_invocations": 2,
+    "history_resets": 2,
+    "benchmark_api_operations": 5,
+    "separate_handshake_diagnostics": 1
+  },
+  "raw_archive": "reports/live-reactor-gate1-retry-20261031"
+}

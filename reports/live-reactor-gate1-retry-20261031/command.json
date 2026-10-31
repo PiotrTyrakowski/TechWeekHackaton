@@ -1,0 +1,32 @@
+{
+  "base_argv": [
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/.venv/bin/python",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/runtime.py",
+    "--questions",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/live-reactor-gate1-retry-20261031/questions.jsonl",
+    "--histories",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/live-reactor-gate1-retry-20261031/histories.jsonl",
+    "--out-dir",
+    "/Users/zoga/Dev/Playground/TechWeekHackaton/runs/live-reactor-gate1-retry-20261031/run",
+    "--limit",
+    "0",
+    "--method",
+    "calibrated",
+    "--k",
+    "4",
+    "--budget",
+    "12000",
+    "--timeout",
+    "600",
+    "--memory-mode",
+    "none",
+    "--attribution-mode",
+    "verified",
+    "--base-url",
+    "https://t07.api.reactor-hackathon.rxai.dev",
+    "--agent-id",
+    "agt_0c172edd3340495a"
+  ],
+  "startup_delay_seconds": 30,
+  "scope": "One fresh Gate1 attempt, stop after one answer; no automatic reset/retry on history_changed."
+}

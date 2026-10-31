@@ -1,0 +1,2 @@
+{"event": "post_reset_startup_wait", "seconds": 30, "started_at": "2026-10-31T07:48:19.008117+00:00", "question_sent": false}
+{"event": "startup_wait_finished", "at": "2026-10-31T07:48:49.009711+00:00"}
