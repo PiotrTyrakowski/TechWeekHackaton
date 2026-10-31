@@ -1,8 +1,8 @@
 # Reactor calls: results and checks
 
-Generated 2026-10-31 10:45 by `python report.py` from `runs/*/results.jsonl`: every line is one call to our Reactor agent (team OpenToVibe, slot t07) through the kit's `client.py`, exactly as the client returned it. Rows for every call are also in `reactor_calls.json`.
+Generated 2026-10-31 10:58 by `python report.py` from `runs/*/results.jsonl`: every line is one call to our Reactor agent (team OpenToVibe, slot t07) through the kit's `client.py`, exactly as the client returned it. Rows for every call are also in `reactor_calls.json`.
 
-**Test coverage:** 116 of 146 test questions have a Reactor answer (30 still to ask).
+**Test coverage:** 123 of 146 test questions have a Reactor answer (23 still to ask).
 
 ## Summary per run
 
@@ -13,9 +13,9 @@ Generated 2026-10-31 10:45 by `python report.py` from `runs/*/results.jsonl`: ev
 | dev3 | dev (testing) | 1 | 1 | 1 | 0 | 74 s | 74 s | 0 | 0 |
 | smoke | test (testing) | 3 | 3 | 3 | 0 | 69 s | 71 s | 5 | 0 |
 | test | submission | 55 | 55 | 55 | 4 | 72 s | 165 s | 230 | 1 |
-| test2 | submission | 72 | 64 | 64 | 5 | 73 s | 212 s | 248 | 0 |
+| test2 | submission | 79 | 71 | 71 | 6 | 71 s | 212 s | 271 | 0 |
 
-**All runs:** 160 calls, 152 answered, 152 pass every check.
+**All runs:** 167 calls, 159 answered, 159 pass every check.
 
 ## Checks
 
@@ -32,7 +32,7 @@ A *late reply* is a final answer to the previous question that arrived while the
 
 ## Reactor and the second reader
 
-115 submission calls carried a DeepSeek draft. Reactor's final answer matches the draft (ignoring labels, case and punctuation) in 110 and differs in 5; Reactor checks the draft against the evidence and does not copy it.
+122 submission calls carried a DeepSeek draft. Reactor's final answer matches the draft (ignoring labels, case and punctuation) in 117 and differs in 5; Reactor checks the draft against the evidence and does not copy it.
 
 | run | question | draft | Reactor |
 |---|---|---|---|
@@ -180,6 +180,13 @@ A *late reply* is a final answer to the previous question that arrived while the
 | test2 | 70 | What was the name of the photographer I booked for my daugh… | Marloes Fotografie [E18] | 1 | 89 s | ✓ | ✓ |
 | test2 | 71 | How many days apart were my car's tire change appointment a… | 14 days [E12][E14] | 2 | 55 s | ✓ | ✓ |
 | test2 | 72 | What was the style of the last beer I mentioned I'd kegged? | Peach saison [E23] | 1 | 66 s | ✓ | ✓ |
+| test2 | 73 | How many days after my pre-departure medical check-up did I… | INSUFFICIENT_EVIDENCE | 0 | 82 s | ✓ | ✓ |
+| test2 | 74 | How many days after Opening Day for my son's baseball team … | 35 days [E6][E10] | 2 | 70 s | ✓ | ✓ |
+| test2 | 75 | What was the last book I mentioned I was reading? | The Civil War: A Narrative by Shelby Foote [E13] | 1 | 54 s | ✓ | ✓ |
+| test2 | 76 | What was the name of the coffee shop you recommended for gr… | Octane Coffee [E4] | 1 | 43 s | ✓ | ✓ |
+| test2 | 77 | How many days after my wife's birthday was our anniversary … | 50 [E3][E9] | 2 | 84 s | ✓ | ✓ |
+| test2 | 78 | What was the last state park I mentioned camping at? | Cloudland Canyon State Park [E17] | 1 | 98 s | ✓ | ✓ |
+| test2 | 79 | What was the name of the homebrew supply shop you recommend… | Peachtree Brew Supply [E8] | 1 | 57 s | ✓ | ✓ |
 
 ## Every dev call
 

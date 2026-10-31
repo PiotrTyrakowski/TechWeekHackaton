@@ -115,12 +115,12 @@
 {"question_id": "q_59e9b0aab70e", "abstain": false, "answer": "Marloes Fotografie", "citations": ["s_fbb5f7af1fea"]}
 {"question_id": "q_7040872842c8", "abstain": false, "answer": "14 days", "citations": ["s_e31bc6df430a", "s_9b8f2b4e4b46"]}
 {"question_id": "q_4b0e37d9cd0c", "abstain": false, "answer": "Peach saison", "citations": ["s_9c4dc842da3d"]}
-{"question_id": "q_5bf8400d0361", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_e3fb401aa669", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_4b90388e1220", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_2eb1ff9b6496", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_b3b5d7c68d27", "abstain": true, "answer": "", "citations": []}
-{"question_id": "q_f363e101e02b", "abstain": true, "answer": "", "citations": []}
+{"question_id": "q_5bf8400d0361", "abstain": false, "answer": "35 days", "citations": ["s_44b94903de0a", "s_e80b63b6b5c4"]}
+{"question_id": "q_e3fb401aa669", "abstain": false, "answer": "The Civil War: A Narrative by Shelby Foote", "citations": ["s_527519621ef9"]}
+{"question_id": "q_4b90388e1220", "abstain": false, "answer": "Octane Coffee", "citations": ["s_c097fe03bc6d"]}
+{"question_id": "q_2eb1ff9b6496", "abstain": false, "answer": "50", "citations": ["s_133ae23d9b9a", "s_8227744dbba2"]}
+{"question_id": "q_b3b5d7c68d27", "abstain": false, "answer": "Cloudland Canyon State Park", "citations": ["s_424713c8e905"]}
+{"question_id": "q_f363e101e02b", "abstain": false, "answer": "Peachtree Brew Supply", "citations": ["s_01a083b17436"]}
 {"question_id": "q_a5599a726aef", "abstain": true, "answer": "", "citations": []}
 {"question_id": "q_373a730f491d", "abstain": true, "answer": "", "citations": []}
 {"question_id": "q_2b8785c0664b", "abstain": true, "answer": "", "citations": []}

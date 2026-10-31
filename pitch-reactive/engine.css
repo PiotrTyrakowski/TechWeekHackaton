@@ -1,0 +1,644 @@
+/*
+ * Deck engine stylesheet — tokens, silver dither ground, slide engine, nav,
+ * dialogs, overview and print. Slide layouts live in styles.css.
+ */
+
+/* ---------- Fonts ---------- */
+
+@font-face {
+  font-family: "General Sans";
+  src: url(assets/fonts/GeneralSans-Regular.woff2) format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url(assets/fonts/GeneralSans-Medium.woff2) format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url(assets/fonts/GeneralSans-Semibold.woff2) format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url(assets/fonts/GeneralSans-Italic.woff2) format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ---------- Tokens (app light :root) ---------- */
+
+:root {
+  --background: #f3f5ef;
+  --surface: #e9eee3;
+  --card: #ffffff;
+  --foreground: #1d3227;
+  --muted-foreground: #5d6b5c;
+  --primary: #234f36;
+  --lime: #d4f28c;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f1ef;
+  --accent: #f1f1ef;
+  --destructive: #dc2626;
+  --destructive-text: #b91c1c;
+  --success: #16a34a;
+  --success-text: #166534;
+  --warning: #d97706;
+  --warning-text: #92400e;
+  --border: #e2e8dc;
+  --border-strong: #d3ddc9;
+  --input: #85858c;
+  --ring: #1d3227;
+  --elevation-sm: 0 1px 2px rgba(20, 40, 31, 0.04), 0 1px 3px rgba(20, 40, 31, 0.06);
+  --elevation-md: 0 2px 8px rgba(20, 40, 31, 0.06), 0 4px 16px rgba(20, 40, 31, 0.04);
+  --elevation-lg: 0 8px 30px rgba(20, 40, 31, 0.08);
+  --radius-card: 24px;
+  --radius-dense: 16px;
+  --ease-out: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-fast: 150ms;
+  --dur-base: 220ms;
+  --dur-slow: 320ms;
+  --slide-pad: clamp(34px, 5.2cqw, 94px);
+  --deck-scale: 1;
+  color-scheme: light;
+  font-family: "General Sans", system-ui, sans-serif;
+  color: var(--foreground);
+  background: var(--background);
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--background);
+}
+
+body { line-height: 1.3; }
+
+button,
+a { font: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* ---------- Background (dither → veil → grain), full viewport ---------- */
+
+#bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--background);
+}
+
+.bg-canvas,
+.bg-veil,
+.bg-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* VEIL_LIGHT — radial + vertical, exactly the app's showpiece veil. */
+.bg-veil {
+  background-image:
+    radial-gradient(ellipse 80% 62% at 28% 42%, rgba(243, 245, 239, 0.6) 0%, rgba(243, 245, 239, 0.24) 55%, rgba(243, 245, 239, 0) 100%),
+    linear-gradient(to bottom, rgba(243, 245, 239, 0.42), rgba(243, 245, 239, 0.04) 30%, rgba(243, 245, 239, 0.38) 88%);
+}
+
+/* Tile + opacity are set by dither.js (generated noise data URI). */
+.bg-grain {
+  background-repeat: repeat;
+  mix-blend-mode: overlay; /* the app's grain.tsx blend */
+}
+
+/* ---------- Deck ---------- */
+
+.deck {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 1280px;
+  height: 720px;
+  transform: translate(-50%, -50%) scale(var(--deck-scale));
+  transform-origin: center;
+  container-type: size;
+  container-name: deck;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  padding: var(--slide-pad);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(2%);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out),
+    visibility 0s linear var(--dur-slow);
+  overflow: hidden;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition-delay: 0s;
+  z-index: 2;
+}
+
+.slide.before { transform: translateX(-2%); }
+
+/* ---------- Typography ---------- */
+
+.slide h1,
+.slide h2,
+.slide h3,
+.slide p { margin-top: 0; }
+
+.slide h1,
+.slide h2 {
+  font-weight: 600; /* General Sans tops out at Semibold — never fake a Bold */
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.slide h1 { font-size: clamp(56px, 7cqw, 96px); }
+.slide h2 { font-size: clamp(40px, 4.8cqw, 72px); max-width: 1050px; }
+
+.kicker {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.muted { color: var(--muted-foreground); }
+.tnum { font-variant-numeric: tabular-nums; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+.wordmark { white-space: nowrap; }
+.wordmark .dot { color: var(--primary); }
+
+/* Visibly-fake placeholder copy — Codex replaces every one of these. */
+.placeholder-copy {
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+/* ---------- Component vocabulary (mirrors the app) ---------- */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--elevation-md);
+  padding: clamp(20px, 2.4cqw, 36px);
+}
+
+.card-dense { border-radius: var(--radius-dense); }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-weight: 500;
+  border: 1px solid var(--border-strong);
+  background: var(--card);
+  color: var(--foreground);
+}
+
+/* One per slide, max — presentation-design.md §3.2. */
+.pill-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.chip-success { background: color-mix(in srgb, var(--success) 14%, #ffffff); color: var(--success-text); }
+.chip-warning { background: color-mix(in srgb, var(--warning) 14%, #ffffff); color: var(--warning-text); }
+.chip-destructive { background: color-mix(in srgb, var(--destructive) 14%, #ffffff); color: var(--destructive-text); }
+
+/* ---------- Video slides (presentation-design.md §7) ---------- */
+
+.video-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: var(--elevation-md);
+  overflow: hidden;
+}
+
+.video-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.video-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  cursor: pointer;
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+
+.video-play::before {
+  content: "";
+  width: 0;
+  height: 0;
+  margin-left: 6px;
+  border-style: solid;
+  border-width: 14px 0 14px 24px;
+  border-color: transparent transparent transparent currentColor;
+}
+
+.video-frame.playing .video-play {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+.video-frame.placeholder {
+  display: grid;
+  place-items: center;
+}
+
+.video-frame.placeholder p {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+
+/* ---------- Slide fragments ---------- */
+
+.fragment {
+  opacity: 0;
+  transform: translateY(18px) scale(0.985);
+  filter: blur(4px);
+  pointer-events: none;
+  transition:
+    opacity 420ms var(--ease-out),
+    transform 520ms var(--ease-out),
+    filter 420ms var(--ease-out);
+}
+
+.fragment.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  pointer-events: auto;
+}
+
+.fragment-replace.is-past {
+  opacity: 0;
+  transform: translateY(-14px) scale(0.985);
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+/* ---------- Appendix (Q&A) chrome ---------- */
+
+.slide.appendix .qa-chip {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  z-index: 3;
+  border-radius: 999px;
+  padding: 6px 14px;
+  background: color-mix(in srgb, var(--warning) 14%, #ffffff);
+  color: var(--warning-text);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---------- Navigation chrome ---------- */
+
+.deck-nav {
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  height: 38px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(243, 245, 239, 0.85);
+  backdrop-filter: blur(18px) saturate(1.5);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: var(--elevation-sm);
+}
+
+.nav-button,
+.help-button {
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.nav-button {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+}
+
+.nav-button:hover { background: var(--surface); }
+.nav-button:disabled { opacity: 0.25; cursor: default; }
+
+.progress-track {
+  width: clamp(90px, 12cqw, 180px);
+  height: 4px;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-track i {
+  display: block;
+  height: 100%;
+  background: var(--primary);
+  transition: width var(--dur-base) var(--ease-out);
+}
+
+#counter {
+  min-width: 56px;
+  color: var(--muted-foreground);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Counter flips to Q-numbering in appendix mode — make the mode unmissable. */
+body[data-mode="qa"] #counter { color: var(--warning-text); font-weight: 600; }
+
+.help-button {
+  position: fixed;
+  z-index: 20;
+  right: 14px;
+  bottom: 14px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(243, 245, 239, 0.85);
+  backdrop-filter: blur(18px) saturate(1.5);
+  font-weight: 600;
+}
+
+.help-button:hover { background: var(--surface); }
+
+/* ---------- Dialogs ---------- */
+
+dialog {
+  width: min(560px, calc(100vw - 40px));
+  padding: 30px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow: var(--elevation-lg);
+}
+
+dialog::backdrop { background: rgba(20, 40, 31, 0.4); }
+
+dialog h3 {
+  margin: 0 0 22px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+dialog dl { margin: 0; }
+
+dialog dl div {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+
+dialog dt { font-weight: 500; }
+dialog dd { margin: 0; color: var(--muted-foreground); text-align: right; }
+
+.dialog-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  border: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Appendix map (Q) — the anticipated-questions index. */
+#qa-dialog ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#qa-dialog li + li { border-top: 1px solid var(--border); }
+
+.qa-row {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 12px 4px;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: var(--radius-dense);
+}
+
+.qa-row:hover { background: var(--surface); }
+
+.qa-row b {
+  flex: none;
+  width: 24px;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+
+#qa-dialog .qa-empty { color: var(--muted-foreground); margin: 0; }
+
+/* ---------- Overview (O) — main slides only ---------- */
+
+body.overview { overflow: auto; background: var(--surface); }
+body.overview #bg { display: none; }
+
+body.overview .deck {
+  position: relative;
+  left: auto;
+  top: auto;
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  transform: none;
+  container-type: normal;
+}
+
+body.overview .slide {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  padding: 34px;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: none;
+  background: var(--background);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-dense);
+  box-shadow: var(--elevation-sm);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* zoom scales layout too (transform doesn't), so flow spacing shrinks with
+   the content instead of pushing it past the thumbnail's overflow crop. */
+body.overview .slide > * { zoom: 0.48; }
+
+body.overview .slide.appendix { display: none; }
+body.overview .deck-nav,
+body.overview .help-button { display: none; }
+
+@media (max-width: 900px) {
+  body.overview .deck { grid-template-columns: 1fr; }
+}
+
+/* ---------- Motion & print ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.print-only { display: none; }
+
+/* One 16:9 slide per page — without this, PDF export paginates onto default
+   Letter/A4 portrait and clips every slide. */
+@page {
+  size: 13.333in 7.5in;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    width: auto;
+    height: auto;
+    overflow: visible;
+    background: var(--background);
+  }
+
+  #bg,
+  .deck-nav,
+  .help-button,
+  dialog { display: none !important; }
+
+  .deck {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    height: auto;
+    transform: none;
+    container-type: normal;
+  }
+
+  .slide,
+  .print-only {
+    position: relative;
+    width: 13.333in;
+    height: 7.5in;
+    /* !important so .slide.before/.active screen rules can't outrank the reset */
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    background: var(--background);
+    page-break-after: always;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Fragments print fully revealed. */
+  .fragment {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /* Divider page before the anticipated-questions appendix. */
+  .print-only {
+    display: grid;
+    place-items: center;
+  }
+}
